@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>연무장1길 회색 담장</title>
+<style>
+:root{--bg:#f4f1ec;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)}
+.back{font-size:13px;text-decoration:none}
+h1{font-size:24px;margin:10px 0 4px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.stage{position:relative;border-radius:10px;overflow:hidden;touch-action:none;user-select:none}
+.stage svg{display:block;width:100%;height:auto}
+.hint{font-size:13px;color:var(--sub);margin-top:8px;min-height:21px}
+.knob{cursor:ew-resize}
+#door{cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid h3{margin:0 0 4px;font-size:15px}
+.grid p{margin:0;color:var(--sub);font-size:14px}
+.tag{display:inline-block;font-size:12px;background:var(--accbg);color:var(--acc);border-radius:6px;padding:1px 8px;margin-bottom:6px}
+.verdict{border-left:4px solid var(--acc);padding:8px 12px;background:var(--accbg);border-radius:8px;margin:0 0 16px}
+.toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:88%;background:#fbf3df;color:#3b2c18;border:1px solid #c9a96b;border-radius:8px;padding:10px 14px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transition:opacity .4s;pointer-events:none;text-align:center}
+.toast.show{opacity:1}
+small.note{color:var(--sub);font-size:12px}
+ul.src{margin:6px 0 0;padding-left:18px;color:var(--sub);font-size:13px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a> &nbsp; <a class="back" href="humanmade-brick-bay.html">휴먼메이드 벽돌 벽 →</a>
+<h1>연무장1길 · 회색 담장 한 칸을 돌벽으로</h1>
+<p class="lead">시트 25행 "아더에러 건물 옆 회색 쪽". 연무장1길 7-1(티팩토리 성수, 성수동2가 301-27) 앞 골목에서 보이는 회색(밝은 회색 페인트) 담장을 예로 그렸습니다. 담장 일부를 같은 톤의 돌판으로 덮고, 돌판 몇 장이 문이 됩니다. 가운데 선을 끌어서 비교해 보세요.</p>
+<p class="verdict"><b>판단:</b> 지금 본 후보 셋 중 <b>조건이 가장 나음</b>. 담장 뒤가 매장이 아니라 빈 마당(주차·공터로 보임)이라 기계를 담장 뒤에 숨길 수 있고, 인도 쪽으로 튀어나오는 게 없습니다. 다만 "회색 쪽"이 이 담장이 맞는지, 담장 뒤 땅 주인이 누구인지 먼저 확인해야 합니다.</p>
+
+<div class="card">
+  <div class="tabs">
+    <button data-m="slide" class="on">비교 (끌기)</button>
+    <button data-m="before">BEFORE</button>
+    <button data-m="after">AFTER</button>
+  </div>
+  <div class="stage">
+  <svg id="sv" viewBox="0 0 1000 660" aria-label="연무장1길 · 회색 담장 한 칸을 돌벽으로 BEFORE AFTER">
+    <defs>
+      <pattern id="brick" width="40" height="32" patternUnits="userSpaceOnUse">
+        <rect width="40" height="32" fill="#c8b6a2"/>
+        <rect x="1" y="1" width="38" height="14" fill="#9b4630"/>
+        <rect x="-19" y="17" width="38" height="14" fill="#a24d35"/>
+        <rect x="21" y="17" width="38" height="14" fill="#94432e"/>
+      </pattern>
+      <pattern id="brickVar" width="200" height="96" patternUnits="userSpaceOnUse">
+        <rect x="41" y="1" width="38" height="14" fill="#7d3524" opacity=".55"/>
+        <rect x="141" y="33" width="38" height="14" fill="#b8664a" opacity=".5"/>
+        <rect x="61" y="49" width="38" height="14" fill="#7a3322" opacity=".45"/>
+        <rect x="1" y="65" width="38" height="14" fill="#b05c40" opacity=".5"/>
+        <rect x="101" y="81" width="38" height="14" fill="#80382a" opacity=".5"/>
+        <rect x="181" y="17" width="38" height="14" fill="#86392a" opacity=".5"/>
+      </pattern>
+      <pattern id="wbrick" width="40" height="24" patternUnits="userSpaceOnUse">
+        <rect width="40" height="24" fill="#dcdad5"/>
+        <rect x="1" y="1" width="38" height="10" fill="#f1efea"/>
+        <rect x="-19" y="13" width="38" height="10" fill="#eceae4"/>
+        <rect x="21" y="13" width="38" height="10" fill="#f3f1ec"/>
+      </pattern>
+      <pattern id="slab" width="80" height="44" patternUnits="userSpaceOnUse">
+        <rect width="80" height="44" fill="#8f8d88"/>
+        <rect x="1" y="1" width="78" height="20" fill="#a9a7a1"/>
+        <rect x="-39" y="23" width="78" height="20" fill="#a3a19b"/>
+        <rect x="41" y="23" width="78" height="20" fill="#adaba5"/>
+      </pattern>
+      <pattern id="metal" width="14" height="20" patternUnits="userSpaceOnUse">
+        <rect width="14" height="20" fill="#b4b8bb"/><rect width="3" height="20" fill="#959a9e"/>
+      </pattern>
+      <pattern id="rail" width="18" height="60" patternUnits="userSpaceOnUse">
+        <rect width="18" height="60" fill="none"/><rect x="0" width="4" height="60" fill="#3b3b3b"/>
+      </pattern>
+      <radialGradient id="glow" cx=".5" cy=".55" r=".65">
+        <stop offset="0" stop-color="#ffd896"/><stop offset=".55" stop-color="#c07a35"/><stop offset="1" stop-color="#3b2010"/>
+      </radialGradient>
+      <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#5d6f78"/><stop offset=".6" stop-color="#2f3b42"/><stop offset="1" stop-color="#46555c"/>
+      </linearGradient>
+      <clipPath id="clipAfter"><rect id="clipR" x="500" y="0" width="1000" height="660"/></clipPath>
+    </defs>
+    <rect width="1000" height="660" fill="#c3d4e2"/>
+    <g id="before"></g>
+    <g id="after" clip-path="url(#clipAfter)"></g>
+    <g id="divider">
+      <line id="dl" x1="500" y1="0" x2="500" y2="660" stroke="#fff" stroke-width="3"/>
+      <g class="knob" id="knob"><circle id="kc" cx="500" cy="300" r="22" fill="#fff" stroke="#9a4a2e" stroke-width="3"/><path id="ka" d="M490 300 l-7 0 m0 0 l6 -6 m-6 6 l6 6 M510 300 l7 0 m0 0 l-6 -6 m6 6 l-6 6" stroke="#9a4a2e" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <text x="20" y="36" fill="#fff" font-size="20" font-weight="700" paint-order="stroke" stroke="#0006" stroke-width="4">BEFORE</text>
+      <text x="980" y="36" fill="#fff" font-size="20" font-weight="700" text-anchor="end" paint-order="stroke" stroke="#0006" stroke-width="4">AFTER</text>
+    </g>
+  </svg>
+  <div class="toast" id="toast"></div>
+  </div>
+  <div class="hint" id="hint"></div>
+  <small class="note">카카오 로드뷰(2026년 7월 촬영) 화면의 구조(골목 건너편 낮은 회색 담장, 담장에 붙은 포스터, 뒤쪽 회색 금속판 건물, 전봇대)를 바탕으로 다시 그린 그림입니다. 치수는 짐작이며 현장 실측이 필요합니다.</small>
+</div>
+
+<div class="card">
+  <span class="tag">옆에서 자른 모습</span>
+  <svg viewBox="0 0 1000 300" style="display:block;width:100%;height:auto" aria-label="단면도"><defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#9a4a2e"/></marker></defs>
+    <rect width="1000" height="300" fill="#c3d4e2"/>
+    <rect x="0" y="230" width="1000" height="70" fill="#8e8c87"/>
+    <text x="200" y="270" fill="#fff" font-size="15" text-anchor="middle">골목 (사람이 서는 곳)</text>
+    <rect x="420" y="70" width="24" height="160" fill="#a9a7a1"/>
+    <rect x="444" y="70" width="18" height="160" fill="#d6d5d1"/>
+    <rect x="462" y="230" width="538" height="70" fill="#a3a097"/>
+    <text x="760" y="270" fill="#2d2b28" font-size="14" text-anchor="middle">담장 안쪽 마당 (주차·공터로 보임)</text>
+    <rect x="420" y="128" width="24" height="34" fill="#3b2010"/>
+    <rect x="474" y="128" width="24" height="34" fill="#a9a7a1"/>
+    <path d="M448 145 H470" stroke="#9a4a2e" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="510" y="110" width="70" height="120" rx="4" fill="#d9c79f" stroke="#8a6d3c"/>
+    <text x="545" y="166" fill="#3b2c18" font-size="12" text-anchor="middle">두루마리</text>
+    <text x="545" y="181" fill="#3b2c18" font-size="12" text-anchor="middle">기계 상자</text>
+    <path d="M500 100 h90 v130" fill="none" stroke="#6d665c" stroke-dasharray="4 4"/>
+    <text x="640" y="104" fill="#2d2b28" font-size="13">비 막는 덮개 상자 (마당 쪽)</text>
+    <text x="432" y="58" fill="#2d2b28" font-size="13" text-anchor="middle">기존 담장 + 돌판 2~3cm만 덧댐</text>
+    <text x="400" y="150" fill="#2d2b28" font-size="13" text-anchor="end">허리 높이 돌 →</text>
+  </svg>
+</div>
+
+<div class="card grid">
+  <div><span class="tag">왜 괜찮나</span><h3>뒤가 매장이 아니라 마당</h3><p>담장 뒤 공간에 기계 상자를 두면 담장 면은 그대로이고 골목으로 튀어나오는 게 없습니다. 영업 중인 가게 창·셔터를 막는 게 아니라서 지금까지 정한 기준에 맞습니다.</p></div>
+  <div><span class="tag">인파</span><h3>연무장길 바로 옆 골목</h3><p>연무장길(성수 핫플 축)에서 한 블록 들어간 골목이라 지나는 사람은 많고, 줄을 서도 큰길을 막지 않습니다.</p></div>
+  <div><span class="tag">걸리는 점</span><h3>담장 = 남의 땅 경계</h3><p>담장과 마당 주인을 찾아야 합니다(등기부등본·건축물대장). 마당이 곧 개발될 땅이면 오히려 "개발 전 임시 활용"으로 협상하기 쉬움(시부야 벽점도 이 방식).</p></div>
+  <div><span class="tag">현장에서 볼 것</span><h3>5가지</h3><p>① "아더에러 옆 회색 쪽"이 이 담장이 맞는지 ② 담장 뒤가 실제로 빈 마당인지 ③ 담장 두께·높이 ④ 전기 끌어올 곳 ⑤ 포스터 붙이는 광고 계약이 있는지(있으면 그 칸만 빼 달라고).</p></div>
+</div>
+
+<div class="card">
+  <span class="tag">근거와 한계</span>
+  <ul class="src">
+    <li>카카오맵 주소 검색: 서울 성동구 연무장1길 7-1 = 성수동2가 301-27, 같은 자리에 "티팩토리 성수"(전시관) 등록.</li>
+    <li>카카오 로드뷰 2026년 7월 촬영본으로 골목 양쪽을 확인. 사진은 올리지 않고 구조만 그렸습니다.</li>
+    <li>아더에러 매장 위치는 웹 검색에서 정확히 확인하지 못했습니다(검색상 아더 매장 주소는 연무장길 26으로 나옴). "회색 쪽"이 다른 벽을 뜻했다면 시트에 다시 적어 주세요.</li>
+    <li>담장 덧댐은 높이 2m를 넘기면 공작물 축조신고 대상일 수 있음(설치 형태 정리 페이지 참고). 법률 자문 아님 — 구청 건축과 확인 필요.</li>
+  </ul>
+</div>
+</div>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+  function txt(s,attrs,parent){var t=el('text',attrs,parent);t.textContent=s;return t}
+  var D={x:688,y:476,w:76,h:42,fill:'url(#slab)'}; // 문 칸: x,y,w,h,fill
+  function doorParts(g){
+    var cx=D.x+D.w/2;
+    txt('壁',{x:cx,y:D.y-10,fill:'#c9a35a','font-size':14,'text-anchor':'middle','font-weight':700},g);
+    var niche=el('g',{id:'niche',opacity:0},g);
+    el('rect',{x:D.x,y:D.y,width:D.w,height:D.h,fill:'url(#glow)'},niche);
+    el('polygon',{points:[D.x,D.y,D.x+D.w,D.y,D.x+D.w-10,D.y+8,D.x+10,D.y+8].join(' '),fill:'#2a1508',opacity:.55},niche);
+    el('polygon',{points:[D.x,D.y,D.x+10,D.y+8,D.x+10,D.y+D.h-6,D.x,D.y+D.h].join(' '),fill:'#2a1508',opacity:.45},niche);
+    el('polygon',{points:[D.x+D.w,D.y,D.x+D.w-10,D.y+8,D.x+D.w-10,D.y+D.h-6,D.x+D.w,D.y+D.h].join(' '),fill:'#2a1508',opacity:.45},niche);
+    var sc=el('g',{id:'scroll',opacity:0,style:'cursor:pointer'},niche);
+    var sy=D.y+D.h-16;
+    el('rect',{x:cx-22,y:sy,width:44,height:10,rx:3,fill:'#f2e6c8',stroke:'#a9884f'},sc);
+    el('rect',{x:cx-27,y:sy-2,width:7,height:14,rx:3,fill:'#6b4523'},sc);
+    el('rect',{x:cx+20,y:sy-2,width:7,height:14,rx:3,fill:'#6b4523'},sc);
+    el('rect',{x:cx-5,y:sy,width:10,height:10,fill:'#b13b2b',opacity:.85},sc);
+    var door=el('g',{id:'door'},g);
+    el('rect',{x:D.x,y:D.y,width:D.w,height:D.h,fill:D.fill},door);
+    if(D.fill2)el('rect',{x:D.x,y:D.y,width:D.w,height:D.h,fill:D.fill2},door);
+    el('rect',{id:'doorShade',x:D.x,y:D.y,width:D.w,height:D.h,fill:'#000',opacity:0,'pointer-events':'none'},door);
+  }
+  function payBox(x,y,g){el('rect',{x:x,y:y,width:24,height:40,rx:3,fill:'#2b2a28'},g);el('rect',{x:x+3,y:y+6,width:18,height:11,rx:1,fill:'#7fb7c9'},g)}
+
+  function building(g, after){
+    // 뒤쪽: 회색 금속판 큰 건물 + 왼쪽 낮은 붉은 지붕 집 + 나무
+    el('rect',{x:520,y:40,width:480,height:400,fill:'url(#metal)'},g);
+    el('rect',{x:520,y:40,width:480,height:18,fill:'#8c9094'},g);
+    el('rect',{x:120,y:110,width:150,height:320,fill:'#c9c6bf'},g);
+    for(var r=0;r<5;r++)for(var c=0;c<3;c++)el('rect',{x:132+c*46,y:126+r*56,width:32,height:34,fill:'#7d8d96'},g);
+    el('polygon',{points:'250,340 450,340 470,362 230,362',fill:'#8a3b2c'},g);
+    el('rect',{x:240,y:362,width:220,height:70,fill:'#d8cfc2'},g);
+    el('ellipse',{cx:330,cy:330,rx:80,ry:40,fill:'#5d7f4c'},g);
+    el('ellipse',{cx:400,cy:316,rx:60,ry:34,fill:'#6a8d57'},g);
+    // 전봇대
+    el('rect',{x:470,y:20,width:16,height:580,fill:'#9c968c'},g);
+    el('rect',{x:452,y:90,width:52,height:44,rx:4,fill:'#8b8780'},g);
+    el('path',{d:'M0 70 Q250 110 478 60 T1000 90',stroke:'#2d2d2d','stroke-width':2,fill:'none'},g);
+    el('path',{d:'M0 100 Q300 140 478 96 T1000 120',stroke:'#2d2d2d','stroke-width':2,fill:'none'},g);
+    // 회색 담장 (높이 약 1.8m)
+    el('rect',{x:0,y:424,width:1000,height:176,fill:'#d6d5d1'},g);
+    el('rect',{x:0,y:414,width:1000,height:12,fill:'#bfbdb8'},g);
+    for(var x=0;x<1000;x+=200)el('rect',{x:x,y:424,width:2,height:176,fill:'#c3c1bc'},g);
+    // 바닥: 골목
+    el('rect',{x:0,y:600,width:1000,height:60,fill:'#8e8c87'},g);
+    el('path',{d:'M0 640 H1000',stroke:'#f0d26a','stroke-width':3,'stroke-dasharray':'26 18'},g);
+    // 포스터 (브랜드 없는 일반 포스터)
+    var cols=['#2f5f9e','#d9c5a0','#5b5b5b','#3f7f74','#d07a4a','#2f5f9e'];
+    var px=[40,120,200,560,640,720,800,880];
+    for(var i=0;i<px.length;i++){
+      if(after && px[i]>=600 && px[i]<=880) continue;
+      el('rect',{x:px[i],y:448,width:62,height:84,fill:cols[i%cols.length]},g);
+      el('rect',{x:px[i]+8,y:458,width:46,height:40,fill:'#f2efe8',opacity:.8},g);
+      el('rect',{x:px[i]+8,y:506,width:46,height:6,fill:'#fff',opacity:.7},g);
+    }
+    // 자전거
+    el('circle',{cx:300,cy:580,r:18,fill:'none',stroke:'#333','stroke-width':3},g);
+    el('circle',{cx:356,cy:580,r:18,fill:'none',stroke:'#333','stroke-width':3},g);
+    el('path',{d:'M300 580 L322 552 L356 580 M322 552 L344 552',stroke:'#333','stroke-width':3,fill:'none'},g);
+    if(after){
+      // 담장 한 구간(약 2.6m)을 회색 돌판으로 덮음: 담장 높이·톤 그대로
+      el('rect',{x:600,y:424,width:260,height:176,fill:'url(#slab)'},g);
+      el('rect',{x:596,y:410,width:268,height:16,fill:'#8a8883'},g);
+      payBox(872,470,g);
+      el('path',{d:'M884 510 V600',stroke:'#e8e5df','stroke-width':4},g);
+      doorParts(g);
+    }
+  }
+  building(document.getElementById('before'),false);
+  building(document.getElementById('after'),true);
+
+  var sv=document.getElementById('sv'), clipR=document.getElementById('clipR'), dl=document.getElementById('dl'),
+      kc=document.getElementById('kc'), ka=document.getElementById('ka'), divider=document.getElementById('divider'),
+      hint=document.getElementById('hint'), toast=document.getElementById('toast');
+  var HINT='AFTER에서 돌판 위 壁 표식 아래 돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).';
+  var pos=500, mode='slide', drag=false;
+  function setPos(x){pos=Math.max(0,Math.min(1000,x));clipR.setAttribute('x',pos);dl.setAttribute('x1',pos);dl.setAttribute('x2',pos);kc.setAttribute('cx',pos);ka.setAttribute('transform','translate('+(pos-500)+',0)')}
+  function toSvgX(e){var r=sv.getBoundingClientRect();return (e.clientX-r.left)/r.width*1000}
+  document.getElementById('knob').addEventListener('pointerdown',function(e){drag=true;e.preventDefault()});
+  sv.addEventListener('pointerdown',function(e){if(mode==='slide'&&!e.target.closest('#door')&&!e.target.closest('#scroll')){drag=true;setPos(toSvgX(e))}});
+  window.addEventListener('pointermove',function(e){if(drag)setPos(toSvgX(e))});
+  window.addEventListener('pointerup',function(){drag=false});
+  document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+    mode=b.dataset.m; divider.style.display=mode==='slide'?'':'none';
+    setPos(mode==='before'?1000:mode==='after'?0:500); reset();
+  }});
+
+  var door=document.getElementById('door'), shade=document.getElementById('doorShade'), niche=document.getElementById('niche'), scroll=document.getElementById('scroll');
+  var d=0, holding=false, opened=false, taps=[], holdT=0, raf, rt;
+  var CX=D.x+D.w/2, CY=D.y+D.h/2;
+  function draw(){
+    var k=1-0.18*d;
+    door.setAttribute('transform','translate('+CX+' '+CY+') scale('+k+') translate('+(-CX)+' '+(-CY)+')');
+    shade.setAttribute('opacity',(0.5*d).toFixed(2)); niche.setAttribute('opacity',Math.min(1,d*3).toFixed(2));
+  }
+  function anim(to,ms,cb){var from=d,t0=performance.now(),done=false;cancelAnimationFrame(raf);
+    function step(t){var p=Math.min(1,(t-t0)/ms);d=from+(to-from)*(1-Math.pow(1-p,3));draw();if(p<1)raf=requestAnimationFrame(step);else if(!done){done=true;cb&&cb()}}
+    raf=requestAnimationFrame(step); setTimeout(function(){if(!done){done=true;d=to;draw();cb&&cb()}},ms+120);}
+  function open(){ if(opened)return; opened=true; hint.textContent='벽이 안으로 쑥 들어가고… 벽 속에서 빛이 납니다.';
+    anim(1,1600,function(){scroll.setAttribute('opacity','1');hint.textContent='두루마리를 눌러 꺼내 보세요.'}); }
+  function reset(){clearTimeout(rt);opened=false;holding=false;scroll.setAttribute('opacity','0');anim(0,500);toast.classList.remove('show');hint.textContent=HINT}
+  door.addEventListener('pointerdown',function(e){ e.stopPropagation(); if(opened)return; holding=true; holdT=performance.now(); anim(0.12,250);
+    setTimeout(function(){ if(holding&&!opened) open(); },600); });
+  door.addEventListener('pointerup',function(){ if(opened)return; holding=false; var dt=performance.now()-holdT;
+    if(dt<600){ anim(0,200); var now=performance.now(); taps=taps.filter(function(t){return now-t<2000}); taps.push(now);
+      hint.textContent='똑'+' 똑'.repeat(taps.length-1)+'…'; if(taps.length>=3){taps=[];open()} } });
+  var lines=['오늘 골목 끝에서 반가운 얼굴을 만납니다.','성수에서 처음 들어가 보는 가게가 오늘의 행운입니다.','미뤄 둔 연락 하나가 오늘은 쉽게 풀립니다.','오늘은 걸음을 늦추면 좋은 게 보입니다.','오늘 만나는 사람에게 먼저 칭찬하세요.'];
+  scroll.addEventListener('pointerdown',function(e){e.stopPropagation(); scroll.setAttribute('opacity','0');
+    toast.textContent='📜 '+lines[Math.floor(Math.random()*lines.length)]; toast.classList.add('show');
+    hint.textContent='5초 뒤 벽이 다시 닫힙니다.'; rt=setTimeout(reset,5000);});
+  hint.textContent=HINT; draw();
+})();
+</script>
+</body>
+</html>
