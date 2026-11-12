@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>검은 벽돌 칸</title>
+<style>
+:root{--bg:#f2f1ef;--card:#fffefc;--ink:#232220;--sub:#6b6862;--line:#dcd9d3;--acc:#8a6a2c;--accbg:#f3ead6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#151514;--card:#1f1e1c;--ink:#ecebe7;--sub:#a5a29b;--line:#383632;--acc:#d9b26a;--accbg:#352b18}}
+:root[data-theme="dark"]{--bg:#151514;--card:#1f1e1c;--ink:#ecebe7;--sub:#a5a29b;--line:#383632;--acc:#d9b26a;--accbg:#352b18}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)}
+.back{font-size:13px;text-decoration:none}
+h1{font-size:24px;margin:10px 0 4px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.stage{position:relative;border-radius:10px;overflow:hidden;touch-action:none;user-select:none}
+.stage svg{display:block;width:100%;height:auto}
+.hint{font-size:13px;color:var(--sub);margin-top:8px;min-height:21px}
+.knob{cursor:ew-resize}
+#door{cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid h3{margin:0 0 4px;font-size:15px}
+.grid p{margin:0;color:var(--sub);font-size:14px}
+.tag{display:inline-block;font-size:12px;background:var(--accbg);color:var(--acc);border-radius:6px;padding:1px 8px;margin-bottom:6px}
+.toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:88%;background:#fbf3df;color:#3b2c18;border:1px solid #c9a96b;border-radius:8px;padding:10px 14px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.35);opacity:0;transition:opacity .4s;pointer-events:none;text-align:center}
+.toast.show{opacity:1}
+small.note{color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>검은 벽돌 벽 · 빈 칸을 문으로</h1>
+<p class="lead">강남역 먹자골목 근처 검은 벽돌 벽에 원래 있던 오목한 자갈 칸을 같은 벽돌로 막고, 그중 벽돌 몇 장이 문이 되는 그림입니다. 가운데 선을 끌어서 비교해 보세요.</p>
+
+<div class="card">
+  <div class="tabs">
+    <button data-m="slide" class="on">비교 (끌기)</button>
+    <button data-m="before">BEFORE</button>
+    <button data-m="after">AFTER</button>
+  </div>
+  <div class="stage">
+  <svg id="sv" viewBox="0 0 1000 860" aria-label="검은 벽돌 벽 BEFORE AFTER">
+    <defs>
+      <pattern id="brick" width="40" height="32" patternUnits="userSpaceOnUse">
+        <rect width="40" height="32" fill="#8e9093"/>
+        <rect x="1" y="1" width="38" height="14" fill="#2f3033"/>
+        <rect x="-19" y="17" width="38" height="14" fill="#36373a"/>
+        <rect x="21" y="17" width="38" height="14" fill="#2a2b2e"/>
+      </pattern>
+      <pattern id="brickVar" width="200" height="96" patternUnits="userSpaceOnUse">
+        <rect x="41" y="1" width="38" height="14" fill="#45464a" opacity=".7"/>
+        <rect x="141" y="33" width="38" height="14" fill="#202124" opacity=".7"/>
+        <rect x="61" y="49" width="38" height="14" fill="#404145" opacity=".6"/>
+        <rect x="1" y="65" width="38" height="14" fill="#1e1f22" opacity=".6"/>
+        <rect x="101" y="81" width="38" height="14" fill="#47484c" opacity=".6"/>
+      </pattern>
+      <pattern id="holes" width="40" height="32" patternUnits="userSpaceOnUse">
+        <rect width="40" height="32" fill="#8e9093"/>
+        <rect x="1" y="1" width="24" height="14" fill="#2f3033"/><rect x="27" y="1" width="12" height="14" fill="#0c0c0d"/>
+        <rect x="-7" y="17" width="24" height="14" fill="#36373a"/><rect x="19" y="17" width="12" height="14" fill="#0c0c0d"/><rect x="33" y="17" width="24" height="14" fill="#2a2b2e"/>
+      </pattern>
+      <pattern id="gravel" width="24" height="12" patternUnits="userSpaceOnUse">
+        <rect width="24" height="12" fill="#5d4c47"/>
+        <ellipse cx="5" cy="4" rx="4" ry="3" fill="#8a6f68"/><ellipse cx="15" cy="7" rx="5" ry="3" fill="#7a625b"/><ellipse cx="21" cy="2" rx="3" ry="2" fill="#9b8178"/><ellipse cx="9" cy="10" rx="4" ry="2" fill="#6e5852"/>
+      </pattern>
+      <pattern id="slats" width="20" height="26" patternUnits="userSpaceOnUse">
+        <rect width="20" height="26" fill="#a9b3a2"/><rect width="20" height="14" fill="#1c1d1e"/>
+      </pattern>
+      <radialGradient id="glow" cx=".5" cy=".7" r=".7">
+        <stop offset="0" stop-color="#ffdca0"/><stop offset=".5" stop-color="#c8833b"/><stop offset="1" stop-color="#1e120a"/>
+      </radialGradient>
+      <clipPath id="clipAfter"><rect id="clipR" x="500" y="0" width="1000" height="860"/></clipPath>
+    </defs>
+    <g id="before"></g>
+    <g id="after" clip-path="url(#clipAfter)"></g>
+    <g id="divider">
+      <line id="dl" x1="500" y1="0" x2="500" y2="860" stroke="#fff" stroke-width="3"/>
+      <g class="knob" id="knob"><circle id="kc" cx="500" cy="420" r="22" fill="#fff" stroke="#8a6a2c" stroke-width="3"/><path id="ka" d="M490 420 l-7 0 m0 0 l6 -6 m-6 6 l6 6 M510 420 l7 0 m0 0 l-6 -6 m6 6 l-6 6" stroke="#8a6a2c" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <text x="20" y="36" fill="#fff" font-size="20" font-weight="700" paint-order="stroke" stroke="#0008" stroke-width="4">BEFORE</text>
+      <text x="980" y="36" fill="#fff" font-size="20" font-weight="700" text-anchor="end" paint-order="stroke" stroke="#0008" stroke-width="4">AFTER</text>
+    </g>
+  </svg>
+  <div class="toast" id="toast"></div>
+  </div>
+  <div class="hint" id="hint">AFTER에서 금색 壁 표식 아래 벽돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).</div>
+  <small class="note">카카오 로드뷰(2026년 7월) 화면의 구조를 따라 다시 그린 예시입니다. 칸의 실제 깊이·높이는 실측이 필요합니다.</small>
+</div>
+
+<div class="card">
+  <span class="tag">옆에서 자른 모습</span>
+  <svg viewBox="0 0 1000 300" style="display:block;width:100%;height:auto" aria-label="단면도">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#8a6a2c"/></marker></defs>
+    <rect width="1000" height="300" fill="#dfe3e6"/>
+    <rect x="0" y="250" width="420" height="50" fill="#c9c6c0"/>
+    <text x="210" y="280" fill="#3d3a36" font-size="14" text-anchor="middle">보도 (좁음, 바로 차도)</text>
+    <!-- 벽 -->
+    <rect x="420" y="10" width="26" height="160" fill="#2f3033"/>
+    <rect x="420" y="232" width="26" height="68" fill="#2f3033"/>
+    <!-- 칸 (기존) -->
+    <rect x="446" y="170" width="140" height="62" fill="#2a2420"/>
+    <rect x="446" y="218" width="140" height="14" fill="#7a625b"/>
+    <rect x="586" y="10" width="20" height="290" fill="#3a3b3e"/>
+    <text x="516" y="164" fill="#3d3a36" font-size="12" text-anchor="middle">원래 있던 자갈 칸</text>
+    <!-- 문 벽돌 -->
+    <rect x="420" y="178" width="26" height="40" fill="none" stroke="#777" stroke-dasharray="3 3"/>
+    <rect x="474" y="178" width="26" height="40" fill="#2f3033"/>
+    <path d="M450 198 H470" stroke="#8a6a2c" stroke-width="3" marker-end="url(#ar)"/>
+    <!-- 카트리지 -->
+    <rect x="520" y="100" width="50" height="66" rx="4" fill="#d9c79f" stroke="#8a6d3c"/>
+    <text x="545" y="130" fill="#3b2c18" font-size="11" text-anchor="middle">두루마리</text>
+    <text x="545" y="145" fill="#3b2c18" font-size="11" text-anchor="middle">카트리지</text>
+    <rect x="620" y="60" width="380" height="240" fill="#bfb8ab" opacity=".5"/>
+    <text x="810" y="110" fill="#3d3a36" font-size="15" text-anchor="middle">건물 안 (식당)</text>
+    <text x="810" y="140" fill="#3d3a36" font-size="13" text-anchor="middle">칸이 얕으면 제어기·카트리지는</text>
+    <text x="810" y="158" fill="#3d3a36" font-size="13" text-anchor="middle">벽 뒤 식당 쪽 작은 점검함에</text>
+    <text x="300" y="196" fill="#3d3a36" font-size="13" text-anchor="end">칸 앞을 같은 검은 벽돌로 막음 →</text>
+  </svg>
+</div>
+
+<div class="card grid">
+  <div><span class="tag">왜 공사가 적은가</span><h3>빈 칸이 이미 있음</h3><p>벽을 뚫을 필요 없이 원래 있던 오목한 칸 앞만 벽돌 문으로 막습니다. 칸 안쪽 자갈 바닥이 그대로 두루마리가 놓이는 자리가 됩니다.</p></div>
+  <div><span class="tag">분위기</span><h3>검은 벽 + 금빛</h3><p>검은 벽돌 사이로 벽돌이 들어가며 따뜻한 금빛이 새어 나와 대비가 큽니다. 밤 먹자골목에서 특히 눈에 띕니다.</p></div>
+  <div><span class="tag">협상 상대</span><h3>바로 옆 식당</h3><p>장작 진열창이 있는 식당 외관의 일부입니다. 식당을 제휴 파트너로: 두루마리에 그 식당 수수께끼 힌트, 벽 앞 손님이 식당 손님이 되는 구조.</p></div>
+  <div><span class="tag">현장에서 잴 것</span><h3>4가지</h3><p>① 칸 깊이(40cm 이상이면 기계가 칸 안에) ② 칸 높이(무릎 높이라 문 위치 조정) ③ 칸 뒤가 식당 어디인지 ④ 전기 끌어올 곳.</p></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function scene(g,after){
+    // 위: 펜스와 초록
+    el('rect',{x:0,y:0,width:1000,height:200,fill:'#9fb39a'},g);
+    el('rect',{x:0,y:0,width:1000,height:60,fill:'#6d7a70'},g);
+    el('rect',{x:0,y:40,width:1000,height:160,fill:'url(#slats)'},g);
+    [[700,70,90,50],[820,110,70,40],[600,130,50,30],[900,60,60,45]].forEach(function(c){el('ellipse',{cx:c[0],cy:c[1],rx:c[2],ry:c[3],fill:'#4d7a3d',opacity:.85},g)});
+    el('rect',{x:0,y:196,width:1000,height:8,fill:'#1a1b1c'},g);
+    // 벽
+    el('rect',{x:0,y:204,width:1000,height:540,fill:'url(#brick)'},g);
+    el('rect',{x:0,y:204,width:1000,height:540,fill:'url(#brickVar)'},g);
+    el('rect',{x:0,y:236,width:1000,height:96,fill:'url(#holes)'},g);
+    // 오른쪽 식당 진열창
+    el('rect',{x:778,y:530,width:222,height:170,fill:'#cfcac2'},g);
+    el('rect',{x:778,y:530,width:222,height:6,fill:'#5a5a5a'},g);
+    [[800,546],[848,546],[896,546]].forEach(function(p){el('rect',{x:p[0],y:p[1],width:38,height:30,fill:'#6b5446'},g)});
+    for(var i=0;i<9;i++) el('rect',{x:790+i*22,y:640-(i%3)*8,width:20,height:48+(i%3)*8,fill:i%2?'#c69a5e':'#b88a4f'},g);
+    el('rect',{x:930,y:660,width:46,height:24,fill:'#e2ded7'},g);
+    // 바닥
+    el('rect',{x:0,y:744,width:1000,height:22,fill:'#a8a49d'},g);
+    el('rect',{x:0,y:766,width:1000,height:40,fill:'#cfcbc4'},g);
+    el('rect',{x:0,y:806,width:1000,height:54,fill:'#5a5c5f'},g);
+    el('rect',{x:600,y:830,width:60,height:6,fill:'#e5c443'},g);
+    // 칸
+    if(!after){
+      el('rect',{x:300,y:540,width:460,height:184,fill:'#141313'},g);
+      el('rect',{x:300,y:540,width:460,height:184,fill:'none',stroke:'#4a4b4e','stroke-width':6},g);
+      el('rect',{x:312,y:660,width:436,height:52,fill:'url(#gravel)'},g);
+      el('rect',{x:312,y:706,width:436,height:12,fill:'#222'},g);
+    } else {
+      // 결제기
+      el('rect',{x:226,y:600,width:30,height:48,rx:3,fill:'#18191a',stroke:'#555'},g);
+      el('rect',{x:231,y:607,width:20,height:12,rx:1,fill:'#7fb7c9'},g);
+      // 壁 표식
+      el('circle',{cx:540,cy:572,r:14,fill:'none',stroke:'#c9a35a','stroke-width':2},g);
+      var b=el('text',{x:540,y:578,fill:'#d9b26a','font-size':16,'text-anchor':'middle','font-weight':700},g);b.textContent='壁';
+      // 벽 속 공간 (원래 칸)
+      var niche=el('g',{id:'niche',opacity:0},g);
+      el('rect',{x:500,y:608,width:80,height:64,fill:'url(#glow)'},niche);
+      el('rect',{x:500,y:650,width:80,height:22,fill:'url(#gravel)',opacity:.75},niche);
+      el('polygon',{points:'500,608 580,608 570,616 510,616',fill:'#000',opacity:.5},niche);
+      el('polygon',{points:'500,608 510,616 510,666 500,672',fill:'#000',opacity:.4},niche);
+      el('polygon',{points:'580,608 570,616 570,666 580,672',fill:'#000',opacity:.4},niche);
+      var sc=el('g',{id:'scroll',opacity:0,style:'cursor:pointer'},niche);
+      el('rect',{x:518,y:652,width:44,height:10,rx:3,fill:'#f2e6c8',stroke:'#a9884f'},sc);
+      el('rect',{x:513,y:650,width:7,height:14,rx:3,fill:'#6b4523'},sc);
+      el('rect',{x:560,y:650,width:7,height:14,rx:3,fill:'#6b4523'},sc);
+      el('rect',{x:535,y:652,width:10,height:10,fill:'#b13b2b',opacity:.85},sc);
+      var door=el('g',{id:'door'},g);
+      el('rect',{x:500,y:608,width:80,height:64,fill:'url(#brick)'},door);
+      el('rect',{x:500,y:608,width:80,height:64,fill:'url(#brickVar)'},door);
+      el('rect',{id:'doorShade',x:500,y:608,width:80,height:64,fill:'#000',opacity:0,'pointer-events':'none'},door);
+    }
+  }
+  scene(document.getElementById('before'),false);
+  scene(document.getElementById('after'),true);
+
+  var sv=document.getElementById('sv'), clipR=document.getElementById('clipR'), dl=document.getElementById('dl'),
+      kc=document.getElementById('kc'), ka=document.getElementById('ka'), divider=document.getElementById('divider'),
+      hint=document.getElementById('hint'), toast=document.getElementById('toast');
+  var W=1000,pos=500,mode='slide',drag=false;
+  function setPos(x){pos=Math.max(0,Math.min(W,x));clipR.setAttribute('x',pos);dl.setAttribute('x1',pos);dl.setAttribute('x2',pos);kc.setAttribute('cx',pos);ka.setAttribute('transform','translate('+(pos-500)+',0)')}
+  function toSvgX(e){var r=sv.getBoundingClientRect();return (e.clientX-r.left)/r.width*W}
+  document.getElementById('knob').addEventListener('pointerdown',function(e){drag=true;e.preventDefault()});
+  sv.addEventListener('pointerdown',function(e){if(mode==='slide'&&!e.target.closest('#door')&&!e.target.closest('#scroll')){drag=true;setPos(toSvgX(e))}});
+  window.addEventListener('pointermove',function(e){if(drag)setPos(toSvgX(e))});
+  window.addEventListener('pointerup',function(){drag=false});
+  document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+    mode=b.dataset.m; divider.style.display=mode==='slide'?'':'none';
+    setPos(mode==='before'?W:mode==='after'?0:500); reset();
+  }});
+
+  var door=document.getElementById('door'), shade=document.getElementById('doorShade'), niche=document.getElementById('niche'), scroll=document.getElementById('scroll');
+  var d=0,holding=false,opened=false,taps=[],holdT=0,raf;
+  function draw(){var k=1-0.2*d;
+    door.setAttribute('transform','translate(540 640) scale('+k+') translate(-540 -640)');
+    shade.setAttribute('opacity',(0.55*d).toFixed(2)); niche.setAttribute('opacity',Math.min(1,d*3).toFixed(2));}
+  function anim(to,ms,cb){var from=d,t0=performance.now(),done=false;cancelAnimationFrame(raf);
+    function step(t){var p=Math.min(1,(t-t0)/ms);d=from+(to-from)*(1-Math.pow(1-p,3));draw();if(p<1)raf=requestAnimationFrame(step);else if(!done){done=true;cb&&cb()}}
+    raf=requestAnimationFrame(step); setTimeout(function(){if(!done){done=true;d=to;draw();cb&&cb()}},ms+120);}
+  function open(){ if(opened)return; opened=true; hint.textContent='검은 벽돌이 안으로 들어가고… 금빛이 새어 나옵니다.';
+    anim(1,1600,function(){scroll.setAttribute('opacity','1');hint.textContent='두루마리를 눌러 꺼내 보세요.'}); }
+  function reset(){opened=false;holding=false;scroll.setAttribute('opacity','0');anim(0,500);toast.classList.remove('show');hint.textContent='AFTER에서 금색 壁 표식 아래 벽돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).'}
+  door.addEventListener('pointerdown',function(e){ e.stopPropagation(); if(opened)return; holding=true; holdT=performance.now(); anim(0.12,250);
+    setTimeout(function(){ if(holding&&!opened) open(); },600); });
+  door.addEventListener('pointerup',function(){ if(opened)return; holding=false; var dt=performance.now()-holdT;
+    if(dt<600){ anim(0,200); var now=performance.now(); taps=taps.filter(function(t){return now-t<2000}); taps.push(now);
+      hint.textContent='똑'+' 똑'.repeat(taps.length-1)+'…'; if(taps.length>=3){taps=[];open()} } });
+  var lines=['장작 냄새가 나는 쪽으로 가 보세요. 오늘 저녁 운이 거기 있습니다.','오늘 처음 건배하는 사람이 좋은 소식을 줍니다.','미뤄 둔 연락 하나가 오늘은 쉽게 풀립니다.','오늘은 따뜻한 걸 먹으면 운이 붙습니다.','오늘 만나는 사람에게 먼저 칭찬하세요.'];
+  scroll.addEventListener('pointerdown',function(e){e.stopPropagation(); scroll.setAttribute('opacity','0');
+    toast.textContent='📜 '+lines[Math.floor(Math.random()*lines.length)]; toast.classList.add('show');
+    hint.textContent='5초 뒤 벽돌이 다시 닫힙니다.'; setTimeout(reset,5000);});
+  draw();
+})();
+</script>
+</body>
+</html>
