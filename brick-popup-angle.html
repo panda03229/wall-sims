@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>벽돌 벽 사진 각도</title>
+<style>
+:root{--bg:#f4f1ec;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:760px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)}
+.back{font-size:13px;text-decoration:none;margin-right:12px}
+h1{font-size:24px;margin:10px 0 4px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.stage{position:relative;border-radius:10px;overflow:hidden;touch-action:none;user-select:none}
+.stage svg{display:block;width:100%;height:auto}
+.hint{font-size:13px;color:var(--sub);margin-top:8px;min-height:21px}
+.knob{cursor:ew-resize}
+#door{cursor:pointer}
+.toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:88%;background:#fbf3df;color:#3b2c18;border:1px solid #c9a96b;border-radius:8px;padding:10px 14px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transition:opacity .4s;pointer-events:none;text-align:center}
+.toast.show{opacity:1}
+small.note{color:var(--sub);font-size:12px}
+ul{margin:6px 0 0;padding-left:20px;color:var(--sub);font-size:14px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a><a class="back" href="brick-popup.html">정면 그림 보기 →</a>
+<h1>벽돌 건물 · 길에서 올려다본 모습</h1>
+<p class="lead">골목에서 건물 모서리를 올려다본 각도입니다. 아래쪽 반지하 창 2칸이 벽돌 벽으로 바뀝니다. 가운데 선을 끌어서 비교해 보세요.</p>
+
+<div class="card">
+  <div class="tabs">
+    <button data-m="slide" class="on">비교 (끌기)</button>
+    <button data-m="before">BEFORE</button>
+    <button data-m="after">AFTER</button>
+  </div>
+  <div class="stage">
+  <svg id="sv" viewBox="0 0 700 940" aria-label="벽돌 건물 모서리 BEFORE AFTER">
+    <defs>
+      <pattern id="bL" width="34" height="24" patternUnits="userSpaceOnUse" patternTransform="skewY(-6)">
+        <rect width="34" height="24" fill="#c4ae98"/>
+        <rect x="1" y="1" width="32" height="10" fill="#a3503a"/>
+        <rect x="-16" y="13" width="32" height="10" fill="#9a4934"/>
+        <rect x="18" y="13" width="32" height="10" fill="#ab573f"/>
+      </pattern>
+      <pattern id="bR" width="26" height="22" patternUnits="userSpaceOnUse" patternTransform="skewY(24)">
+        <rect width="26" height="22" fill="#bba48e"/>
+        <rect x="1" y="1" width="24" height="9" fill="#97452f"/>
+        <rect x="-12" y="12" width="24" height="9" fill="#8f412d"/>
+        <rect x="14" y="12" width="24" height="9" fill="#9f4c36"/>
+      </pattern>
+      <pattern id="bN" width="30" height="22" patternUnits="userSpaceOnUse">
+        <rect width="30" height="22" fill="#a89380"/>
+        <rect x="1" y="1" width="28" height="9" fill="#7d4a3a"/>
+        <rect x="-14" y="12" width="28" height="9" fill="#734334"/>
+        <rect x="16" y="12" width="28" height="9" fill="#82503f"/>
+      </pattern>
+      <pattern id="holes" width="16" height="14" patternUnits="userSpaceOnUse" patternTransform="skewY(-6)">
+        <rect width="16" height="14" fill="#a3503a"/><rect x="3" y="3" width="9" height="7" fill="#3a1d14"/>
+      </pattern>
+      <pattern id="blind" width="10" height="7" patternUnits="userSpaceOnUse" patternTransform="skewY(-1)">
+        <rect width="10" height="7" fill="#b9b6ae"/><rect y="5" width="10" height="2" fill="#8f8c85"/>
+      </pattern>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5c9be0"/><stop offset="1" stop-color="#bcd8f2"/></linearGradient>
+      <linearGradient id="rshade" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#000" stop-opacity=".05"/><stop offset="1" stop-color="#000" stop-opacity=".22"/></linearGradient>
+      <radialGradient id="glow" cx=".5" cy=".55" r=".65">
+        <stop offset="0" stop-color="#ffd896"/><stop offset=".55" stop-color="#c07a35"/><stop offset="1" stop-color="#3b2010"/>
+      </radialGradient>
+      <filter id="blur4"><feGaussianBlur stdDeviation="4"/></filter>
+      <clipPath id="clipAfter"><rect id="clipR" x="350" y="0" width="700" height="940"/></clipPath>
+    </defs>
+
+    <rect width="700" height="940" fill="url(#sky)"/>
+    <g id="before"></g>
+    <g id="after" clip-path="url(#clipAfter)"></g>
+
+    <g id="divider">
+      <line id="dl" x1="350" y1="0" x2="350" y2="940" stroke="#fff" stroke-width="3"/>
+      <g class="knob" id="knob"><circle id="kc" cx="350" cy="470" r="22" fill="#fff" stroke="#9a4a2e" stroke-width="3"/><path id="ka" d="M340 470 l-7 0 m0 0 l6 -6 m-6 6 l6 6 M360 470 l7 0 m0 0 l-6 -6 m6 6 l-6 6" stroke="#9a4a2e" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <text x="16" y="34" fill="#fff" font-size="20" font-weight="700" paint-order="stroke" stroke="#0006" stroke-width="4">BEFORE</text>
+      <text x="684" y="34" fill="#fff" font-size="20" font-weight="700" text-anchor="end" paint-order="stroke" stroke="#0006" stroke-width="4">AFTER</text>
+    </g>
+  </svg>
+  <div class="toast" id="toast"></div>
+  </div>
+  <div class="hint" id="hint">AFTER에서 줄 서는 체인 뒤, 壁 표식 아래 벽돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).</div>
+  <small class="note">보내 주신 사진의 구도와 구조를 따라 다시 그린 그림입니다(사진 자체는 쓰지 않음).</small>
+</div>
+
+<div class="card">
+  <b>이 각도에서 보이는 것</b>
+  <ul>
+    <li>원래 반지하 창이 있던 자리가 위쪽 벽돌과 이어져서, 길에서 보면 그냥 건물 밑동 벽입니다.</li>
+    <li>팝업 대기줄 체인이 바로 그 벽 앞을 지나갑니다. 줄 선 사람 눈높이 아래에 壁 표식이 보이는 위치입니다.</li>
+    <li>위쪽 현수막(팝업 브랜드)과 아래쪽 벽(우리)은 서로 안 겹칩니다.</li>
+    <li>결제기는 차양 아래 벽에 작게, 전선은 차양 밑에서 내려옵니다.</li>
+  </ul>
+</div>
+</div>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,a,p){var e=document.createElementNS(NS,tag);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function poly(pts,fill,p,extra){var a={points:pts,fill:fill};for(var k in extra||{})a[k]=extra[k];return el('polygon',a,p)}
+  function scene(g,after){
+    // 왼쪽 이웃 건물
+    poly('0,0 110,0 115,520 0,560','url(#bN)',g);
+    poly('0,0 110,0 115,520 0,560','#000',g,{opacity:.15});
+    el('rect',{x:20,y:360,width:20,height:14,fill:'#ddd'},g);
+    // 오른쪽 이웃 건물
+    poly('555,420 640,395 700,430 700,800 560,800','url(#bN)',g);
+    poly('590,470 660,450 662,555 592,560','#4a5a66',g);
+    poly('640,795 700,790 700,860 640,860','#e9e6df',g);
+    // 본 건물 왼쪽 면
+    poly('58,262 308,8 420,860 72,885','url(#bL)',g);
+    // 본 건물 오른쪽 면
+    poly('308,8 545,228 560,800 420,860','url(#bR)',g);
+    poly('308,8 545,228 560,800 420,860','url(#rshade)',g);
+    // 지붕 처마
+    poly('52,262 308,2 316,12 60,270','#3a3532',g);
+    poly('308,2 548,222 540,230 312,14','#3a3532',g);
+    // 옥상 난간
+    el('path',{d:'M170 190 L300 30 M180 200 L305 45',stroke:'#cfd6dc','stroke-width':3},g);
+    // 장식 구멍 벽돌
+    poly('100,295 178,275 180,440 102,448','url(#holes)',g);
+    poly('0,545 70,538 72,690 0,700','url(#holes)',g);
+    // 현수막
+    poly('362,62 545,252 548,580 366,522','#000',g,{opacity:.35,filter:'url(#blur4)'});
+    poly('362,62 545,252 548,580 366,522','#1f1e1c',g,{stroke:'#efc77c','stroke-width':4});
+    var t=el('text',{x:0,y:0,fill:'#f2ece2','font-size':26,'font-weight':700,transform:'matrix(1,0.48,0,1,392,262)'},g);t.textContent='POP-UP';
+    var t2=el('text',{x:0,y:0,fill:'#f2ece2','font-size':26,'font-weight':700,transform:'matrix(1,0.48,0,1,392,294)'},g);t2.textContent='STORE';
+    var t3=el('text',{x:0,y:0,fill:'#cfc7bb','font-size':12,transform:'matrix(1,0.48,0,1,392,350)'},g);t3.textContent='팝업 브랜드 현수막';
+    // CCTV
+    el('rect',{x:290,y:585,width:12,height:7,fill:'#ddd'},g);el('rect',{x:340,y:585,width:12,height:7,fill:'#ddd'},g);
+    // 왼쪽 면 차양
+    poly('130,620 418,626 420,640 134,632','#2b2927',g);
+    poly('134,632 420,640 418,662 140,650','#000',g,{opacity:.18});
+    // 출입구 차양 & 문
+    poly('515,644 612,657 608,667 517,654','#2b2927',g);
+    poly('545,660 560,662 562,800 547,805','#24221f',g);
+    // 환기 패널, 금연 표지
+    poly('64,706 106,704 104,778 62,780','#c8c3bb',g,{stroke:'#77726a'});
+    poly('230,702 268,701 268,720 230,721','#f3f0ea',g);
+    el('rect',{x:233,y:704,width:10,height:14,fill:'#c0392b'},g);
+    // 인도
+    poly('0,872 120,870 400,858 560,800 700,780 700,940 0,940','#d8d4cc',g);
+    el('path',{d:'M0 905 L700 820',stroke:'#c4bfb5','stroke-width':2},g);
+    // 반지하 창 영역
+    if(!after){
+      poly('120,800 396,794 398,870 118,873','#2a2826',g);
+      poly('125,806 205,804 206,866 124,867','url(#blind)',g);
+      poly('211,804 391,800 392,864 212,866','url(#blind)',g);
+    } else {
+      poly('118,792 398,786 398,800 118,806','#8a3c29',g); // 세워쌓기 인방
+      for(var i=0;i<28;i++){var x=118+i*10;el('line',{x1:x,y1:792-i*0.21,x2:x,y2:806-i*0.21,stroke:'#c4ae98','stroke-width':1},g)}
+      // 결제기 + 배관
+      poly('330,676 350,676 350,716 330,717','#2b2a28',g);
+      poly('333,680 347,680 347,690 333,690','#7fb7c9',g);
+      el('path',{d:'M355 640 L357 790',stroke:'#e8e5df','stroke-width':4},g);
+      // 壁 표식
+      var b=el('text',{x:0,y:0,fill:'#d4ad60','font-size':15,'font-weight':700,'text-anchor':'middle',transform:'matrix(1,-0.03,0,1,318,800)'},g);b.textContent='壁';
+      // 벽 속 공간
+      var niche=el('g',{id:'niche',opacity:0},g);
+      poly('288,808 350,806 350,852 288,854','url(#glow)',niche);
+      poly('288,808 350,806 343,813 295,815','#2a1508',niche,{opacity:.55});
+      poly('288,808 295,815 295,848 288,854','#2a1508',niche,{opacity:.45});
+      poly('350,806 343,813 343,846 350,852','#2a1508',niche,{opacity:.45});
+      var sc=el('g',{id:'scroll',opacity:0,style:'cursor:pointer'},niche);
+      el('rect',{x:302,y:836,width:34,height:8,rx:3,fill:'#f2e6c8',stroke:'#a9884f'},sc);
+      el('rect',{x:298,y:834,width:6,height:12,rx:2,fill:'#6b4523'},sc);
+      el('rect',{x:334,y:834,width:6,height:12,rx:2,fill:'#6b4523'},sc);
+      el('rect',{x:315,y:836,width:8,height:8,fill:'#b13b2b',opacity:.85},sc);
+      var door=el('g',{id:'door'},g);
+      poly('288,808 350,806 350,852 288,854','url(#bL)',door);
+      poly('288,808 350,806 350,852 288,854','#000',door,{id:'doorShade',opacity:0,'pointer-events':'none'});
+    }
+    // 전봇대 · 전선
+    poly('652,295 664,295 670,800 658,800','#9a968e',g);
+    el('path',{d:'M0 120 Q300 260 700 210 M580 0 Q640 200 700 260 M60 40 Q200 120 420 0',stroke:'#1d1d1d','stroke-width':2,fill:'none'},g);
+    // 대기줄 기둥 & 체인
+    var q=el('g',{'pointer-events':'none'},g);
+    el('path',{d:'M140 878 Q200 890 268 850 M275 846 Q380 905 492 800 M505 796 Q560 830 625 770',stroke:'#e6b31e','stroke-width':4,fill:'none','stroke-dasharray':'6 3'},q);
+    poly('258,822 280,822 282,932 256,932','#1d1d1d',q);el('rect',{x:252,y:922,width:34,height:10,rx:4,fill:'#111'},q);
+    poly('488,778 506,778 510,910 485,910','#1d1d1d',q);el('ellipse',{cx:497,cy:908,rx:20,ry:8,fill:'#111'},q);
+    poly('618,748 634,748 637,826 616,826','#1d1d1d',q);el('ellipse',{cx:627,cy:825,rx:15,ry:6,fill:'#111'},q);
+    // 나뭇잎
+    el('ellipse',{cx:25,cy:680,rx:55,ry:90,fill:'#4f8a3a',opacity:.85},g);
+    poly('0,800 90,812 92,940 0,940','url(#bN)',g);
+  }
+  scene(document.getElementById('before'),false);
+  scene(document.getElementById('after'),true);
+
+  var sv=document.getElementById('sv'), clipR=document.getElementById('clipR'), dl=document.getElementById('dl'),
+      kc=document.getElementById('kc'), ka=document.getElementById('ka'), divider=document.getElementById('divider'),
+      hint=document.getElementById('hint'), toast=document.getElementById('toast');
+  var W=700, pos=350, mode='slide', drag=false;
+  function setPos(x){pos=Math.max(0,Math.min(W,x));clipR.setAttribute('x',pos);dl.setAttribute('x1',pos);dl.setAttribute('x2',pos);kc.setAttribute('cx',pos);ka.setAttribute('transform','translate('+(pos-350)+',0)')}
+  function toSvgX(e){var r=sv.getBoundingClientRect();return (e.clientX-r.left)/r.width*W}
+  document.getElementById('knob').addEventListener('pointerdown',function(e){drag=true;e.preventDefault()});
+  sv.addEventListener('pointerdown',function(e){if(mode==='slide'&&!e.target.closest('#door')&&!e.target.closest('#scroll')){drag=true;setPos(toSvgX(e))}});
+  window.addEventListener('pointermove',function(e){if(drag)setPos(toSvgX(e))});
+  window.addEventListener('pointerup',function(){drag=false});
+  document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+    mode=b.dataset.m; divider.style.display=mode==='slide'?'':'none';
+    setPos(mode==='before'?W:mode==='after'?0:350); reset();
+  }});
+
+  var door=document.getElementById('door'), shade=document.getElementById('doorShade'), niche=document.getElementById('niche'), scroll=document.getElementById('scroll');
+  var d=0, holding=false, opened=false, taps=[], holdT=0, raf;
+  function draw(){var k=1-0.2*d;
+    door.setAttribute('transform','translate(319 830) scale('+k+') translate(-319 -830)');
+    shade.setAttribute('opacity',(0.5*d).toFixed(2)); niche.setAttribute('opacity',Math.min(1,d*3).toFixed(2));}
+  function anim(to,ms,cb){var from=d,t0=performance.now(),done=false;cancelAnimationFrame(raf);
+    function step(t){var p=Math.min(1,(t-t0)/ms);d=from+(to-from)*(1-Math.pow(1-p,3));draw();if(p<1)raf=requestAnimationFrame(step);else if(!done){done=true;cb&&cb()}}
+    raf=requestAnimationFrame(step); setTimeout(function(){if(!done){done=true;d=to;draw();cb&&cb()}},ms+120);}
+  function open(){ if(opened)return; opened=true; hint.textContent='벽돌이 안으로 쑥 들어가고… 벽 속에서 빛이 납니다.';
+    anim(1,1600,function(){scroll.setAttribute('opacity','1');hint.textContent='두루마리를 눌러 꺼내 보세요.'}); }
+  function reset(){opened=false;holding=false;scroll.setAttribute('opacity','0');anim(0,500);toast.classList.remove('show');hint.textContent='AFTER에서 줄 서는 체인 뒤, 壁 표식 아래 벽돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).'}
+  door.addEventListener('pointerdown',function(e){ e.stopPropagation(); if(opened)return; holding=true; holdT=performance.now(); anim(0.12,250);
+    setTimeout(function(){ if(holding&&!opened) open(); },600); });
+  door.addEventListener('pointerup',function(){ if(opened)return; holding=false; var dt=performance.now()-holdT;
+    if(dt<600){ anim(0,200); var now=performance.now(); taps=taps.filter(function(t){return now-t<2000}); taps.push(now);
+      hint.textContent='똑'+' 똑'.repeat(taps.length-1)+'…'; if(taps.length>=3){taps=[];open()} } });
+  var lines=['오늘 처음 줄 선 곳에서 좋은 사람을 만납니다.','서울숲 쪽으로 한 바퀴 걸어 보세요. 마음이 가벼워집니다.','미뤄 둔 연락 하나가 오늘은 쉽게 풀립니다.','오늘은 따뜻한 걸 마시면 운이 붙습니다.','오늘 만나는 사람에게 먼저 칭찬하세요.'];
+  scroll.addEventListener('pointerdown',function(e){e.stopPropagation(); scroll.setAttribute('opacity','0');
+    toast.textContent='📜 '+lines[Math.floor(Math.random()*lines.length)]; toast.classList.add('show');
+    hint.textContent='5초 뒤 벽돌이 다시 닫힙니다.'; setTimeout(reset,5000);});
+  draw();
+})();
+</script>
+</body>
+</html>
