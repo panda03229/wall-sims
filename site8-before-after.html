@@ -1,0 +1,273 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>셔터 칸 돌벽</title>
+<style>
+:root{--bg:#f4f1ec;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a5b1e;--accbg:#f6e7d4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e0a463;--accbg:#3a2a1a}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e0a463;--accbg:#3a2a1a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)}
+.back{font-size:13px;text-decoration:none}
+h1{font-size:24px;margin:10px 0 4px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.stage{position:relative;border-radius:10px;overflow:hidden;touch-action:none;user-select:none}
+.stage svg{display:block;width:100%;height:auto}
+.hint{font-size:13px;color:var(--sub);margin-top:8px;min-height:21px}
+.knob{cursor:ew-resize}
+#stone{cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid h3{margin:0 0 4px;font-size:15px}
+.grid p{margin:0;color:var(--sub);font-size:14px}
+.tag{display:inline-block;font-size:12px;background:var(--accbg);color:var(--acc);border-radius:6px;padding:1px 8px;margin-bottom:6px}
+.toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:88%;background:#fbf3df;color:#3b2c18;border:1px solid #c9a96b;border-radius:8px;padding:10px 14px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transition:opacity .4s;pointer-events:none;text-align:center}
+.toast.show{opacity:1}
+small.note{color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>후보 8번 · 셔터 칸을 돌벽으로</h1>
+<p class="lead">성수 아차산로 이면 정비소형 건물. 1층 셔터 칸 하나를 통째로 돌로 덮었을 때의 모습입니다. 가운데 선을 끌어서 비교해 보세요.</p>
+
+<div class="card">
+  <div class="tabs">
+    <button data-m="slide" class="on">비교 (끌기)</button>
+    <button data-m="before">BEFORE</button>
+    <button data-m="after">AFTER</button>
+  </div>
+  <div class="stage" id="stage">
+  <svg id="sv" viewBox="0 0 1000 620" aria-label="정비소 건물 정면 BEFORE AFTER">
+    <defs>
+      <pattern id="slat" width="10" height="9" patternUnits="userSpaceOnUse">
+        <rect width="10" height="9" fill="#9a9c9b"/><rect y="7" width="10" height="2" fill="#7d7f7e"/><rect y="0" width="10" height="1" fill="#b3b5b4"/>
+      </pattern>
+      <pattern id="slatDark" width="10" height="9" patternUnits="userSpaceOnUse">
+        <rect width="10" height="9" fill="#6f716f"/><rect y="7" width="10" height="2" fill="#585a59"/>
+      </pattern>
+      <pattern id="concrete" width="60" height="60" patternUnits="userSpaceOnUse">
+        <rect width="60" height="60" fill="#8b8782"/><circle cx="12" cy="18" r="1.2" fill="#7a7671"/><circle cx="44" cy="40" r="1" fill="#9a9690"/><circle cx="30" cy="8" r=".8" fill="#76726d"/>
+      </pattern>
+      <linearGradient id="stoneG" x1="0" y1="0" x2="1" y2="1">
+        <stop offset="0" stop-color="#d9d1c3"/><stop offset="1" stop-color="#b9b0a1"/>
+      </linearGradient>
+      <radialGradient id="glow" cx=".5" cy=".55" r=".6">
+        <stop offset="0" stop-color="#ffd38a"/><stop offset=".6" stop-color="#b8752e"/><stop offset="1" stop-color="#3b2512"/>
+      </radialGradient>
+      <filter id="soft"><feGaussianBlur stdDeviation="6"/></filter>
+      <clipPath id="clipAfter"><rect id="clipR" x="500" y="0" width="1000" height="620"/></clipPath>
+      <clipPath id="bay"><rect x="400" y="335" width="240" height="225"/></clipPath>
+    </defs>
+
+    <!-- 하늘, 바닥 -->
+    <rect width="1000" height="620" fill="#cfd8de"/>
+    <rect y="560" width="1000" height="60" fill="#a9a59f"/>
+    <g stroke="#97938d" stroke-width="2"><line x1="0" y1="590" x2="1000" y2="590"/><line x1="200" y1="560" x2="180" y2="620"/><line x1="500" y1="560" x2="500" y2="620"/><line x1="800" y1="560" x2="820" y2="620"/></g>
+    <line x1="0" y1="573" x2="1000" y2="573" stroke="#e7e2d8" stroke-width="2" stroke-dasharray="10 8" opacity=".7"/>
+    <text x="992" y="568" fill="#6d6963" font-size="12" text-anchor="end">건물 땅 경계 (이 선 안쪽만 사용)</text>
+
+    <!-- ===== BEFORE (공통 건물) ===== -->
+    <g id="before">
+      <rect x="40" y="90" width="920" height="470" fill="url(#concrete)"/>
+      <rect x="30" y="80" width="940" height="16" fill="#77736e"/>
+      <!-- 2층 창 -->
+      <g fill="#4d5a63" stroke="#5f5b56" stroke-width="6">
+        <rect x="110" y="140" width="180" height="120"/><rect x="410" y="140" width="180" height="120"/><rect x="710" y="140" width="180" height="120"/>
+      </g>
+      <g stroke="#5f5b56" stroke-width="4"><line x1="200" y1="140" x2="200" y2="260"/><line x1="500" y1="140" x2="500" y2="260"/><line x1="800" y1="140" x2="800" y2="260"/></g>
+      <!-- 낡은 간판 띠 -->
+      <rect x="40" y="295" width="920" height="40" fill="#5b5752"/>
+      <text x="500" y="322" fill="#c9c3b8" font-size="18" text-anchor="middle" letter-spacing="6" opacity=".55">○○ 자 동 차 정 비</text>
+      <!-- 기둥 -->
+      <g fill="#7e7a75"><rect x="40" y="335" width="80" height="225"/><rect x="360" y="335" width="40" height="225"/><rect x="640" y="335" width="40" height="225"/><rect x="920" y="335" width="40" height="225"/></g>
+      <!-- 셔터 3칸 -->
+      <rect x="120" y="335" width="240" height="225" fill="url(#slat)"/>
+      <rect x="400" y="335" width="240" height="225" fill="url(#slatDark)"/>
+      <rect x="680" y="335" width="240" height="225" fill="url(#slat)"/>
+      <g fill="#5d5f5e"><rect x="120" y="335" width="240" height="14"/><rect x="400" y="335" width="240" height="14"/><rect x="680" y="335" width="240" height="14"/></g>
+      <!-- 낙서·녹 -->
+      <path d="M430 470 q20 -18 40 0 t40 0" stroke="#3d5f8a" stroke-width="4" fill="none" opacity=".6"/>
+      <rect x="560" y="520" width="50" height="30" fill="#8a5a3a" opacity=".35"/>
+      <text x="520" y="406" fill="#e4e0d8" font-size="15" text-anchor="middle" opacity=".7">주차금지</text>
+    </g>
+
+    <!-- ===== AFTER (오른쪽, clip) ===== -->
+    <g id="after" clip-path="url(#clipAfter)">
+      <rect x="40" y="90" width="920" height="470" fill="url(#concrete)"/>
+      <rect x="30" y="80" width="940" height="16" fill="#77736e"/>
+      <g fill="#4d5a63" stroke="#5f5b56" stroke-width="6">
+        <rect x="110" y="140" width="180" height="120"/><rect x="410" y="140" width="180" height="120"/><rect x="710" y="140" width="180" height="120"/>
+      </g>
+      <g stroke="#5f5b56" stroke-width="4"><line x1="200" y1="140" x2="200" y2="260"/><line x1="500" y1="140" x2="500" y2="260"/><line x1="800" y1="140" x2="800" y2="260"/></g>
+      <!-- 간판 띠는 무지로 정리 -->
+      <rect x="40" y="295" width="920" height="40" fill="#5b5752"/>
+      <g fill="#7e7a75"><rect x="40" y="335" width="80" height="225"/><rect x="360" y="335" width="40" height="225"/><rect x="640" y="335" width="40" height="225"/><rect x="920" y="335" width="40" height="225"/></g>
+      <!-- 옆 셔터는 그대로 (건물주 사용) -->
+      <rect x="120" y="335" width="240" height="225" fill="url(#slat)"/>
+      <rect x="680" y="335" width="240" height="225" fill="url(#slat)"/>
+      <g fill="#5d5f5e"><rect x="120" y="335" width="240" height="14"/><rect x="680" y="335" width="240" height="14"/></g>
+
+      <!-- 가운데 칸: 기둥~기둥, 바닥~간판 밑까지 돌로 꽉 -->
+      <g clip-path="url(#bay)">
+        <rect x="400" y="335" width="240" height="225" fill="#6d665c"/>
+        <g id="stones" stroke="#6d665c" stroke-width="4" fill="url(#stoneG)"></g>
+        <!-- 밀리는 돌 뒤 공간 -->
+        <g id="niche" opacity="0">
+          <rect x="462" y="428" width="116" height="56" fill="url(#glow)"/>
+          <polygon points="462,428 578,428 566,438 474,438" fill="#2a1b0e" opacity=".55"/>
+          <polygon points="462,428 474,438 474,476 462,484" fill="#2a1b0e" opacity=".45"/>
+          <polygon points="578,428 566,438 566,476 578,484" fill="#2a1b0e" opacity=".45"/>
+          <g id="scroll" opacity="0" style="cursor:pointer">
+            <rect x="490" y="462" width="60" height="12" rx="3" fill="#f2e6c8" stroke="#a9884f"/>
+            <rect x="484" y="460" width="8" height="16" rx="3" fill="#6b4523"/><rect x="548" y="460" width="8" height="16" rx="3" fill="#6b4523"/>
+            <rect x="514" y="462" width="12" height="12" fill="#b13b2b" opacity=".85"/>
+          </g>
+        </g>
+        <g id="stone">
+          <rect id="stoneR" x="462" y="428" width="116" height="56" fill="url(#stoneG)" stroke="#6d665c" stroke-width="4"/>
+          <rect id="stoneShade" x="462" y="428" width="116" height="56" fill="#000" opacity="0" pointer-events="none"/>
+        </g>
+      </g>
+      <!-- 결제기: 오른쪽 기둥에 작게 -->
+      <rect x="648" y="430" width="24" height="40" rx="3" fill="#2b2a28"/><rect x="652" y="436" width="16" height="10" rx="1" fill="#7fb7c9"/>
+      <!-- 전기 배관: 기둥 모서리 -->
+      <path d="M676 296 V430" stroke="#e8e5df" stroke-width="5"/>
+      <!-- 위쪽 정리선 없이 간판 띠에 바로 닿음 -->
+    </g>
+
+    <!-- 비교 손잡이 -->
+    <g id="divider">
+      <line id="dl" x1="500" y1="0" x2="500" y2="620" stroke="#fff" stroke-width="3"/>
+      <g class="knob" id="knob"><circle id="kc" cx="500" cy="80" r="22" fill="#fff" stroke="#9a5b1e" stroke-width="3"/><path id="ka" d="M490 80 l-7 0 m0 0 l6 -6 m-6 6 l6 6 M510 80 l7 0 m0 0 l-6 -6 m6 6 l-6 6" stroke="#9a5b1e" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <text id="lb" x="20" y="36" fill="#fff" font-size="20" font-weight="700" paint-order="stroke" stroke="#0006" stroke-width="4">BEFORE</text>
+      <text id="la" x="980" y="36" fill="#fff" font-size="20" font-weight="700" text-anchor="end" paint-order="stroke" stroke="#0006" stroke-width="4">AFTER</text>
+    </g>
+  </svg>
+  <div class="toast" id="toast"></div>
+  </div>
+  <div class="hint" id="hint">AFTER에서 가운데 돌 하나를 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).</div>
+  <small class="note">실제 사진이 아니라 카카오 로드뷰(2026년 7월)에서 본 건물 구조를 바탕으로 그린 그림입니다. 실물 확인: <a href="https://map.kakao.com/?panoid=1212617863&pan=20.5&zoom=0&map_type=TYPE_MAP&map_attribute=ROADVIEW&urlX=513068&urlY=1123465" target="_blank" rel="noopener">로드뷰 열기</a></small>
+</div>
+
+<div class="card">
+  <span class="tag">옆에서 자른 모습</span>
+  <svg viewBox="0 0 1000 300" style="display:block;width:100%;height:auto" aria-label="단면도">
+    <rect width="1000" height="300" fill="#cfd8de"/>
+    <rect x="0" y="250" width="1000" height="50" fill="#a9a59f"/>
+    <!-- 건물 안 -->
+    <rect x="620" y="20" width="380" height="230" fill="#8b8782" opacity=".35"/>
+    <text x="800" y="60" fill="#3d3a36" font-size="16" text-anchor="middle">정비소 안 (그대로 사용)</text>
+    <!-- 셔터 -->
+    <rect x="610" y="40" width="10" height="210" fill="#6f716f"/>
+    <text x="625" y="235" fill="#3d3a36" font-size="13">기존 셔터 (닫아 둠)</text>
+    <!-- 간판 띠/기둥면 -->
+    <rect x="330" y="20" width="290" height="22" fill="#5b5752"/>
+    <line x1="330" y1="20" x2="330" y2="250" stroke="#3d3a36" stroke-width="1.5" stroke-dasharray="5 5"/>
+    <text x="324" y="16" fill="#3d3a36" font-size="13" text-anchor="end">기둥 앞면 = 돌벽 앞면</text>
+    <!-- 돌벽 -->
+    <rect x="330" y="42" width="18" height="208" fill="#cbc2b3" stroke="#6d665c"/>
+    <!-- 밀리는 돌 -->
+    <rect x="348" y="128" width="18" height="40" fill="#cbc2b3" stroke="#6d665c" stroke-dasharray="3 3"/>
+    <rect x="410" y="128" width="18" height="40" fill="#cbc2b3" stroke="#6d665c"/>
+    <path d="M372 148 H404" stroke="#9a5b1e" stroke-width="3" marker-end="url(#ar)"/>
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#9a5b1e"/></marker></defs>
+    <rect x="330" y="128" width="18" height="40" fill="#3b2512"/>
+    <!-- 레일·카트리지 -->
+    <rect x="360" y="170" width="90" height="8" fill="#555"/>
+    <rect x="470" y="70" width="60" height="110" rx="4" fill="#d9c79f" stroke="#8a6d3c"/>
+    <text x="500" y="125" fill="#3b2c18" font-size="12" text-anchor="middle">두루마리</text>
+    <text x="500" y="140" fill="#3b2c18" font-size="12" text-anchor="middle">100개</text>
+    <rect x="470" y="195" width="60" height="40" rx="3" fill="#444"/>
+    <text x="500" y="220" fill="#ddd" font-size="11" text-anchor="middle">제어기</text>
+    <!-- 치수 -->
+    <path d="M330 270 H610" stroke="#3d3a36" stroke-width="1.5"/>
+    <path d="M330 264 V276 M610 264 V276" stroke="#3d3a36" stroke-width="1.5"/>
+    <text x="470" y="292" fill="#3d3a36" font-size="13" text-anchor="middle">돌벽과 셔터 사이 30~50cm → 기계가 여기 숨음</text>
+    <text x="160" y="160" fill="#3d3a36" font-size="15" text-anchor="middle">인도 쪽</text>
+    <text x="160" y="180" fill="#3d3a36" font-size="13" text-anchor="middle">(돌벽은 기둥보다 안 나옴)</text>
+  </svg>
+</div>
+
+<div class="card grid">
+  <div><span class="tag">왜 벽처럼 보이나</span><h3>칸을 통째로 덮음</h3><p>좌우는 기둥, 위는 간판 띠, 아래는 바닥에 딱 붙어서 옆면·윗면 모서리가 없습니다. 상자가 아니라 원래 돌벽인 칸처럼 보입니다.</p></div>
+  <div><span class="tag">기계 위치</span><h3>셔터 앞 빈 공간</h3><p>셔터는 닫아 두고, 기둥 앞면에 맞춰 돌벽을 세우면 그 사이 30~50cm에 레일·카트리지·제어기가 들어갑니다.</p></div>
+  <div><span class="tag">건물주 입장</span><h3>셔터 한 칸만 양보</h3><p>나머지 칸과 실내는 그대로 씁니다. 철거할 때는 돌벽을 떼면 셔터가 다시 나옵니다.</p></div>
+  <div><span class="tag">현장에서 잴 것</span><h3>3가지</h3><p>① 셔터가 기둥 앞면보다 얼마나 들어가 있는지 ② 칸 폭·높이 ③ 기둥 근처 전기 위치.</p></div>
+</div>
+</div>
+
+<script>
+(function(){
+  // 돌 쌓기
+  var NS='http://www.w3.org/2000/svg', g=document.getElementById('stones');
+  var rows=[[335,47],[382,46],[428,56],[484,38],[522,38]], seed=7;
+  function rnd(){seed=(seed*9301+49297)%233280;return seed/233280}
+  rows.forEach(function(r,i){
+    var x=400-(i%2?60:20);
+    while(x<640){
+      var w=100+Math.floor(rnd()*50);
+      var rect=document.createElementNS(NS,'rect');
+      rect.setAttribute('x',x);rect.setAttribute('y',r[0]);rect.setAttribute('width',w);rect.setAttribute('height',r[1]);
+      var t=rnd(); rect.setAttribute('fill', t<.33?'#d4cbbb':t<.66?'#cbc2b2':'#dcd4c6');
+      g.appendChild(rect); x+=w;
+    }
+  });
+
+  var sv=document.getElementById('sv'), clipR=document.getElementById('clipR'), dl=document.getElementById('dl'),
+      kc=document.getElementById('kc'), ka=document.getElementById('ka'), divider=document.getElementById('divider'),
+      hint=document.getElementById('hint'), toast=document.getElementById('toast');
+  var pos=500;
+  function setPos(x){pos=Math.max(0,Math.min(1000,x));clipR.setAttribute('x',pos);dl.setAttribute('x1',pos);dl.setAttribute('x2',pos);kc.setAttribute('cx',pos);ka.setAttribute('transform','translate('+(pos-500)+',0)')}
+  function toSvgX(e){var r=sv.getBoundingClientRect();return (e.clientX-r.left)/r.width*1000}
+  var drag=false;
+  document.getElementById('knob').addEventListener('pointerdown',function(e){drag=true;e.preventDefault()});
+  sv.addEventListener('pointerdown',function(e){if(mode==='slide'&&!e.target.closest('#stone')&&!e.target.closest('#scroll')){drag=true;setPos(toSvgX(e))}});
+  window.addEventListener('pointermove',function(e){if(drag)setPos(toSvgX(e))});
+  window.addEventListener('pointerup',function(){drag=false});
+
+  var mode='slide';
+  document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+    mode=b.dataset.m; divider.style.display=mode==='slide'?'':'none';
+    setPos(mode==='before'?1000:mode==='after'?0:500); reset();
+  }});
+
+  // 돌 밀기
+  var stone=document.getElementById('stoneR'), shade=document.getElementById('stoneShade'), niche=document.getElementById('niche'), scroll=document.getElementById('scroll');
+  var d=0, holding=false, opened=false, taps=[], holdT=0, raf;
+  function draw(){
+    var k=1-0.16*d, cx=520, cy=456, w=116*k, h=56*k;
+    [stone,shade].forEach(function(el){el.setAttribute('x',cx-w/2);el.setAttribute('y',cy-h/2);el.setAttribute('width',w);el.setAttribute('height',h)});
+    shade.setAttribute('opacity',(0.45*d).toFixed(2)); niche.setAttribute('opacity',Math.min(1,d*3).toFixed(2));
+  }
+  function anim(to,ms,cb){var from=d,t0=performance.now(),done=false;cancelAnimationFrame(raf);
+    function step(t){var p=Math.min(1,(t-t0)/ms);d=from+(to-from)*(1-Math.pow(1-p,3));draw();if(p<1)raf=requestAnimationFrame(step);else if(!done){done=true;cb&&cb()}}
+    raf=requestAnimationFrame(step); setTimeout(function(){if(!done){done=true;d=to;draw();cb&&cb()}},ms+120);}
+  function open(){ if(opened)return; opened=true; hint.textContent='돌이 뒤로 물러나고… 벽 속에서 빛이 납니다.';
+    anim(1,1600,function(){scroll.setAttribute('opacity','1');hint.textContent='두루마리를 눌러 꺼내 보세요.'}); }
+  function reset(){opened=false;holding=false;scroll.setAttribute('opacity','0');anim(0,500);toast.classList.remove('show');hint.textContent=pos<500?'가운데 돌 하나를 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).':'AFTER에서 가운데 돌 하나를 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).'}
+  var sEl=document.getElementById('stone');
+  sEl.addEventListener('pointerdown',function(e){ e.stopPropagation(); if(opened)return; holding=true; holdT=performance.now(); anim(0.12,250);
+    setTimeout(function(){ if(holding&&!opened) open(); },600); });
+  sEl.addEventListener('pointerup',function(){ if(opened)return; holding=false; var dt=performance.now()-holdT;
+    if(dt<600){ anim(0,200); var now=performance.now(); taps=taps.filter(function(t){return now-t<2000}); taps.push(now);
+      hint.textContent='똑'+' 똑'.repeat(taps.length-1)+'…'; if(taps.length>=3){taps=[];open()} } });
+  var lines=['오늘 처음 마주친 골목에서 좋은 일이 하나 생깁니다.','미뤄 둔 연락 하나가 오늘은 쉽게 풀립니다.','이 벽 근처에서 따뜻한 국물을 드세요. 운이 붙습니다.','오른쪽으로 세 블록 걸어 보세요. 찾던 게 있습니다.','오늘 만나는 사람에게 먼저 칭찬하세요.'];
+  scroll.addEventListener('pointerdown',function(e){e.stopPropagation(); scroll.setAttribute('opacity','0');
+    toast.textContent='📜 '+lines[Math.floor(Math.random()*lines.length)]; toast.classList.add('show');
+    hint.textContent='5초 뒤 돌이 다시 닫힙니다.'; setTimeout(reset,5000);});
+  draw();
+})();
+</script>
+</body>
+</html>
