@@ -1,0 +1,332 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>벽 금고 · 버튼식</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 위 = 매립형 벽(SVG) + 안내줄, 그 아래 조작, 아래 2열 = 시트에 적힌 흐름 10단계 · 나온 두루마리 */
+:root{
+  --bg:#ebe8e3; --panel:#f8f6f2; --fg:#24211d; --muted:#6d675f; --line:#d7d1c7;
+  --paper:#f4ecd9; --ink:#3a2b1c; --seal:#b23a2a; --accent:#a8432c;
+  --font-d:"Gowun Batang","Nanum Myeongjo",serif;
+  --font-b:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root{
+  --bg:#17161a; --panel:#211f24; --fg:#eeeae4; --muted:#a39d95; --line:#38353b; --accent:#e07a5f; color-scheme:dark}}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:15px;line-height:1.6}
+.back{position:fixed;top:max(10px,env(safe-area-inset-top,0px));left:max(10px,env(safe-area-inset-left,0px));z-index:50;font:500 13px var(--font-b);background:rgba(0,0,0,.72);color:#fff;padding:6px 12px;border-radius:999px;text-decoration:none}
+.wrap{max-width:1000px;margin:0 auto;padding:48px max(16px,env(safe-area-inset-right,0px)) 48px max(16px,env(safe-area-inset-left,0px));display:grid;gap:16px}
+h1{font-family:var(--font-d);font-size:clamp(24px,4vw,34px);margin:0;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--muted);max-width:65ch}
+.stage{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e9e3d8}
+svg#wall{display:block;width:100%;height:auto;user-select:none;-webkit-user-select:none}
+.voice{display:flex;gap:10px;align-items:center;padding:12px 16px;background:var(--panel);border-top:1px solid var(--line);min-height:56px}
+.voice b{font-family:var(--font-d);font-size:16px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.card h2{font-family:var(--font-d);font-size:18px;margin:0 0 10px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row label{display:flex;gap:6px;align-items:center;font-size:14px}
+input[type=date]{font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+input[type=checkbox]{accent-color:var(--accent)}
+button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:7px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)} button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--fg);color:var(--bg);border-color:var(--fg);padding:9px 20px;font-weight:700}
+button:disabled{opacity:.5;cursor:default}
+.hint{font-size:13px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media (max-width:760px){.cols{grid-template-columns:1fr}}
+ol.flow{margin:0;padding:0;list-style:none;display:grid;gap:5px;counter-reset:s}
+ol.flow li{counter-increment:s;display:grid;grid-template-columns:26px 1fr;gap:8px;font-size:14px;color:var(--muted)}
+ol.flow li::before{content:counter(s);width:22px;height:22px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;font-size:12px}
+ol.flow li.done{color:var(--fg)} ol.flow li.done::before{background:var(--line)}
+ol.flow li.now{color:var(--fg);font-weight:700} ol.flow li.now::before{background:var(--accent);border-color:var(--accent);color:#fff}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+
+.roll{position:relative;padding:14px 0}
+.roll::before,.roll::after{content:"";position:absolute;left:-6px;right:-6px;height:16px;border-radius:8px;background:#8a6a43}
+.roll::before{top:0}.roll::after{bottom:0}
+.paper{background:var(--paper);color:var(--ink);font-family:var(--font-d);padding:18px 20px 22px;transition:clip-path 1.2s ease-out;clip-path:inset(0)}
+.paper.rolled{clip-path:inset(0 0 100% 0)}
+.band{height:12px;margin:-18px -20px 14px}
+.grade{font-size:44px;font-weight:700;text-align:center;line-height:1.1;letter-spacing:.1em}
+.gsub{text-align:center;font-family:var(--font-b);font-size:12px;color:#8a6a43;margin-bottom:10px}
+.sec{border-top:1px dashed #cdbb94;padding:8px 0}
+.sec b{display:block;font-family:var(--font-b);font-size:11px;color:#8a6a43;font-weight:500}
+.sec p{margin:2px 0 0;font-size:15px}
+.charm{margin-top:10px;border:2px solid var(--seal);color:var(--seal);padding:10px;text-align:center;background:#fff3e6}
+.charm b{display:block;font-size:22px;letter-spacing:.3em}
+
+/* SVG */
+.key{cursor:pointer}
+.key rect{fill:#1d1a17;stroke:#3a342d}
+.key text{font:700 17px "Courier New",monospace;text-anchor:middle;fill:#3d342c;transition:fill .25s}
+.key.on text{fill:#ff3b30}
+.key.on rect{stroke:#5a2420}
+.key.press rect{fill:#3a1512}
+.disp{font:700 22px "Courier New",monospace;text-anchor:middle;letter-spacing:4px;fill:#ff3b30}
+#door{transform-box:fill-box;transform-origin:left center;transition:transform 1.4s cubic-bezier(.55,0,.25,1),filter 1.4s}
+.glow{transition:opacity .6s}
+.slow{transition:opacity 3.5s ease-out !important}
+.hot{cursor:pointer}
+.pulse{animation:pl 1.2s ease-in-out infinite}
+@keyframes pl{0%,100%{opacity:.35}50%{opacity:1}}
+.blink{animation:bk .35s steps(2) 4}
+@keyframes bk{50%{opacity:.1}}
+@media (prefers-reduced-motion:reduce){#door,.glow,.paper{transition:none}.pulse,.blink{animation:none}}
+</style>
+</head>
+<body>
+<a class="back" href="./">← 결과물 목록</a>
+<div class="wrap">
+  <header>
+    <h1>벽 금고 · 버튼식</h1>
+    <p class="lede">평소엔 불 꺼진 벽. 돈을 넣으면 생년월일 버튼에 <b>빨간 숫자</b>가 켜지고, 입력하면 문 틈으로 빛이 샙니다. 직접 문을 열면 빛이 <b>대길 · 길 · 소길 · 흉 · 대흉</b> 색으로 바뀌고, 두루마리를 꺼내면 천천히 사그라들고, 문을 닫으면 완전히 꺼집니다.</p>
+  </header>
+
+  <section class="stage">
+    <svg id="wall" viewBox="0 0 900 520" role="img" aria-label="매립형 벽 금고: 지폐 투입구, 빨간 숫자 버튼, 숨은 문">
+      <defs>
+        <linearGradient id="plaster" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece6db"/><stop offset="1" stop-color="#ddd5c7"/></linearGradient>
+        <radialGradient id="inLight" cx=".5" cy=".55" r=".65"><stop offset="0" id="inL0" stop-color="#fff" stop-opacity="1"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        <radialGradient id="floorL" cx=".5" cy=".5" r=".5"><stop offset="0" id="flL0" stop-color="#fff" stop-opacity=".8"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        <filter id="blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+        <filter id="redglow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <rect width="900" height="520" fill="url(#plaster)"/>
+      <g id="grain"></g>
+      <rect x="0" y="488" width="900" height="32" fill="#cfc6b6"/>
+      <ellipse id="floorGlow" class="glow" cx="425" cy="492" rx="210" ry="22" fill="url(#floorL)" opacity="0"/>
+
+      <!-- 안쪽 공간 -->
+      <g id="niche">
+        <rect x="300" y="130" width="250" height="300" fill="#2a2622"/>
+        <polygon points="300,130 550,130 522,158 328,158" fill="#3a342e"/>
+        <polygon points="300,430 550,430 522,402 328,402" fill="#4a433b"/>
+        <polygon points="300,130 328,158 328,402 300,430" fill="#332e29"/>
+        <polygon points="550,130 522,158 522,402 550,430" fill="#332e29"/>
+        <rect id="inside" class="glow" x="300" y="130" width="250" height="300" fill="url(#inLight)" opacity="0"/>
+        <g id="scroll" class="hot" opacity="0">
+          <rect x="365" y="370" width="120" height="26" rx="13" fill="#f3e8cc" stroke="#a88a5c"/>
+          <rect id="band" x="414" y="370" width="22" height="26" fill="#c9a24a"/>
+        </g>
+      </g>
+      <!-- 문 틈 빛 -->
+      <rect id="seamGlow" class="glow" x="300" y="130" width="250" height="300" fill="none" stroke="#fff4dc" stroke-width="12" opacity="0" filter="url(#blur)"/>
+      <rect id="seam" class="glow" x="300" y="130" width="250" height="300" fill="none" stroke="#fff4dc" stroke-width="2.5" opacity="0"/>
+      <!-- 경첩 문 (왼쪽 경첩) -->
+      <g id="door">
+        <rect x="300" y="130" width="250" height="300" fill="url(#plaster)"/>
+        <rect x="300" y="130" width="250" height="300" fill="none" stroke="#c9c0b1"/>
+        <g id="handle" class="hot">
+          <rect x="520" y="250" width="14" height="60" rx="7" fill="#c9b48a" stroke="#8a6d36"/>
+          <rect id="handleGlow" x="514" y="244" width="26" height="72" rx="13" fill="none" stroke="#ffd27a" stroke-width="2" opacity="0"/>
+        </g>
+      </g>
+
+      <!-- 오른쪽: 투입구 · 표시줄 · 키패드 -->
+      <g id="slotG" class="hot">
+        <rect x="620" y="120" width="150" height="40" rx="6" fill="#d6cdbd"/>
+        <rect x="640" y="136" width="110" height="7" rx="3.5" fill="#2a2622" stroke="#9c7737"/>
+        <rect id="bill" x="660" y="96" width="70" height="40" rx="2" fill="#9bc29a" stroke="#5b7d5a" opacity="0"/>
+        <rect id="slotGlow" x="616" y="116" width="158" height="48" rx="8" fill="none" stroke="#ffd27a" stroke-width="2" opacity="0"/>
+      </g>
+      <text x="695" y="176" text-anchor="middle" style="font:500 10px var(--font-b);fill:#9a8f7d;letter-spacing:.15em">지폐 · 카드</text>
+      <rect x="624" y="186" width="142" height="36" rx="4" fill="#120f0d"/>
+      <text id="disp" class="disp" x="695" y="212" filter="url(#redglow)"></text>
+      <g id="keys"></g>
+    </svg>
+    <div class="voice"><span class="dot"></span><div><b id="voiceMain">불 꺼진 벽</b><div class="hint" id="voiceSub">아무 빛도 없습니다. 오른쪽 위 투입구에 돈을 넣으면 시작됩니다.</div></div></div>
+  </section>
+
+  <section class="card">
+    <div class="row">
+      <button class="primary" id="auto">자동 재생</button>
+      <button id="reset">처음으로</button>
+      <label for="td">오늘 <input type="date" id="td" value="2026-11-12"></label>
+      <label for="snd"><input type="checkbox" id="snd" checked> 소리</label>
+    </div>
+    <p class="hint" style="margin:8px 0 0">직접 해보기: 투입구 클릭 → 빨간 숫자 버튼으로 생년월일 6자리(예: 960806) → ✓ → 손잡이 클릭 → 두루마리 클릭 → 손잡이(열린 문) 클릭. 키보드 숫자도 됩니다.</p>
+  </section>
+
+  <div class="cols">
+    <section class="card">
+      <h2>시트에 적힌 흐름</h2>
+      <ol class="flow" id="flow"></ol>
+    </section>
+    <section class="card">
+      <h2>나온 두루마리</h2>
+      <div class="roll"><div class="paper rolled" id="paper"></div></div>
+      <p class="note">등급은 생년월일과 오늘 일진으로 계산합니다. 같은 사람이 같은 날 하면 같은 결과가 나옵니다.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var NS='http://www.w3.org/2000/svg';
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+
+  var G=[
+    {n:'대길',c:'#f2c14e',glow:'#ffc93d',line:'금빛이 쏟아지는 날. 오늘 시작한 일은 오래 갑니다.'},
+    {n:'길',c:'#ff9a4a',glow:'#ff9640',line:'따뜻한 바람이 등을 미는 날. 망설이던 쪽으로 한 걸음.'},
+    {n:'소길',c:'#7fd3bd',glow:'#9ff0dc',line:'잔잔하게 맑은 날. 작은 기쁨을 줍는 눈을 가지세요.'},
+    {n:'흉',c:'#8a63d2',glow:'#9a70ff',line:'구름이 낀 날. 큰 결정은 내일로, 오늘은 정리만.'},
+    {n:'대흉',c:'#e0322b',glow:'#ff3a2a',line:'바닥을 찍는 날. 여기서부터는 오를 일만 남았습니다.'}
+  ];
+  var STEM='甲乙丙丁戊己庚辛壬癸', BR='子丑寅卯辰巳午未申酉戌亥';
+  var ZN=['쥐','소','범','토끼','용','뱀','말','양','원숭이','닭','개','돼지'];
+  var NATURE=['큰 나무','풀꽃','태양','촛불','큰 산','들판','바위','보석','큰 물','빗물'];
+  var TEN={비견:'어깨를 나란히 하는 날',겁재:'경쟁심이 불붙는 날',식신:'먹고 만드는 게 즐거운 날',상관:'말이 날카로워지는 날',
+    편재:'발이 넓어지는 날',정재:'차곡차곡 쌓이는 날',편관:'어깨가 무거운 날',정관:'반듯하게 인정받는 날',편인:'생각이 깊어지는 날',정인:'도움의 손이 오는 날'};
+  var BASE={정인:4,정재:4,식신:3,정관:3,편재:3,비견:2,상관:2,겁재:1,편인:1,편관:0};
+  function jdn(y,m,d){var a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045}
+  function dayIdx(y,m,d){return ((jdn(y,m,d)-11)%60+60)%60}
+  function tenGod(me,o){var em=Math.floor(me/2),eo=Math.floor(o/2),same=(me%2)===(o%2),r=((eo-em)%5+5)%5;
+    return [['비견','겁재'],['식신','상관'],['편재','정재'],['편관','정관'],['편인','정인']][r][same?0:1]}
+  function compute(b){
+    var t=$('td').value.split('-').map(Number);
+    var me=dayIdx(b.y,b.m,b.d)%10, ti=dayIdx(t[0],t[1],t[2]), o=ti%10, tg=tenGod(me,o);
+    var seed=(jdn(b.y,b.m,b.d)*31+jdn(t[0],t[1],t[2])*17)%9973, r1=((seed*7919)%1000)/1000, r2=((seed*104729)%1000)/1000;
+    var s=BASE[tg]+(r1<.25?-1:r1<.75?0:1), g;
+    if(s>=5||(s===4&&r2<.2))g=0;else if(s>=3)g=1;else if(s===2)g=2;else if(s===-1||(s===0&&r2<.3))g=4;else g=3;
+    var y=b.y;if(b.m<2||(b.m===2&&b.d<4))y--;
+    return {me:me,tg:tg,today:STEM[o]+BR[ti%12],zb:((y-4)%12+12)%12,g:g};
+  }
+  function parseCode(c){var yy=+c.slice(0,2),m=+c.slice(2,4),d=+c.slice(4,6),y=yy<=26?2000+yy:1900+yy;
+    var dt=new Date(y,m-1,d);if(dt.getFullYear()!==y||dt.getMonth()!==m-1||dt.getDate()!==d)return null;return {y:y,m:m,d:d}}
+
+  // 벽 결
+  var gr=$('grain');for(var i=0;i<240;i++){var x=Math.sin(i*12.9898)*43758.5;x-=Math.floor(x);var y=Math.sin(i*78.233)*12345.6;y-=Math.floor(y);
+    el('circle',{cx:x*900,cy:y*488,r:.6+((i*7)%10)/10,fill:'#000',opacity:.05},gr)}
+  // 키패드
+  var KL=['1','2','3','4','5','6','7','8','9','←','0','✓'], keyEls={};
+  KL.forEach(function(k,i){var cx=640+(i%3)*44, cy=236+Math.floor(i/3)*44;
+    var g=el('g',{class:'key',role:'button','aria-label':k==='←'?'지우기':k==='✓'?'확인':k},$('keys'));
+    el('rect',{x:cx-2,y:cy,width:38,height:38,rx:6},g);
+    var t=el('text',{x:cx+17,y:cy+25},g);t.textContent=k;
+    g.addEventListener('click',function(){if(mode!=='manual')return;press(k)});
+    keyEls[k]=g});
+
+  // 소리
+  var AC=null;
+  function tone(f,dur,type,vol,delay){if(!$('snd').checked)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    var o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+(delay||0);o.type=type||'sine';o.frequency.value=f;
+    g.gain.setValueAtTime(vol||.15,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+dur)}catch(e){}}
+  function sndGrade(g){if(g===0)[1320,1760,2093].forEach(function(f,i){tone(f,1.4,'sine',.12,i*.12)});
+    else if(g===1)[880,1175].forEach(function(f,i){tone(f,1,'triangle',.1,i*.15)});
+    else if(g===2){tone(1500,.25,'sine',.1);tone(1900,.25,'sine',.08,.18)}
+    else if(g===3)tone(180,1.4,'sawtooth',.04);else{tone(70,.6,'sine',.4);tone(65,.6,'sine',.35,.5)}}
+
+  // 흐름 10단계 (시트 그대로)
+  var FLOW=['꺼져 있는 상태','돈을 넣는다','생년월일 버튼에 빨간 숫자 불이 들어온다','생년월일을 입력한다','준비가 끝나면 문 이음새로 빛이 새어 나온다 (열 준비 완료)',
+    '금고 문을 직접 연다','열리면서 빛 색이 바뀐다 (대길 ~ 대흉)','안쪽이 등급에 맞는 색으로 물든다','두루마리를 꺼내면 빛이 천천히 사그라든다','문을 닫으면 완전히 꺼진다'];
+  function flow(n){var ol=$('flow');ol.innerHTML='';FLOW.forEach(function(t,i){var li=document.createElement('li');li.textContent=t;
+    li.className=i<n?'done':i===n?'now':'';ol.appendChild(li)})}
+  function voice(m,s){$('voiceMain').textContent=m;$('voiceSub').textContent=s||''}
+
+  var phase='off', code='', mode=null, timers=[], R=null, grade=0, birth=null;
+  function at(ms,fn){timers.push(setTimeout(fn,ms))}
+  function keysOn(on){KL.forEach(function(k){keyEls[k].classList.toggle('on',on)})}
+  function setOp(id,v,slow){var e=$(id);e.classList.toggle('slow',!!slow);e.style.opacity=v}
+  function lightColor(c){$('inL0').setAttribute('stop-color',c);$('flL0').setAttribute('stop-color',c);
+    ['seam','seamGlow'].forEach(function(id){$(id).setAttribute('stroke',c)})}
+  function showDisp(){$('disp').textContent=(code+'______').slice(0,6).replace(/_/g,'·')}
+
+  function reset(){
+    timers.forEach(clearTimeout);timers=[];phase='off';code='';mode=null;
+    keysOn(false);$('disp').textContent='';$('door').style.transform='';$('door').style.filter='';
+    lightColor('#fff4dc');['seam','seamGlow','inside','floorGlow','scroll','handleGlow','slotGlow','bill'].forEach(function(id){setOp(id,0)});
+    $('handleGlow').classList.remove('pulse');$('slotGlow').classList.remove('pulse');$('bill').style.transform='';
+    $('paper').classList.add('rolled');flow(0);
+    voice('불 꺼진 벽','아무 빛도 없습니다. 오른쪽 위 투입구에 돈을 넣으면 시작됩니다.');
+  }
+
+  function pay(){ if(phase!=='off')return; phase='paying';flow(1);
+    setOp('slotGlow',0);$('slotGlow').classList.remove('pulse');
+    setOp('bill',1);at(30,function(){$('bill').style.transition='transform .8s ease-in';$('bill').style.transform='translateY(42px)'});
+    tone(300,.5,'sawtooth',.03);voice('돈을 넣었습니다','지폐가 투입구로 빨려 들어갑니다.');
+    at(900,function(){setOp('bill',0);phase='input';flow(2);
+      KL.forEach(function(k,i){at(i*45,function(){keyEls[k].classList.add('on');tone(900+i*30,.04,'square',.03)})});
+      at(700,function(){showDisp();flow(3);voice('생년월일 버튼에 빨간 불','빨간 숫자 버튼으로 생년월일 6자리를 누르고 ✓.')})});
+  }
+  function press(k){ if(phase!=='input')return;
+    var g=keyEls[k];g.classList.add('press');setTimeout(function(){g.classList.remove('press')},140);tone(2200,.05,'square',.05);
+    if(k==='←'){code=code.slice(0,-1);showDisp();return}
+    if(k==='✓'){
+      var b=code.length===6&&parseCode(code);
+      if(!b){$('disp').classList.remove('blink');void $('disp').getBBox();$('disp').classList.add('blink');tone(160,.3,'square',.06);
+        voice('다시 입력해 주세요','생년월일 6자리(예: 960806)가 맞지 않습니다.');return}
+      birth=b;confirmCode();return}
+    if(code.length<6){code+=k;showDisp()}
+  }
+  function confirmCode(){ phase='prep';R=compute(birth);grade=R.g;
+    voice('확인 중…','기계가 두루마리를 준비합니다.');tone(120,1.2,'sawtooth',.03);
+    $('disp').textContent='OK';
+    at(1300,function(){keysOn(false);$('disp').textContent='';
+      phase='ready';flow(4);lightColor('#fff4dc');setOp('seam',.9);setOp('seamGlow',.8);
+      setOp('handleGlow',1);$('handleGlow').classList.add('pulse');tone(660,.6,'sine',.08);
+      voice('열 준비 완료','문 이음새로 빛이 새어 나옵니다. 손잡이를 당겨 금고를 여세요.');
+      if(mode==='auto')at(1500,openDoor)});
+  }
+  function openDoor(){ if(phase!=='ready')return; phase='opening';flow(5);
+    $('handleGlow').classList.remove('pulse');setOp('handleGlow',0);
+    $('door').style.transform='scaleX(.12)';$('door').style.filter='brightness(.6)';
+    setOp('inside',1);setOp('floorGlow',.9);tone(90,1.2,'sine',.2);
+    voice('문이 열립니다','열리는 동안 빛 색이 바뀝니다.');
+    // 열리는 1.4초 동안 흰빛 → 색이 돌다가 등급 색에 멈춤
+    var seq=[0,1,2,3,4,0,1,2,3,4],dt=0;
+    seq.forEach(function(gi,k){dt+=90+k*18;at(dt,function(){lightColor(G[gi].glow)})});
+    at(dt+80,function(){lightColor(G[grade].glow);setOp('seam',0);setOp('seamGlow',0);
+      setOp('scroll',1);$('band').setAttribute('fill',G[grade].c);flow(7);sndGrade(grade);
+      voice(G[grade].n+'의 빛',G[grade].line+' 안쪽의 두루마리를 꺼내세요.');phase='open';
+      if(mode==='auto')at(1600,take)});
+    at(250,function(){flow(6)});
+  }
+  function take(){ if(phase!=='open')return; phase='taken';flow(8);
+    setOp('scroll',0);writePaper();$('paper').classList.remove('rolled');
+    setOp('inside',.3,true);setOp('floorGlow',.25,true);
+    setOp('handleGlow',1);$('handleGlow').classList.add('pulse');
+    voice('빛이 천천히 사그라듭니다','두루마리를 가져갔습니다. 손잡이를 밀어 문을 닫으세요.');
+    if(mode==='auto')at(3000,closeDoor);
+  }
+  function closeDoor(){ if(phase!=='taken')return; phase='closing';flow(9);
+    $('handleGlow').classList.remove('pulse');setOp('handleGlow',0);
+    $('door').style.transform='';$('door').style.filter='';
+    setOp('inside',0,true);setOp('floorGlow',0,true);tone(80,.5,'sine',.15,1.2);
+    voice('문을 닫습니다','남은 빛이 완전히 꺼집니다.');
+    at(3600,function(){phase='off';flow(10);code='';mode=null;voice('다시 불 꺼진 벽','다음 사람을 기다립니다.')});
+  }
+  function writePaper(){
+    var b=birth;
+    $('paper').innerHTML='<div class="band" style="background:'+G[grade].c+'"></div>'+
+      '<div class="gsub">壁 · '+$('td').value.replace(/-/g,'. ')+' · '+R.today+'일</div>'+
+      '<div class="grade" style="color:'+(grade===2?'#3f8f7a':G[grade].c)+'">'+G[grade].n+'</div>'+
+      '<div class="gsub">'+b.y+'. '+b.m+'. '+b.d+'생 · '+NATURE[R.me]+'('+STEM[R.me]+') · '+ZN[R.zb]+'띠</div>'+
+      '<div class="sec"><b>오늘의 기운</b><p>'+R.tg+' · '+TEN[R.tg]+'</p></div>'+
+      '<div class="sec"><b>한 줄</b><p>'+G[grade].line+'</p></div>'+
+      (grade===4?'<div class="charm"><b>厄 除</b>액막이 부적 · 오늘 하루 지갑에 넣어 두세요</div>':'');
+  }
+
+  // 클릭 연결
+  $('slotG').addEventListener('click',function(){if(mode==='auto')return;if(phase==='off'&&mode===null){mode='manual'}pay()});
+  $('handle').addEventListener('click',function(){if(mode!=='manual')return;if(phase==='ready')openDoor();else if(phase==='taken')closeDoor()});
+  $('door').addEventListener('click',function(e){if(mode!=='manual')return;if(phase==='taken')closeDoor()});
+  $('scroll').addEventListener('click',function(){if(mode==='manual')take()});
+  document.addEventListener('keydown',function(e){if(mode!=='manual'||phase!=='input')return;
+    if(/^[0-9]$/.test(e.key))press(e.key);else if(e.key==='Backspace')press('←');else if(e.key==='Enter')press('✓')});
+  $('reset').addEventListener('click',function(){reset();setOp('slotGlow',1);$('slotGlow').classList.add('pulse')});
+  $('auto').addEventListener('click',function(){
+    reset();mode='auto';at(600,pay);
+    '960806'.split('').forEach(function(ch,i){at(2300+i*380,function(){press(ch)})});
+    at(2300+6*380+300,function(){press('✓')});
+  });
+  reset();setOp('slotGlow',1);$('slotGlow').classList.add('pulse');
+})();
+</script>
+</body>
+</html>
