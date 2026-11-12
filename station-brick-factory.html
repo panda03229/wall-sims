@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>역 앞 벽돌 공장</title>
+<style>
+:root{--bg:#f4f1ec;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)}
+.back{font-size:13px;text-decoration:none}
+h1{font-size:24px;margin:10px 0 4px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px;margin-bottom:16px}
+.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.tabs button{border:1px solid var(--line);background:transparent;color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:14px;cursor:pointer}
+.tabs button.on{background:var(--acc);border-color:var(--acc);color:#fff}
+.stage{position:relative;border-radius:10px;overflow:hidden;touch-action:none;user-select:none}
+.stage svg{display:block;width:100%;height:auto}
+.hint{font-size:13px;color:var(--sub);margin-top:8px;min-height:21px}
+.knob{cursor:ew-resize}
+#door{cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.grid h3{margin:0 0 4px;font-size:15px}
+.grid p{margin:0;color:var(--sub);font-size:14px}
+.tag{display:inline-block;font-size:12px;background:var(--accbg);color:var(--acc);border-radius:6px;padding:1px 8px;margin-bottom:6px}
+.toast{position:absolute;left:50%;bottom:14px;transform:translateX(-50%);max-width:88%;background:#fbf3df;color:#3b2c18;border:1px solid #c9a96b;border-radius:8px;padding:10px 14px;font-size:14px;box-shadow:0 6px 20px rgba(0,0,0,.25);opacity:0;transition:opacity .4s;pointer-events:none;text-align:center}
+.toast.show{opacity:1}
+small.note{color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>역 앞 벽돌 공장 · 셔터 한 칸을 벽으로</h1>
+<p class="lead">성수역 고가 바로 옆 모퉁이의 낡은 벽돌 2층 공장을 예로 든 그림입니다. 1층 셔터 두 칸 중 왼쪽 한 칸만 기둥부터 기둥까지, 바닥부터 처마 띠 밑까지 같은 벽돌로 덮습니다. 오른쪽 칸은 건물주가 그대로 씁니다.</p>
+
+<div class="card">
+  <div class="tabs">
+    <button data-m="slide" class="on">비교 (끌기)</button>
+    <button data-m="before">BEFORE</button>
+    <button data-m="after">AFTER</button>
+  </div>
+  <div class="stage">
+  <svg id="sv" viewBox="0 0 1000 660" aria-label="역 앞 벽돌 공장 정면 BEFORE AFTER">
+    <defs>
+      <pattern id="brick" width="24" height="16" patternUnits="userSpaceOnUse">
+        <rect width="24" height="16" fill="#b9ab9a"/>
+        <rect x="1" y="1" width="22" height="6.5" fill="#8a3f2c"/>
+        <rect x="-11" y="9" width="22" height="6.5" fill="#934530"/>
+        <rect x="13" y="9" width="22" height="6.5" fill="#7f3826"/>
+      </pattern>
+      <pattern id="brickVar" width="120" height="48" patternUnits="userSpaceOnUse">
+        <rect x="25" y="1" width="22" height="6.5" fill="#5e2a1d" opacity=".5"/>
+        <rect x="85" y="17" width="22" height="6.5" fill="#a85e43" opacity=".45"/>
+        <rect x="37" y="25" width="22" height="6.5" fill="#6a2e20" opacity=".45"/>
+        <rect x="1" y="33" width="22" height="6.5" fill="#a0573d" opacity=".5"/>
+        <rect x="61" y="41" width="22" height="6.5" fill="#62291c" opacity=".45"/>
+        <rect x="109" y="9" width="22" height="6.5" fill="#70301f" opacity=".5"/>
+      </pattern>
+      <pattern id="soot" width="300" height="200" patternUnits="userSpaceOnUse">
+        <rect width="300" height="200" fill="none"/>
+        <ellipse cx="60" cy="40" rx="50" ry="14" fill="#2a1a12" opacity=".08"/>
+        <ellipse cx="220" cy="140" rx="70" ry="18" fill="#2a1a12" opacity=".07"/>
+      </pattern>
+      <pattern id="shutter" width="20" height="56" patternUnits="userSpaceOnUse">
+        <rect width="20" height="14" fill="#d65a4a"/><rect y="14" width="20" height="14" fill="#efe9dd"/>
+        <rect y="28" width="20" height="14" fill="#4f7fb8"/><rect y="42" width="20" height="14" fill="#e8c34d"/>
+        <rect y="13" width="20" height="1.5" fill="#0003"/><rect y="27" width="20" height="1.5" fill="#0003"/><rect y="41" width="20" height="1.5" fill="#0003"/><rect y="55" width="20" height="1.5" fill="#0003"/>
+      </pattern>
+      <pattern id="win" width="44" height="40" patternUnits="userSpaceOnUse">
+        <rect width="44" height="40" fill="#5d7183"/><rect x="2" y="2" width="40" height="36" fill="#7d93a6"/>
+        <path d="M2 2 L18 2 L2 20Z" fill="#fff" opacity=".18"/>
+      </pattern>
+      <radialGradient id="glow" cx=".5" cy=".55" r=".65">
+        <stop offset="0" stop-color="#ffd896"/><stop offset=".55" stop-color="#c07a35"/><stop offset="1" stop-color="#3b2010"/>
+      </radialGradient>
+      <linearGradient id="under" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" stop-color="#000" stop-opacity=".32"/><stop offset="1" stop-color="#000" stop-opacity="0"/>
+      </linearGradient>
+      <clipPath id="clipAfter"><rect id="clipR" x="500" y="0" width="1000" height="660"/></clipPath>
+    </defs>
+
+    <rect width="1000" height="660" fill="#bcd3e6"/>
+    <g id="before"></g>
+    <g id="after" clip-path="url(#clipAfter)"></g>
+
+    <g id="divider">
+      <line id="dl" x1="500" y1="0" x2="500" y2="660" stroke="#fff" stroke-width="3"/>
+      <g class="knob" id="knob"><circle id="kc" cx="500" cy="250" r="22" fill="#fff" stroke="#9a4a2e" stroke-width="3"/><path id="ka" d="M490 250 l-7 0 m0 0 l6 -6 m-6 6 l6 6 M510 250 l7 0 m0 0 l-6 -6 m6 6 l-6 6" stroke="#9a4a2e" stroke-width="3" fill="none" stroke-linecap="round"/></g>
+      <text x="20" y="36" fill="#fff" font-size="20" font-weight="700" paint-order="stroke" stroke="#0006" stroke-width="4">BEFORE</text>
+      <text x="980" y="36" fill="#fff" font-size="20" font-weight="700" text-anchor="end" paint-order="stroke" stroke="#0006" stroke-width="4">AFTER</text>
+    </g>
+  </svg>
+  <div class="toast" id="toast"></div>
+  </div>
+  <div class="hint" id="hint">AFTER에서 壁 표식 아래 벽돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).</div>
+  <small class="note">사진이 아니라 로드뷰에서 본 구조(벽돌 2층, 위층 철제 창 띠, 1층 셔터 두 칸과 그 위 시멘트 처마 띠, 오른쪽 2호선 고가)를 바탕으로 다시 그린 예시입니다. 간판은 비워 두었고, 치수는 현장 실측이 필요합니다.</small>
+</div>
+
+<div class="card">
+  <span class="tag">옆에서 자른 모습</span>
+  <svg viewBox="0 0 1000 320" style="display:block;width:100%;height:auto" aria-label="단면도">
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0 L10 5 L0 10z" fill="#9a4a2e"/></marker></defs>
+    <rect width="1000" height="320" fill="#bcd3e6"/>
+    <rect x="0" y="270" width="1000" height="50" fill="#c9c5bd"/>
+    <text x="190" y="300" fill="#3d3a36" font-size="15" text-anchor="middle">보도 (역에서 나온 사람들이 지나는 곳)</text>
+    <!-- 처마 띠 -->
+    <rect x="380" y="70" width="140" height="22" fill="#a9a59d"/>
+    <text x="450" y="60" fill="#3d3a36" font-size="13" text-anchor="middle">시멘트 처마 띠</text>
+    <!-- 덧댄 벽돌 벽 -->
+    <rect x="400" y="92" width="22" height="178" fill="#8a3f2c"/>
+    <!-- 셔터 -->
+    <rect x="470" y="92" width="8" height="178" fill="#d65a4a"/>
+    <text x="474" y="84" fill="#3d3a36" font-size="12" text-anchor="middle">기존 셔터</text>
+    <!-- 문 (밀린 상태) -->
+    <rect x="400" y="170" width="22" height="40" fill="#3b2010"/>
+    <rect x="436" y="170" width="16" height="40" fill="#8a3f2c"/>
+    <path d="M404 222 H448" stroke="#9a4a2e" stroke-width="3" marker-end="url(#ar)"/>
+    <!-- 기계 -->
+    <rect x="426" y="215" width="40" height="55" rx="3" fill="#d9c79f" stroke="#8a6d3c"/>
+    <text x="446" y="246" fill="#3b2c18" font-size="10" text-anchor="middle">두루마리</text>
+    <!-- 건물 안 -->
+    <rect x="478" y="92" width="522" height="178" fill="#6f6a62" opacity=".2"/>
+    <text x="740" y="190" fill="#3d3a36" font-size="14" text-anchor="middle">1층 실내 (건물주 그대로 사용)</text>
+    <text x="300" y="150" fill="#3d3a36" font-size="13" text-anchor="end">벽돌 덧댐 벽 + 셔터 사이 30~50cm에</text>
+    <text x="300" y="168" fill="#3d3a36" font-size="13" text-anchor="end">레일·카트리지·제어기 (셔터는 닫힌 채)</text>
+  </svg>
+</div>
+
+<div class="card grid">
+  <div><span class="tag">왜 레퍼런스와 비슷한가</span><h3>원래 있던 벽처럼</h3><p>건물 자체가 낡은 벽돌이라, 셔터 칸을 같은 색 벽돌로 메우면 "옛날에 막아 둔 입구"처럼 보입니다. 벽점의 막아 둔 1층 창과 같은 느낌입니다.</p></div>
+  <div><span class="tag">입지</span><h3>성수역 출구 바로 앞</h3><p>역에서 연무장길·카페거리로 내려가는 사람들이 모퉁이를 지나갑니다. 고가 밑이라 비를 피해 줄 설 수 있습니다.</p></div>
+  <div><span class="tag">설치 형태</span><h3>셔터 앞에 덧대기만</h3><p>셔터·실내는 건드리지 않습니다. 벽돌 덧댐 판은 셔터 칸 안쪽(건물 자기 땅)에만 세우고 보도로 나오지 않게 합니다. 철거하면 원래대로 돌아갑니다.</p></div>
+  <div><span class="tag">현장에서 볼 것</span><h3>4가지</h3><p>① 왼쪽 셔터 칸을 지금 쓰는지 ② 셔터 앞 처마 밑 깊이(30cm 이상) ③ 1층 콘센트·전기 ④ 칸 앞 땅이 건물 대지인지 보도인지 (보도면 도로점용 문제).</p></div>
+</div>
+</div>
+
+<script>
+(function(){
+  var NS='http://www.w3.org/2000/svg';
+  function el(tag,attrs,parent){var e=document.createElementNS(NS,tag);for(var k in attrs)e.setAttribute(k,attrs[k]);if(parent)parent.appendChild(e);return e}
+  function txt(attrs,s,parent){var t=el('text',attrs,parent);t.textContent=s;return t}
+  // 문 위치 (왼쪽 칸 가운데, 허리 높이)
+  var DX=212, DY=448, DW=72, DH=48, CX=DX+DW/2, CY=DY+DH/2;
+  function scene(g, after){
+    // 보도·도로
+    el('rect',{y:600,width:1000,height:60,fill:'#c9c5bd'},g);
+    el('line',{x1:0,y1:624,x2:1000,y2:624,stroke:'#b3aea5','stroke-width':2},g);
+    // 2호선 고가 (오른쪽)
+    el('rect',{x:790,y:60,width:210,height:60,fill:'#cfcac2'},g);
+    el('rect',{x:790,y:120,width:210,height:14,fill:'#9f9a92'},g);
+    for(var i=0;i<6;i++) el('rect',{x:800+i*34,y:44,width:4,height:16,fill:'#9aa3a8'},g);
+    el('rect',{x:790,y:40,width:210,height:5,fill:'#9aa3a8'},g);
+    el('rect',{x:870,y:134,width:70,height:466,fill:'#e2ddd4'},g);
+    el('rect',{x:870,y:134,width:70,height:466,fill:'url(#under)'},g);
+    for(var j=0;j<4;j++) el('polygon',{points:(870)+','+(520+j*20)+' 940,'+(500+j*20)+' 940,'+(510+j*20)+' 870,'+(530+j*20),fill:'#1e1e1e'},g);
+    el('rect',{x:870,y:500,width:70,height:100,fill:'#f0c419',opacity:.55},g);
+    // 왼쪽 옆집 (회벽 단층)
+    el('rect',{x:0,y:330,width:58,height:270,fill:'#cbbfa8'},g);
+    el('rect',{x:0,y:318,width:66,height:14,fill:'#7b7368'},g);
+    // 본 건물 벽돌
+    el('rect',{x:60,y:80,width:740,height:520,fill:'url(#brick)'},g);
+    el('rect',{x:60,y:80,width:740,height:520,fill:'url(#brickVar)'},g);
+    el('rect',{x:60,y:80,width:740,height:520,fill:'url(#soot)'},g);
+    // 지붕 처마 (푸른 함석)
+    el('polygon',{points:'48,80 812,80 800,58 60,58',fill:'#4f6f86'},g);
+    el('rect',{x:48,y:78,width:764,height:6,fill:'#3c5568'},g);
+    // 간판 자리 (비움)
+    el('rect',{x:470,y:100,width:250,height:46,fill:'#f1efe9',stroke:'#c9c4bb','stroke-width':2},g);
+    // 2층 철제 창 띠
+    el('rect',{x:150,y:160,width:570,height:118,fill:'#3b3f42'},g);
+    el('rect',{x:154,y:164,width:562,height:110,fill:'url(#win)'},g);
+    el('rect',{x:140,y:278,width:590,height:8,fill:'#a9a59d'},g);
+    // 시멘트 처마 띠 (1층 위)
+    el('rect',{x:60,y:318,width:740,height:26,fill:'#aaa69e'},g);
+    el('rect',{x:60,y:344,width:740,height:4,fill:'#8c8880'},g);
+    el('rect',{x:60,y:348,width:740,height:40,fill:'url(#under)'},g);
+    // 1층 기둥 (벽돌)
+    // 왼쪽 칸: x 110~390, 오른쪽 칸: x 430~700, y 348~600
+    // 오른쪽 셔터 칸 (항상 그대로)
+    el('rect',{x:430,y:348,width:270,height:252,fill:'#4a4440'},g);
+    el('rect',{x:436,y:356,width:258,height:244,fill:'url(#shutter)'},g);
+    el('rect',{x:430,y:348,width:270,height:10,fill:'#3a3532'},g);
+    el('rect',{x:430,y:592,width:270,height:8,fill:'#6d6760'},g);
+    // 오른쪽 끝 작은 문
+    el('rect',{x:730,y:420,width:50,height:180,fill:'#5b5149'},g);
+    el('rect',{x:736,y:428,width:38,height:70,fill:'#7d93a6'},g);
+    // 바닥 턱
+    el('rect',{x:60,y:592,width:740,height:8,fill:'#8c8880'},g);
+    if(!after){
+      el('rect',{x:110,y:348,width:280,height:252,fill:'#4a4440'},g);
+      el('rect',{x:116,y:356,width:268,height:244,fill:'url(#shutter)'},g);
+      el('rect',{x:110,y:348,width:280,height:10,fill:'#3a3532'},g);
+      el('rect',{x:110,y:592,width:280,height:8,fill:'#6d6760'},g);
+      el('rect',{x:226,y:584,width:48,height:6,fill:'#2b2a28'},g);
+    } else {
+      // 덧댐 벽돌: 칸을 통째로
+      el('rect',{x:110,y:348,width:280,height:252,fill:'url(#brick)'},g);
+      el('rect',{x:110,y:348,width:280,height:252,fill:'url(#brickVar)'},g);
+      el('rect',{x:110,y:348,width:280,height:252,fill:'url(#soot)'},g);
+      // 세워쌓기 인방 한 줄
+      for(var x=110;x<390;x+=8) el('rect',{x:x+.5,y:348,width:7,height:18,fill:(x/8)%3?'#7f3826':'#934530'},g);
+      // 아랫단 시멘트 걸레받이
+      el('rect',{x:110,y:584,width:280,height:16,fill:'#9a958c'},g);
+      // 壁 놋쇠 표식
+      el('rect',{x:CX-13,y:DY-40,width:26,height:26,rx:3,fill:'#b8924a',stroke:'#7d602b'},g);
+      txt({x:CX,y:DY-21,fill:'#3a2a10','font-size':17,'text-anchor':'middle','font-weight':700},'壁',g);
+      // 결제기: 가운데 기둥에 작게
+      el('rect',{x:396,y:452,width:28,height:44,rx:3,fill:'#2b2a28'},g);
+      el('rect',{x:400,y:458,width:20,height:12,rx:1,fill:'#7fb7c9'},g);
+      el('rect',{x:402,y:476,width:16,height:3,fill:'#555'},g);
+      // 대기줄 선 (바닥 놋쇠 점)
+      for(var k=0;k<4;k++) el('circle',{cx:CX-90+k*60,cy:612,r:4,fill:'#b8924a'},g);
+      // 벽 속 공간
+      var niche=el('g',{id:'niche',opacity:0},g);
+      el('rect',{x:DX,y:DY,width:DW,height:DH,fill:'url(#glow)'},niche);
+      el('polygon',{points:DX+','+DY+' '+(DX+DW)+','+DY+' '+(DX+DW-9)+','+(DY+8)+' '+(DX+9)+','+(DY+8),fill:'#2a1508',opacity:.55},niche);
+      el('polygon',{points:DX+','+DY+' '+(DX+9)+','+(DY+8)+' '+(DX+9)+','+(DY+DH-6)+' '+DX+','+(DY+DH),fill:'#2a1508',opacity:.45},niche);
+      el('polygon',{points:(DX+DW)+','+DY+' '+(DX+DW-9)+','+(DY+8)+' '+(DX+DW-9)+','+(DY+DH-6)+' '+(DX+DW)+','+(DY+DH),fill:'#2a1508',opacity:.45},niche);
+      var sc=el('g',{id:'scroll',opacity:0,style:'cursor:pointer'},niche);
+      el('rect',{x:CX-20,y:DY+32,width:40,height:9,rx:3,fill:'#f2e6c8',stroke:'#a9884f'},sc);
+      el('rect',{x:CX-25,y:DY+30,width:6,height:13,rx:3,fill:'#6b4523'},sc);
+      el('rect',{x:CX+19,y:DY+30,width:6,height:13,rx:3,fill:'#6b4523'},sc);
+      el('rect',{x:CX-4,y:DY+32,width:8,height:9,fill:'#b13b2b',opacity:.85},sc);
+      var door=el('g',{id:'door'},g);
+      el('rect',{x:DX,y:DY,width:DW,height:DH,fill:'url(#brick)'},door);
+      el('rect',{x:DX,y:DY,width:DW,height:DH,fill:'url(#brickVar)'},door);
+      el('rect',{id:'doorShade',x:DX,y:DY,width:DW,height:DH,fill:'#000',opacity:0,'pointer-events':'none'},door);
+    }
+    // 가운데·양끝 벽돌 기둥 윤곽 그림자
+    el('rect',{x:390,y:348,width:40,height:252,fill:'#000',opacity:.06},g);
+  }
+  scene(document.getElementById('before'),false);
+  scene(document.getElementById('after'),true);
+
+  var sv=document.getElementById('sv'), clipR=document.getElementById('clipR'), dl=document.getElementById('dl'),
+      kc=document.getElementById('kc'), ka=document.getElementById('ka'), divider=document.getElementById('divider'),
+      hint=document.getElementById('hint'), toast=document.getElementById('toast');
+  var pos=500, mode='slide', drag=false;
+  function setPos(x){pos=Math.max(0,Math.min(1000,x));clipR.setAttribute('x',pos);dl.setAttribute('x1',pos);dl.setAttribute('x2',pos);kc.setAttribute('cx',pos);ka.setAttribute('transform','translate('+(pos-500)+',0)')}
+  function toSvgX(e){var r=sv.getBoundingClientRect();return (e.clientX-r.left)/r.width*1000}
+  document.getElementById('knob').addEventListener('pointerdown',function(e){drag=true;e.preventDefault()});
+  sv.addEventListener('pointerdown',function(e){if(mode==='slide'&&!e.target.closest('#door')&&!e.target.closest('#scroll')){drag=true;setPos(toSvgX(e))}});
+  window.addEventListener('pointermove',function(e){if(drag)setPos(toSvgX(e))});
+  window.addEventListener('pointerup',function(){drag=false});
+  document.querySelectorAll('.tabs button').forEach(function(b){b.onclick=function(){
+    document.querySelectorAll('.tabs button').forEach(function(x){x.classList.toggle('on',x===b)});
+    mode=b.dataset.m; divider.style.display=mode==='slide'?'':'none';
+    setPos(mode==='before'?1000:mode==='after'?0:500); reset();
+  }});
+  // 처음엔 문이 보이도록 슬라이더를 왼쪽으로
+  setPos(150);
+
+  var door=document.getElementById('door'), shade=document.getElementById('doorShade'), niche=document.getElementById('niche'), scroll=document.getElementById('scroll');
+  var d=0, holding=false, opened=false, taps=[], holdT=0, raf;
+  function draw(){
+    var k=1-0.18*d;
+    door.setAttribute('transform','translate('+CX+' '+CY+') scale('+k+') translate('+(-CX)+' '+(-CY)+')');
+    shade.setAttribute('opacity',(0.5*d).toFixed(2)); niche.setAttribute('opacity',Math.min(1,d*3).toFixed(2));
+  }
+  function anim(to,ms,cb){var from=d,t0=performance.now(),done=false;cancelAnimationFrame(raf);
+    function step(t){var p=Math.min(1,(t-t0)/ms);d=from+(to-from)*(1-Math.pow(1-p,3));draw();if(p<1)raf=requestAnimationFrame(step);else if(!done){done=true;cb&&cb()}}
+    raf=requestAnimationFrame(step); setTimeout(function(){if(!done){done=true;d=to;draw();cb&&cb()}},ms+120);}
+  function open(){ if(opened)return; opened=true; hint.textContent='벽돌이 안으로 쑥 들어가고… 벽 속에서 빛이 납니다.';
+    anim(1,1600,function(){scroll.setAttribute('opacity','1');hint.textContent='두루마리를 눌러 꺼내 보세요.'}); }
+  function reset(){opened=false;holding=false;scroll.setAttribute('opacity','0');anim(0,500);toast.classList.remove('show');hint.textContent='AFTER에서 壁 표식 아래 벽돌을 꾹 눌러 보세요 (또는 짧게 세 번 두드리기).'}
+  door.addEventListener('pointerdown',function(e){ e.stopPropagation(); if(opened)return; holding=true; holdT=performance.now(); anim(0.12,250);
+    setTimeout(function(){ if(holding&&!opened) open(); },600); });
+  door.addEventListener('pointerup',function(){ if(opened)return; holding=false; var dt=performance.now()-holdT;
+    if(dt<600){ anim(0,200); var now=performance.now(); taps=taps.filter(function(t){return now-t<2000}); taps.push(now);
+      hint.textContent='똑'+' 똑'.repeat(taps.length-1)+'…'; if(taps.length>=3){taps=[];open()} } });
+  var lines=['오늘 처음 내린 역에서 좋은 소식을 듣습니다.','고가 밑을 지나 한 블록 더 걸어 보세요. 생각이 정리됩니다.','미뤄 둔 연락 하나가 오늘은 쉽게 풀립니다.','오늘은 낡은 것에서 운이 붙습니다. 오래 쓴 물건을 아껴 주세요.','오늘 만나는 사람에게 먼저 칭찬하세요.'];
+  scroll.addEventListener('pointerdown',function(e){e.stopPropagation(); scroll.setAttribute('opacity','0');
+    toast.textContent='📜 '+lines[Math.floor(Math.random()*lines.length)]; toast.classList.add('show');
+    hint.textContent='5초 뒤 벽돌이 다시 닫힙니다.'; setTimeout(reset,5000);});
+  draw();
+})();
+</script>
+</body>
+</html>
