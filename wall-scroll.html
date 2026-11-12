@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>벽 두루마리</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 위 = 돌벽(SVG) + 안내줄, 아래 = 버튼 · 흐름표 · 두루마리 전문 (넓으면 2열) */
+:root{
+  --bg:#ebe8e3; --panel:#f8f6f2; --fg:#24211d; --muted:#6d675f; --line:#d7d1c7;
+  --paper:#f4ecd9; --ink:#3a2b1c; --seal:#b23a2a; --accent:#a8432c;
+  --font-d:"Gowun Batang","Nanum Myeongjo",serif;
+  --font-b:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17161a; --panel:#211f24; --fg:#eeeae4; --muted:#a39d95; --line:#38353b; --accent:#e07a5f; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17161a; --panel:#211f24; --fg:#eeeae4; --muted:#a39d95; --line:#38353b; --accent:#e07a5f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:15px;line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:18px}
+h1{font-family:var(--font-d);font-size:clamp(24px,4vw,34px);margin:0;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--muted);max-width:65ch}
+.stage{background:var(--panel);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+svg#wall{display:block;width:100%;height:auto;touch-action:none;user-select:none;-webkit-user-select:none}
+.voice{display:flex;gap:10px;align-items:center;padding:12px 16px;border-top:1px solid var(--line);min-height:56px}
+.voice b{font-family:var(--font-d);font-size:16px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none;box-shadow:0 0 0 4px color-mix(in srgb,var(--accent) 25%,transparent)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:8px 16px;cursor:pointer}
+button:hover{border-color:var(--accent)} button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+.hint{font-size:13px;color:var(--muted)}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:start}
+@media (max-width:760px){.cols{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.card h2{font-family:var(--font-d);font-size:18px;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-weight:500;color:var(--muted);font-size:12px}
+td.t{white-space:nowrap;color:var(--muted);text-align:right;font-variant-numeric:tabular-nums}
+#flow td:first-child{width:22px;color:var(--muted)}
+#flow tr.done td{color:var(--muted)}
+#flow tr.now td{background:color-mix(in srgb,var(--accent) 14%,transparent);font-weight:700;color:var(--fg)}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+ul.parts{margin:0;padding-left:18px;font-size:14px;display:grid;gap:5px}
+
+.roll{position:relative;padding:14px 0}
+.roll::before,.roll::after{content:"";position:absolute;left:-6px;right:-6px;height:16px;border-radius:8px;background:#8a6a43}
+.roll::before{top:0}.roll::after{bottom:0}
+.paper{background:var(--paper);color:var(--ink);font-family:var(--font-d);padding:22px 22px 26px;transition:clip-path 1.4s ease-out;clip-path:inset(0 0 0 0)}
+.paper.rolled{clip-path:inset(0 0 100% 0)}
+.paper .top{text-align:center;border-bottom:1px solid #cdbb94;padding-bottom:12px;margin-bottom:6px}
+.paper .top small{font-family:var(--font-b);font-size:11px;letter-spacing:.08em;color:#8a6a43}
+.paper .top .name{font-size:24px;font-weight:700;margin:4px 0 2px}
+.sec{border-bottom:1px dashed #cdbb94;padding:10px 0}
+.sec b{display:block;font-family:var(--font-b);font-size:11px;letter-spacing:.06em;color:#8a6a43;font-weight:500}
+.sec p{margin:2px 0 0;font-size:15px}
+.say{font-size:21px;text-align:center;margin:6px 0 2px}
+.foot{display:flex;justify-content:flex-end;margin-top:14px}
+.seal{width:48px;height:48px;border:2px solid var(--seal);color:var(--seal);border-radius:6px;display:grid;place-items:center;font-size:15px;transform:rotate(-6deg)}
+
+/* 벽 */
+.joint{stroke:#6f675c;stroke-width:2}
+.push{cursor:pointer}
+.ripple{fill:none;stroke:#fff3d0;stroke-width:3;animation:rp .7s ease-out forwards}
+@keyframes rp{from{r:6;opacity:.9}to{r:60;opacity:0}}
+.shake{animation:sh .35s}
+@keyframes sh{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
+.glowcall{fill:none;stroke:#ffd27a;stroke-width:3;opacity:0}
+.glowcall.on{animation:gc 1.2s ease-in-out infinite}
+@keyframes gc{0%,100%{opacity:.1}50%{opacity:.85}}
+.lbl{font:500 12px var(--font-b);fill:#3b342c;text-anchor:middle}
+@media (prefers-reduced-motion:reduce){.paper{transition:none}.glowcall.on,.ripple,.shake{animation:none}}
+</style>
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body><a href="#" onclick="history.back();return false" style="position:fixed;top:max(10px,env(safe-area-inset-top,0px));left:max(10px,env(safe-area-inset-left,0px));z-index:50;font:500 13px system-ui,sans-serif;background:rgba(0,0,0,.72);color:#fff;padding:6px 12px;border-radius:999px;text-decoration:none">← 아이디어 보드</a>
+
+<div class="wrap">
+  <header>
+    <h1>벽 두루마리</h1>
+    <p class="lede">버튼은 없습니다. <b>벽돌 하나가 문이자 버튼</b>입니다. 결제하고 그 돌을 손바닥으로 밀면, 돌이 스르륵 뒤로 물러나면서 벽 속에 빈 공간이 생기고 그 안에 두루마리가 놓여 있습니다. 밀지 않고 <b>세 번 노크</b>해도 열립니다.</p>
+  </header>
+
+  <section class="stage">
+    <svg id="wall" viewBox="0 0 900 540" role="img" aria-label="돌벽, 밀리는 돌 하나, 작은 결제기">
+      <defs>
+        <linearGradient id="nicheTop" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2a2622"/><stop offset="1" stop-color="#3a342e"/></linearGradient>
+        <linearGradient id="nicheFloor" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#8e8576"/><stop offset="1" stop-color="#5d554a"/></linearGradient>
+        <linearGradient id="nicheL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#4c453c"/><stop offset="1" stop-color="#37312b"/></linearGradient>
+        <linearGradient id="nicheR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#4c453c"/><stop offset="1" stop-color="#37312b"/></linearGradient>
+        <radialGradient id="warm" cx=".5" cy=".3" r=".7"><stop offset="0" stop-color="#ffd896" stop-opacity=".55"/><stop offset="1" stop-color="#ffd896" stop-opacity="0"/></radialGradient>
+      </defs>
+      <g id="stones"></g>
+      <!-- 결제기 -->
+      <g id="payG" style="cursor:pointer">
+        <rect x="640" y="120" width="56" height="70" rx="5" fill="#f2f2ef" stroke="#b9b6ae"/>
+        <rect x="648" y="128" width="40" height="22" rx="2" fill="#1d2420"/>
+        <text x="668" y="143" text-anchor="middle" style="font:700 9px var(--font-b);fill:#9fe3a2" id="payTxt">5,000</text>
+        <path d="M660 162a6 6 0 0 1 0 12M666 158a12 12 0 0 1 0 20" fill="none" stroke="#9a978f" stroke-width="1.5"/>
+        <path d="M668 190v40h-40" fill="none" stroke="#c9c6be" stroke-width="5"/>
+        <rect class="glowcall" id="callPay" x="634" y="114" width="68" height="82" rx="8"/>
+      </g>
+      <!-- 밀리는 돌 -->
+      <g id="niche"></g>
+      <g id="pushStone" class="push"></g>
+      <g id="scrollG" style="cursor:pointer;display:none">
+        <rect id="scRoll" x="0" y="0" width="120" height="22" rx="11" fill="#efe3c6" stroke="#a88a5c"/>
+        <rect id="scTie" x="0" y="0" width="8" height="22" fill="#b23a2a"/>
+      </g>
+      <rect class="glowcall" id="callPush" x="330" y="268" width="240" height="170" rx="4"/>
+      <g id="ripples"></g>
+      <text class="lbl" id="hintTxt" x="450" y="470"></text>
+    </svg>
+    <div class="voice"><span class="dot"></span><div><b id="voiceMain">평범한 돌벽</b><div class="hint" id="voiceSub">지나가면 그냥 벽입니다. 밀리는 돌도 이음새만 살짝 다를 뿐입니다.</div></div></div>
+  </section>
+
+  <div class="row">
+    <button class="primary" id="autoPush">자동 재생 · 밀기</button>
+    <button id="autoKnock">자동 재생 · 노크</button>
+    <button id="manual">직접 해보기</button>
+    <span class="hint" id="modeHint"></span>
+  </div>
+
+  <div class="cols">
+    <section class="card">
+      <h2>한 판 흐름</h2>
+      <table id="flow"><thead><tr><th></th><th>사람 / 벽</th><th style="text-align:right">실제</th></tr></thead><tbody></tbody></table>
+      <p class="note">결제 전에 밀면 돌이 꿈쩍도 안 합니다(살짝 덜컹). 결제하고 나서 밀면, 처음 몇 cm는 사람 손이 밀고 그다음부터는 벽이 알아서 끝까지 물러납니다. 그래서 "내가 벽을 밀었다"는 느낌이 남습니다.</p>
+    </section>
+    <section class="card">
+      <h2>나온 두루마리</h2>
+      <div class="roll"><div class="paper rolled" id="paper"></div></div>
+      <p class="note">공간 안의 두루마리를 꺼내면 여기에 펼쳐집니다. 매번 내용이 무작위입니다.</p>
+    </section>
+  </div>
+
+  <section class="card">
+    <h2>벽 안에 들어가는 것</h2>
+    <ul class="parts">
+      <li><b>밀리는 돌</b>: 앞면만 진짜 돌판(얇은 석재 타일), 뒤는 가벼운 상자. 레일 위에서 30cm 정도 뒤로 미끄러집니다.</li>
+      <li><b>미는 힘 감지</b>: 돌 뒤에 압력 센서. 결제 전에는 잠금 핀이 걸려 있어 안 밀립니다.</li>
+      <li><b>노크 감지</b>: 돌 뒤에 진동 센서. 2초 안에 세 번 두드리면 열림.</li>
+      <li><b>모터</b>: 사람이 몇 cm 밀면 이어받아 끝까지 뒤로, 두루마리를 꺼내면 천천히 앞으로.</li>
+      <li><b>두루마리 받침</b>: 돌이 물러난 자리 바닥에 한 개씩 굴러 내려오는 홈.</li>
+      <li><b>안전</b>: 공간 안에 손이 있으면(거리 센서) 닫히지 않고, 닫히는 힘도 약하게 제한.</li>
+    </ul>
+  </section>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var NS='http://www.w3.org/2000/svg';
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+  function rnd(i){var x=Math.sin(i*99.13)*43758.5;return x-Math.floor(x)}
+
+  // 돌벽 그리기 (바깥 어두운 돌 + 안쪽 밝은 판)
+  var st=$('stones'); var k=0;
+  el('rect',{x:0,y:0,width:900,height:540,fill:'#5e574d'},st);
+  for(var r=0;r<9;r++){var y=r*62,x=-(r%2)*55;while(x<900){var w=100+Math.floor(rnd(k++)*40);
+    var c=Math.floor(78+rnd(k++)*20);el('rect',{x:x+2,y:y+2,width:w-4,height:58,rx:3,fill:'rgb('+c+','+(c-6)+','+(c-16)+')'},st);x+=w}}
+  // 밝은 판
+  var PX=120,PY=60,PW=660,PH=420;
+  el('rect',{x:PX-4,y:PY-4,width:PW+8,height:PH+8,fill:'#4a443b'},st);
+  var rows=[[0,70],[70,70],[140,68],[208,70],[278,72],[350,70]];
+  rows.forEach(function(rw,ri){var x=PX-(ri%2)*40;while(x<PX+PW){var w=95+Math.floor(rnd(k++)*35);
+    var c=Math.floor(196+rnd(k++)*22);var x0=Math.max(PX,x),x1=Math.min(PX+PW,x+w);
+    el('rect',{x:x0+2,y:PY+rw[0]+2,width:x1-x0-4,height:rw[1]-4,rx:2,fill:'rgb('+c+','+(c-12)+','+(c-30)+')'},st);x+=w}});
+  // 밀리는 돌 자리 (줄눈만 진하게)
+  var O={x:330,y:268,w:240,h:170}; var cx=O.x+O.w/2, cy=O.y+O.h/2;
+  el('rect',{x:O.x-3,y:O.y-3,width:O.w+6,height:O.h+6,fill:'#3d372f'},st);
+
+  // 상태
+  var d=0, raf=0, mode=null, step=0, timers=[], knocks=[], pressing=false, pressT=0;
+  var S=0.62; // 끝까지 물러났을 때 크기
+  function inner(dd){var s=1-(1-S)*dd;return {x:cx-O.w*s/2,y:cy-O.h*s/2+dd*6,w:O.w*s,h:O.h*s,s:s}}
+  function draw(){
+    var n=$('niche'),p=$('pushStone');while(n.firstChild)n.removeChild(n.firstChild);while(p.firstChild)p.removeChild(p.firstChild);
+    var I=inner(d);
+    if(d>0.001){
+      el('rect',{x:O.x,y:O.y,width:O.w,height:O.h,fill:'#1e1b18'},n);
+      el('polygon',{points:[O.x,O.y,O.x+O.w,O.y,I.x+I.w,I.y,I.x,I.y].join(' '),fill:'url(#nicheTop)'},n);
+      el('polygon',{points:[O.x,O.y+O.h,O.x+O.w,O.y+O.h,I.x+I.w,I.y+I.h,I.x,I.y+I.h].join(' '),fill:'url(#nicheFloor)'},n);
+      el('polygon',{points:[O.x,O.y,I.x,I.y,I.x,I.y+I.h,O.x,O.y+O.h].join(' '),fill:'url(#nicheL)'},n);
+      el('polygon',{points:[O.x+O.w,O.y,I.x+I.w,I.y,I.x+I.w,I.y+I.h,O.x+O.w,O.y+O.h].join(' '),fill:'url(#nicheR)'},n);
+      el('rect',{x:O.x,y:O.y,width:O.w,height:O.h,fill:'url(#warm)',opacity:Math.min(1,d*1.3)},n);
+    }
+    var shade=Math.round(214-60*d);
+    el('rect',{x:I.x,y:I.y,width:I.w,height:I.h,rx:2,fill:'rgb('+shade+','+(shade-12)+','+(shade-30)+')'},p);
+    // 돌 결
+    for(var i=0;i<14;i++){el('circle',{cx:I.x+rnd(i+300)*I.w,cy:I.y+rnd(i+400)*I.h,r:1+rnd(i+500)*2.5*I.s,fill:'#000',opacity:.06},p)}
+    // 두루마리 위치
+    var sg=$('scrollG');
+    if(step>=4&&step<6){sg.style.display='';var fy=O.y+O.h-(O.h-I.h)/2*0.5-26;
+      $('scRoll').setAttribute('x',cx-60);$('scRoll').setAttribute('y',fy);$('scTie').setAttribute('x',cx-4);$('scTie').setAttribute('y',fy)}
+    else sg.style.display='none';
+  }
+  function animateTo(target,ms,done){
+    cancelAnimationFrame(raf);var d0=d,t0=performance.now(),fin=false;
+    function end(){if(fin)return;fin=true;cancelAnimationFrame(raf);d=target;draw();if(done)done()}
+    (function f(){if(fin)return;var p=Math.min(1,(performance.now()-t0)/ms);var e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;d=d0+(target-d0)*e;draw();
+      if(p<1)raf=requestAnimationFrame(f);else end()})();
+    at(ms+80,end);
+  }
+
+  // 두루마리 문구
+  function pick(a){return a[Math.floor(Math.random()*a.length)]}
+  var P={title:['오늘 문이 하나 열립니다','늦게 핀 꽃이 오래 갑니다','돌아가는 길이 맞는 길입니다','작은 소리에 답이 있습니다','밀어 본 사람에게 길이 납니다'],
+    happen:['오래 연락 없던 사람에게서 먼저 소식이 옵니다.','줄 서는 곳에서 좋은 말을 하나 듣습니다.','잃어버린 줄 알았던 물건이 엉뚱한 데서 나옵니다.','처음 가 본 가게가 단골이 됩니다.'],
+    h24:['오늘 처음 보는 골목으로 한 번 꺾어 가세요.','고맙다는 말을 하나 늦지 않게 보내세요.','자기 전 물 한 잔, 창문 한 번 열기.','사진첩에서 1년 전 오늘을 찾아보세요.'],
+    y1:['배우다 만 것 하나를 다시 시작하세요.','한 번도 안 가 본 도시에 하룻밤 묵어 보세요.','매달 같은 날, 같은 사람과 밥을 먹으세요.'],
+    eat:['따뜻한 국물','빨간 과일','처음 먹어 보는 메뉴','달지 않은 빵'],
+    walk:['여기서 나가 오른쪽으로 세 블록, 처음 보이는 계단을 올라가 보세요.','하늘이 보이는 곳에서 1분만 서 있다 가세요.','오늘 지나는 벽 중 가장 오래돼 보이는 벽을 찾아보세요.'],
+    say:['「일단 나가 보자」','「그럴 수도 있지」','「지금이 제일 빨라」','「천천히 해도 돼」'],luck:['大吉','吉','中吉','小吉','末吉']};
+  function sec(t,b){return '<div class="sec"><b>'+t+'</b><p>'+b+'</p></div>'}
+  function writeScroll(){var no=Math.floor(1000+Math.random()*9000);
+    $('paper').innerHTML='<div class="top"><small>壁 · No. '+no+' · '+pick(P.luck)+'</small><div class="name">'+pick(P.title)+'</div></div>'+
+      sec('곧 일어날 일',pick(P.happen))+sec('24시간 안에 할 일',pick(P.h24))+sec('1년 안에 할 일',pick(P.y1))+sec('오늘 먹을 것',pick(P.eat))+sec('지금 걸어 볼 길',pick(P.walk))+
+      '<div class="sec" style="border:0"><b>당신에게 필요한 말</b><div class="say">'+pick(P.say)+'</div></div><div class="foot"><div class="seal">壁</div></div>'}
+
+  // 흐름
+  var FLOW=[['그냥 돌벽. 밀리는 돌도 겉보기엔 똑같음','-'],['작은 결제기에 카드 · 페이 · 교통카드 (5,000원)','5초'],
+    ['돌을 손바닥으로 민다 (또는 똑똑똑 세 번 노크)','3초'],['돌이 스르륵 뒤로 물러나며 벽 속에 공간이 생기고, 안쪽에 따뜻한 빛','4초'],
+    ['공간 바닥에 놓인 두루마리를 꺼낸다','5초'],['손이 빠진 걸 확인하고 돌이 천천히 앞으로, 다시 평범한 벽','4초']];
+  function flow(n){var tb=$('flow').tBodies[0];tb.innerHTML='';FLOW.forEach(function(r,i){var tr=document.createElement('tr');
+    tr.innerHTML='<td>'+(i+1)+'</td><td></td><td class="t"></td>';tr.children[1].textContent=r[0];tr.children[2].textContent=r[1];
+    tr.className=i<n?'done':i===n?'now':'';tb.appendChild(tr)})}
+  function voice(m,s){$('voiceMain').textContent=m;$('voiceSub').textContent=s||''}
+  function call(id){['callPay','callPush'].forEach(function(c){$(c).classList.toggle('on',c===id&&mode==='manual')})}
+  function at(ms,fn){timers.push(setTimeout(fn,ms))}
+
+  function reset(){timers.forEach(clearTimeout);timers=[];cancelAnimationFrame(raf);d=0;step=0;knocks=[];pressing=false;
+    $('payTxt').textContent='5,000';$('paper').classList.add('rolled');$('hintTxt').textContent='';draw();flow(0);call(null);
+    voice('평범한 돌벽','지나가면 그냥 벽입니다. 밀리는 돌도 이음새만 살짝 다를 뿐입니다.')}
+  function pay(){if(step!==1)return;step=2;$('payTxt').textContent='OK';flow(2);call('callPush');
+    voice('돌을 밀어 보세요',mode==='manual'?'가운데 큰 돌을 꾹 누르고 있거나, 빠르게 세 번 두드리세요.':'잠금이 풀렸습니다.')}
+  function ripple(x,y){var c=el('circle',{cx:x,cy:y,r:6,class:'ripple'},$('ripples'));setTimeout(function(){c.remove()},800)}
+  function locked(){var g=$('pushStone');g.classList.remove('shake');void g.getBBox();g.classList.add('shake');
+    voice('덜컹, 꿈쩍도 안 함','결제 전에는 돌이 잠겨 있습니다. 옆의 작은 결제기에 먼저 카드를 대세요.')}
+  function open(how){if(step!==2&&step!==2.5)return;step=3;flow(3);call(null);
+    voice('돌이 뒤로 물러납니다',how==='knock'?'똑똑똑에 벽이 대답하듯, 돌이 스스로 물러납니다.':'처음 몇 cm는 손이, 나머지는 벽이 알아서.');
+    animateTo(1,1600,function(){step=4;flow(4);writeScroll();draw();
+      voice('벽 속에 공간이 생겼습니다',mode==='manual'?'바닥의 두루마리를 누르세요.':'바닥에 두루마리가 놓여 있습니다.');
+      if(mode!=='manual')at(1200,take)})}
+  function take(){if(step!==4)return;step=5;draw();$('paper').classList.remove('rolled');flow(5);
+    voice('두루마리를 꺼냈습니다','손이 빠진 걸 확인하고 돌이 천천히 앞으로 나옵니다.');
+    at(900,function(){animateTo(0,1800,function(){step=6;flow(6);draw();voice('다시 평범한 돌벽','다음 사람을 기다립니다.');mode=null;$('modeHint').textContent=''})})}
+
+  // 사람 손: 꾹 누르기 = 밀기, 짧게 = 노크
+  function svgPt(e){var s=$('wall'),pt=s.createSVGPoint();pt.x=e.clientX;pt.y=e.clientY;return pt.matrixTransform(s.getScreenCTM().inverse())}
+  var ps=$('pushStone');
+  ps.addEventListener('pointerdown',function(e){if(mode!=='manual')return;e.preventDefault();try{ps.setPointerCapture(e.pointerId)}catch(_){}
+    var p=svgPt(e);if(step<2){ripple(p.x,p.y);locked();return}
+    if(step!==2)return;pressing=true;pressT=performance.now();step=2.5;
+    (function f(){if(!pressing||step!==2.5)return;var t=performance.now()-pressT;
+      if(t>250){d=Math.min(0.18,(t-250)/1000*0.18);draw();voice('미는 중…','조금만 더.')}
+      if(d>=0.18){pressing=false;open('push');return}raf=requestAnimationFrame(f)})()});
+  function release(e){if(mode!=='manual'||!pressing)return;pressing=false;var t=performance.now()-pressT;
+    if(step===2.5){step=2;
+      if(t<250){var p=svgPt(e);ripple(p.x,p.y);var now=performance.now();knocks=knocks.filter(function(k){return now-k<2000});knocks.push(now);
+        voice('똑'+'똑'.repeat(knocks.length-1),knocks.length<3?'2초 안에 세 번이면 열립니다.':'');if(knocks.length>=3){knocks=[];open('knock')}}
+      else{animateTo(0,300);voice('돌이 다시 제자리로','끝까지 밀리기 전에 손을 떼면 돌아옵니다. 조금만 더 꾹.')}}}
+  ['pointerup','pointercancel'].forEach(function(ev){ps.addEventListener(ev,release)});
+  $('payG').addEventListener('click',function(){if(mode==='manual')pay()});
+  $('scrollG').addEventListener('click',function(){if(mode==='manual')take()});
+
+  function begin(m){reset();mode=m;step=1;flow(1);call('callPay');
+    voice('결제하세요',m==='manual'?'오른쪽 위 작은 결제기를 누르세요. (먼저 돌을 밀어 보면 잠겨 있는 걸 볼 수 있습니다)':'작은 결제기에 카드를 댑니다.');
+    $('modeHint').textContent=m==='manual'?'돌을 꾹 누르면 밀기, 빠르게 세 번 누르면 노크입니다.':'';
+    if(m==='push'){at(1200,pay);at(2400,function(){step=2.5;voice('미는 중…','손바닥으로 돌을 밉니다.');animateTo(0.18,700,function(){open('push')})})}
+    if(m==='knock'){at(1200,pay);[2300,2700,3100].forEach(function(t,i){at(t,function(){ripple(cx-30+i*25,cy-10);voice('똑'+'똑'.repeat(i),'')})});at(3400,function(){open('knock')})}
+  }
+  $('autoPush').addEventListener('click',function(){begin('push')});
+  $('autoKnock').addEventListener('click',function(){begin('knock')});
+  $('manual').addEventListener('click',function(){begin('manual')});
+  writeScroll();reset();
+})();
+</script>
+
+</body>
+</html>

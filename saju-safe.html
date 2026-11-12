@@ -1,0 +1,344 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="robots" content="noindex">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>벽 사주 금고</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap">
+<style>
+/* Layout: 위 = 매립형 벽(SVG) + 안내줄, 그 아래 조작, 아래 2열 = 결과 두루마리 · 벽 구성/등급표 */
+:root{
+  --bg:#ebe8e3; --panel:#f8f6f2; --fg:#24211d; --muted:#6d675f; --line:#d7d1c7;
+  --paper:#f4ecd9; --ink:#3a2b1c; --seal:#b23a2a; --accent:#a8432c;
+  --font-d:"Gowun Batang","Nanum Myeongjo",serif;
+  --font-b:"Noto Sans KR","Apple SD Gothic Neo","Malgun Gothic",system-ui,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#17161a; --panel:#211f24; --fg:#eeeae4; --muted:#a39d95; --line:#38353b; --accent:#e07a5f; color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#17161a; --panel:#211f24; --fg:#eeeae4; --muted:#a39d95; --line:#38353b; --accent:#e07a5f; color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-b);font-size:15px;line-height:1.6}
+.wrap{max-width:1000px;margin:0 auto;padding-block:20px 48px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:16px}
+h1{font-family:var(--font-d);font-size:clamp(24px,4vw,34px);margin:0;text-wrap:balance}
+.lede{margin:4px 0 0;color:var(--muted);max-width:65ch}
+.stage{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#e9e3d8}
+svg#wall{display:block;width:100%;height:auto}
+.voice{display:flex;gap:10px;align-items:center;padding:12px 16px;background:var(--panel);border-top:1px solid var(--line);min-height:56px}
+.voice b{font-family:var(--font-d);font-size:16px}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--accent);flex:none}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;min-width:0}
+.card h2{font-family:var(--font-d);font-size:18px;margin:0 0 10px}
+.ctl{display:grid;gap:12px}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.row label{display:flex;gap:6px;align-items:center;font-size:14px}
+input[type=date]{font:inherit;font-size:14px;padding:5px 8px;border:1px solid var(--line);border-radius:8px;background:var(--bg);color:var(--fg)}
+input[type=checkbox]{accent-color:var(--accent)}
+button{font:inherit;font-size:14px;border:1px solid var(--line);background:var(--panel);color:var(--fg);border-radius:999px;padding:7px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)} button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+button.primary{background:var(--fg);color:var(--bg);border-color:var(--fg);padding:9px 20px;font-weight:700}
+button:disabled{opacity:.5;cursor:default}
+.chip{display:inline-flex;gap:6px;align-items:center}
+.chip i{width:10px;height:10px;border-radius:50%}
+.lbl{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media (max-width:760px){.cols{grid-template-columns:1fr}}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:6px 4px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{font-size:12px;font-weight:500;color:var(--muted)}
+td.n{text-align:right;font-variant-numeric:tabular-nums}
+tr.hit td{background:color-mix(in srgb,var(--accent) 14%,transparent);font-weight:700}
+.sw{display:inline-block;width:12px;height:12px;border-radius:3px;vertical-align:-1px;margin-right:6px}
+ul.parts{margin:0;padding-left:18px;display:grid;gap:5px;font-size:14px}
+.note{font-size:13px;color:var(--muted);margin:10px 0 0}
+
+.roll{position:relative;padding:14px 0}
+.roll::before,.roll::after{content:"";position:absolute;left:-6px;right:-6px;height:16px;border-radius:8px;background:#8a6a43}
+.roll::before{top:0}.roll::after{bottom:0}
+.paper{background:var(--paper);color:var(--ink);font-family:var(--font-d);padding:18px 20px 22px;transition:clip-path 1.2s ease-out;clip-path:inset(0)}
+.paper.rolled{clip-path:inset(0 0 100% 0)}
+.band{height:12px;margin:-18px -20px 14px}
+.grade{font-size:44px;font-weight:700;text-align:center;line-height:1.1;letter-spacing:.1em}
+.gsub{text-align:center;font-family:var(--font-b);font-size:12px;color:#8a6a43;margin-bottom:10px}
+.sec{border-top:1px dashed #cdbb94;padding:8px 0}
+.sec b{display:block;font-family:var(--font-b);font-size:11px;color:#8a6a43;font-weight:500;letter-spacing:.05em}
+.sec p{margin:2px 0 0;font-size:15px}
+.charm{margin-top:10px;border:2px solid var(--seal);color:var(--seal);padding:10px;text-align:center;font-size:15px;background:#fff3e6}
+.charm b{display:block;font-size:22px;letter-spacing:.3em}
+.foot{display:flex;justify-content:space-between;align-items:end;margin-top:12px}
+.foot small{font-family:var(--font-b);font-size:11px;color:#8a6a43}
+.qr{width:44px;height:44px;background:conic-gradient(var(--ink) 25%,transparent 0 50%,var(--ink) 0 75%,transparent 0) 0 0/11px 11px;border:3px solid var(--ink)}
+.seal{width:44px;height:44px;border:2px solid var(--seal);color:var(--seal);border-radius:6px;display:grid;place-items:center;transform:rotate(-6deg)}
+
+/* SVG */
+.digit{font:600 24px "Courier New",monospace;text-anchor:middle;transition:fill .2s}
+#panel{transition:transform 1.2s cubic-bezier(.6,0,.2,1)}
+#dialRot{transform-box:fill-box;transform-origin:center;transition:transform .35s ease-out}
+.spark{animation:sp 1.4s ease-out infinite}
+@keyframes sp{0%{opacity:0;transform:translateY(0)}20%{opacity:1}100%{opacity:0;transform:translateY(-50px)}}
+.blinkR{animation:bR .45s steps(2) infinite}
+@keyframes bR{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){#panel,#dialRot,.paper{transition:none}.spark,.blinkR{animation:none}}
+</style>
+<style>body{margin:0}[hidden]{display:none!important}img{max-width:100%}</style>
+</head>
+<body><a href="#" onclick="history.back();return false" style="position:fixed;top:max(10px,env(safe-area-inset-top,0px));left:max(10px,env(safe-area-inset-left,0px));z-index:50;font:500 13px system-ui,sans-serif;background:rgba(0,0,0,.72);color:#fff;padding:6px 12px;border-radius:999px;text-decoration:none">← 아이디어 보드</a>
+
+<div class="wrap">
+  <header>
+    <h1>벽 사주 금고</h1>
+    <p class="lede">금고처럼 보이는 물건은 없습니다. <b>벽 자체가 금고</b>입니다. 매끈한 벽에 놋쇠 다이얼 하나와 숫자가 비치는 가는 유리띠만 박혀 있고, 생일을 맞추면 벽에 숨은 문의 <b>이음새를 따라 빛이 새어 나와</b> 오늘의 운을 먼저 알려 줍니다.</p>
+  </header>
+
+  <section class="stage">
+    <svg id="wall" viewBox="0 0 900 520" role="img" aria-label="다이얼과 숫자 띠가 박힌 매끈한 벽, 숨은 문">
+      <defs>
+        <linearGradient id="plaster" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ece6db"/><stop offset="1" stop-color="#ddd5c7"/></linearGradient>
+        <radialGradient id="dialFace" cx=".38" cy=".32" r=".75"><stop offset="0" stop-color="#e9d39c"/><stop offset=".6" stop-color="#b48e4a"/><stop offset="1" stop-color="#7d5f2a"/></radialGradient>
+        <radialGradient id="inLight" cx=".5" cy=".55" r=".65"><stop offset="0" id="inL0" stop-color="#fff" stop-opacity=".95"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></radialGradient>
+        <linearGradient id="nT" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#9c9284"/><stop offset="1" stop-color="#b9b0a2"/></linearGradient>
+        <linearGradient id="nB" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#d8d0c2"/><stop offset="1" stop-color="#bdb4a6"/></linearGradient>
+        <linearGradient id="nL" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a9a092"/><stop offset="1" stop-color="#c3baac"/></linearGradient>
+        <linearGradient id="nR" x1="1" y1="0" x2="0" y2="0"><stop offset="0" stop-color="#a9a092"/><stop offset="1" stop-color="#c3baac"/></linearGradient>
+        <filter id="blur" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="9"/></filter>
+        <filter id="soft"><feGaussianBlur stdDeviation="1.2"/></filter>
+        <clipPath id="open"><rect x="300" y="140" width="250" height="300"/></clipPath>
+      </defs>
+      <rect width="900" height="520" fill="url(#plaster)"/>
+      <g id="grain"></g>
+      <rect x="0" y="488" width="900" height="32" fill="#cfc6b6"/>
+      <line x1="0" y1="488" x2="900" y2="488" stroke="#bdb3a2"/>
+
+      <!-- 숨은 문: 열린 뒤의 안쪽 공간 -->
+      <g id="niche" opacity="0">
+        <rect x="300" y="140" width="250" height="300" fill="#8f8677"/>
+        <polygon points="300,140 550,140 520,168 330,168" fill="url(#nT)"/>
+        <polygon points="300,440 550,440 520,410 330,410" fill="url(#nB)"/>
+        <polygon points="300,140 330,168 330,410 300,440" fill="url(#nL)"/>
+        <polygon points="550,140 520,168 520,410 550,440" fill="url(#nR)"/>
+        <rect x="330" y="168" width="190" height="242" fill="#b3a998"/>
+        <rect id="inside" x="300" y="140" width="250" height="300" fill="url(#inLight)"/>
+        <g id="scroll">
+          <rect x="365" y="380" width="120" height="26" rx="13" fill="#f3e8cc" stroke="#a88a5c"/>
+          <rect id="band" x="414" y="380" width="22" height="26" fill="#c9a24a"/>
+        </g>
+        <g id="sparks"></g>
+      </g>
+      <!-- 이음새 빛 -->
+      <rect id="seamGlow" x="300" y="140" width="250" height="300" fill="none" stroke="#fff" stroke-width="14" opacity="0" filter="url(#blur)"/>
+      <rect id="seam" x="300" y="140" width="250" height="300" fill="none" stroke="#fff" stroke-width="2.5" opacity="0"/>
+      <!-- 문 판 (벽과 같은 재질, 이음새만 아주 가늘게) -->
+      <g clip-path="url(#open)">
+        <g id="panel">
+          <rect x="300" y="140" width="250" height="300" fill="url(#plaster)"/>
+          <rect x="300" y="140" width="250" height="300" fill="none" stroke="#c9c0b1" stroke-width="1"/>
+        </g>
+      </g>
+
+      <!-- 오른쪽: 각인 · 숫자 띠 · 다이얼 -->
+      <text x="690" y="150" text-anchor="middle" style="font:700 22px var(--font-d);fill:#a4997f;letter-spacing:.2em">壁</text>
+      <rect x="606" y="170" width="168" height="44" rx="22" fill="#1f1c19"/>
+      <rect x="606" y="170" width="168" height="44" rx="22" fill="none" stroke="#b9a273" stroke-width="1.5"/>
+      <g id="digits"></g>
+      <text x="690" y="232" text-anchor="middle" style="font:500 10px var(--font-b);fill:#9a8f7d;letter-spacing:.2em">생일 여섯 자리</text>
+      <circle cx="690" cy="318" r="62" fill="#d6cdbd"/>
+      <circle cx="690" cy="318" r="60" fill="none" stroke="#c4baa8" stroke-width="2"/>
+      <g id="dialRot">
+        <circle cx="690" cy="318" r="52" fill="url(#dialFace)"/>
+        <g id="ticks"></g>
+        <circle cx="690" cy="318" r="16" fill="#8a6a31"/>
+        <circle cx="690" cy="318" r="16" fill="none" stroke="#e8d3a0" stroke-opacity=".5"/>
+      </g>
+      <path d="M690 252 l-5 -9 h10z" fill="#9a8f7d"/>
+    </svg>
+    <div class="voice"><span class="dot"></span><div><b id="voiceMain">그냥 벽처럼 보입니다</b><div style="font-size:13px;color:var(--muted)" id="voiceSub">다이얼과 유리띠 말고는 아무것도 없습니다. 문은 이음새만 아주 가늘게 보입니다.</div></div></div>
+  </section>
+
+  <section class="card ctl">
+    <div class="row">
+      <label for="bd">생일 <input type="date" id="bd" value="1996-08-06"></label>
+      <label for="td">오늘 <input type="date" id="td" value="2026-11-12"></label>
+      <label for="snd"><input type="checkbox" id="snd" checked> 소리</label>
+    </div>
+    <div class="row"><button class="primary" id="go">금고 열기</button><span class="lbl" id="calcInfo"></span></div>
+    <div class="row"><span class="lbl">등급 미리 보기</span>
+      <button data-g="0" class="chip"><i style="background:#f2c14e"></i>대길</button>
+      <button data-g="1" class="chip"><i style="background:#ff9a4a"></i>길</button>
+      <button data-g="2" class="chip"><i style="background:#bfeee0"></i>소길</button>
+      <button data-g="3" class="chip"><i style="background:#8a63d2"></i>흉</button>
+      <button data-g="4" class="chip"><i style="background:#e0322b"></i>대흉</button>
+      <button id="upg">승급 연출 보기</button>
+    </div>
+  </section>
+
+  <div class="cols">
+    <section class="card">
+      <h2>나온 두루마리</h2>
+      <div class="roll"><div class="paper rolled" id="paper"></div></div>
+      <p class="note">등급별로 미리 인쇄한 두루마리를 5칸 카트리지에 넣어 두고, 개인 풀이는 QR로 봅니다.</p>
+    </section>
+    <section class="card">
+      <h2>벽에 보이는 것은 셋뿐</h2>
+      <ul class="parts">
+        <li><b>놋쇠 다이얼</b>: 벽면과 높이를 맞춰 묻음. 돌릴 때 딸깍 감촉 (로터리 인코더 + 클릭 기구)</li>
+        <li><b>숫자 유리띠</b>: 짙은 유리 뒤에 작은 디스플레이. 꺼져 있으면 검은 띠, 숫자를 맞출 때만 호박색으로 비침</li>
+        <li><b>숨은 문</b>: 벽과 같은 재질의 판. 이음새 1mm, 뒤에 LED 띠를 둘러서 <b>이음새를 따라 빛이 샘</b>. 열릴 땐 살짝 들어갔다가 옆 벽 속으로 미끄러짐</li>
+      </ul>
+      <h2 style="margin-top:16px">등급과 빛</h2>
+      <table id="gtbl"><thead><tr><th>등급</th><th>이음새 빛</th><th class="n">비율</th></tr></thead><tbody></tbody></table>
+      <p class="note">대흉은 꽝이 아니라 레어입니다. 액막이 부적이 한 장 더 들어 있습니다. 등급끼리 받는 물건의 값어치는 같고, 차이는 빛 · 색 · 문구 · 종이 부적뿐입니다.</p>
+    </section>
+  </div>
+</div>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var NS='http://www.w3.org/2000/svg';
+  function el(t,a,p){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);if(p)p.appendChild(e);return e}
+
+  var G=[
+    {n:'대길',c:'#f2c14e',glow:'#ffc93d',light:'금빛 + 반짝임',rate:'약 8%',line:'금빛이 쏟아지는 날. 오늘 시작한 일은 오래 갑니다.'},
+    {n:'길',c:'#ff9a4a',glow:'#ff9640',light:'따뜻한 주황',rate:'약 39%',line:'따뜻한 바람이 등을 미는 날. 망설이던 쪽으로 한 걸음.'},
+    {n:'소길',c:'#7fd3bd',glow:'#9ff0dc',light:'은은한 청록빛',rate:'약 23%',line:'잔잔하게 맑은 날. 작은 기쁨을 줍는 눈을 가지세요.'},
+    {n:'흉',c:'#8a63d2',glow:'#9a70ff',light:'보라 어스름',rate:'약 25%',line:'구름이 낀 날. 큰 결정은 내일로, 오늘은 정리만.'},
+    {n:'대흉',c:'#e0322b',glow:'#ff3a2a',light:'붉은 깜빡임 + 부적',rate:'약 5%',line:'바닥을 찍는 날. 여기서부터는 오를 일만 남았습니다.'}
+  ];
+  var STEM='甲乙丙丁戊己庚辛壬癸', BR='子丑寅卯辰巳午未申酉戌亥';
+  var ZN=['쥐','소','범','토끼','용','뱀','말','양','원숭이','닭','개','돼지'];
+  var NATURE=['큰 나무','풀꽃','태양','촛불','큰 산','들판','바위','보석','큰 물','빗물'];
+  var TEN={비견:'어깨를 나란히 하는 날',겁재:'경쟁심이 불붙는 날',식신:'먹고 만드는 게 즐거운 날',상관:'말이 날카로워지는 날',
+    편재:'발이 넓어지는 날',정재:'차곡차곡 쌓이는 날',편관:'어깨가 무거운 날',정관:'반듯하게 인정받는 날',편인:'생각이 깊어지는 날',정인:'도움의 손이 오는 날'};
+  var BASE={정인:4,정재:4,식신:3,정관:3,편재:3,비견:2,상관:2,겁재:1,편인:1,편관:0};
+
+  function jdn(y,m,d){var a=Math.floor((14-m)/12),yy=y+4800-a,mm=m+12*a-3;return d+Math.floor((153*mm+2)/5)+365*yy+Math.floor(yy/4)-Math.floor(yy/100)+Math.floor(yy/400)-32045}
+  function dayIdx(y,m,d){return ((jdn(y,m,d)-11)%60+60)%60}
+  function parse(v){var p=v.split('-').map(Number);return {y:p[0],m:p[1],d:p[2]}}
+  function tenGod(me,o){var em=Math.floor(me/2),eo=Math.floor(o/2),same=(me%2)===(o%2),r=((eo-em)%5+5)%5;
+    return [['비견','겁재'],['식신','상관'],['편재','정재'],['편관','정관'],['편인','정인']][r][same?0:1]}
+  function yearBranch(b){var y=b.y;if(b.m<2||(b.m===2&&b.d<4))y--;return ((y-4)%12+12)%12}
+  function compute(){
+    var b=parse($('bd').value),t=parse($('td').value);
+    var me=dayIdx(b.y,b.m,b.d)%10, ti=dayIdx(t.y,t.m,t.d), o=ti%10, tg=tenGod(me,o);
+    var seed=(jdn(b.y,b.m,b.d)*31+jdn(t.y,t.m,t.d)*17)%9973, r1=((seed*7919)%1000)/1000, r2=((seed*104729)%1000)/1000;
+    var noise=r1<.25?-1:r1<.75?0:1, s=BASE[tg]+noise, g;
+    if(s>=5||(s===4&&r2<.2))g=0;else if(s>=3)g=1;else if(s===2)g=2;else if(s===-1||(s===0&&r2<.3))g=4;else g=3;
+    return {me:me,tg:tg,today:STEM[o]+BR[ti%12],zb:yearBranch(b),g:g,bd:b};
+  }
+
+  // 벽 결, 숫자, 다이얼 눈금
+  var gr=$('grain');for(var i=0;i<260;i++){var x=Math.sin(i*12.9898)*43758.5;x-=Math.floor(x);var y=Math.sin(i*78.233)*12345.6;y-=Math.floor(y);
+    el('circle',{cx:x*900,cy:y*488,r:.6+((i*7)%10)/10,fill:'#000',opacity:.05},gr)}
+  var digG=$('digits'),digits=[];
+  for(var i=0;i<6;i++){var t=el('text',{class:'digit',x:633+i*22.8,y:200,fill:'#3a332b'},digG);t.textContent='0';digits.push(t)}
+  var tk=$('ticks');for(var i=0;i<40;i++){var a=i/40*Math.PI*2,r1=i%4?44:39;
+    el('line',{x1:690+Math.sin(a)*r1,y1:318-Math.cos(a)*r1,x2:690+Math.sin(a)*49,y2:318-Math.cos(a)*49,stroke:'#5a4520','stroke-width':i%4?1:2},tk)}
+  for(var i=0;i<10;i++){var a=i/10*Math.PI*2;var tx=el('text',{x:690+Math.sin(a)*30,y:322-Math.cos(a)*30,'text-anchor':'middle',style:'font:700 9px var(--font-b);fill:#3b2c10'},tk);tx.textContent=i}
+
+  // 소리
+  var AC=null;
+  function tone(f,dur,type,vol,delay){if(!$('snd').checked)return;try{AC=AC||new (window.AudioContext||window.webkitAudioContext)();
+    var o=AC.createOscillator(),g=AC.createGain(),t=AC.currentTime+(delay||0);o.type=type||'sine';o.frequency.value=f;
+    g.gain.setValueAtTime(vol||.15,t);g.gain.exponentialRampToValueAtTime(.0001,t+dur);o.connect(g);g.connect(AC.destination);o.start(t);o.stop(t+dur)}catch(e){}}
+  function sndGrade(g){
+    if(g===0){[1320,1760,2093].forEach(function(f,i){tone(f,1.4,'sine',.12,i*.12)})}
+    else if(g===1){[880,1175].forEach(function(f,i){tone(f,1,'triangle',.1,i*.15)})}
+    else if(g===2){tone(1500,.25,'sine',.1);tone(1900,.25,'sine',.08,.18)}
+    else if(g===3){tone(180,1.4,'sawtooth',.04)}
+    else {tone(70,.6,'sine',.4);tone(65,.6,'sine',.35,.5)}
+  }
+
+  var timers=[];
+  function at(ms,fn){timers.push(setTimeout(fn,ms))}
+  function voice(m,s){$('voiceMain').textContent=m;$('voiceSub').textContent=s||''}
+  function seam(color,op,w){['seam','seamGlow'].forEach(function(id){$(id).setAttribute('stroke',color)});
+    $('seam').setAttribute('opacity',op);$('seamGlow').setAttribute('opacity',op*.9);if(w)$('seamGlow').setAttribute('stroke-width',w)}
+  function digitsColor(c){digits.forEach(function(d){d.setAttribute('fill',c)})}
+  function reset(){
+    timers.forEach(clearTimeout);timers=[];
+    $('panel').style.transform='';$('dialRot').style.transform='';
+    digits.forEach(function(d){d.textContent='0'});digitsColor('#3a332b');
+    seam('#fff',0,14);$('seam').classList.remove('blinkR');$('niche').setAttribute('opacity',0);$('inside').classList.remove('blinkR');
+    var s=$('sparks');while(s.firstChild)s.removeChild(s.firstChild);
+    $('paper').classList.add('rolled');
+    document.querySelectorAll('#gtbl tbody tr').forEach(function(tr){tr.classList.remove('hit')});
+    voice('그냥 벽처럼 보입니다','다이얼과 유리띠 말고는 아무것도 없습니다. 문은 이음새만 아주 가늘게 보입니다.');
+  }
+  function lock(on){document.querySelectorAll('button').forEach(function(b){b.disabled=on})}
+
+  function run(force,forceUp){
+    reset();lock(true);
+    var R=compute(), g=force==null?R.g:force;
+    var up=forceUp||((g===0||g===4)&&Math.random()<.5);
+    var b=R.bd, code=String(b.y).slice(2)+String(b.m).padStart(2,'0')+String(b.d).padStart(2,'0');
+    var t=200;
+    at(t,function(){digitsColor('#ffb85c');voice('유리띠에 불이 들어옵니다','다이얼을 돌려 생일 여섯 자리를 맞춥니다. 숫자마다 딸깍.')});
+    var rot=0;
+    code.split('').forEach(function(ch,i){at(t+300+i*450,function(){
+      rot+=(i%2?-1:1)*(36*(+ch)+120);$('dialRot').style.transform='rotate('+rot+'deg)';
+      digits[i].textContent=ch;tone(2400,.05,'square',.06)})});
+    t+=300+6*450+300;
+    at(t,function(){tone(110,1.6,'sine',.25);tone(220,1.2,'sine',.08);digitsColor('#ffe2a6');
+      seam('#fff8e8',.7,10);voice('징… 벽 속에서 잠금이 풀립니다','숨은 문의 이음새를 따라 빛이 새어 나옵니다. 벽에 빛의 네모가 그려집니다.')});
+    t+=1000;
+    var stopAt=up?(g===0?1:3):g, seq=[], n=22;
+    for(var k=0;k<n;k++)seq.push(k%5);
+    while(seq[seq.length-1]!==stopAt)seq.push(seq.length%5);
+    var dt=0;seq.forEach(function(gi,k){var gap=55+Math.pow(k/seq.length,3)*420;dt+=gap;
+      at(t+dt,function(){seam(G[gi].glow,1,12);tone(600+gi*120,.04,'triangle',.04)})});
+    t+=dt+250;
+    at(t,function(){voice('빛이 멈췄다…',G[stopAt].n+'의 빛? 문은 아직 닫혀 있습니다.')});
+    t+=1300;
+    if(up){
+      at(t,function(){seam('#ffffff',1,18);tone(1800,.15,'square',.05)});
+      at(t+150,function(){seam(G[stopAt].glow,1,12)});
+      at(t+300,function(){seam('#ffffff',1,20)});
+      at(t+500,function(){seam(G[g].glow,1,16);if(g===4)$('seam').classList.add('blinkR');
+        voice(g===0?'승급! 금빛으로 바뀌었다':'어… 붉어졌다?!',g===0?'주황인 줄 알았던 빛이 금빛으로.':'보라에서 붉은 깜빡임으로. 대흉은 레어입니다.');
+        tone(g===0?2093:90,.5,g===0?'sine':'sawtooth',.12)});
+      t+=1700;
+    }
+    at(t,function(){$('panel').style.transform='translate(0,0) scale(.985)';});
+    at(t+250,function(){
+      $('seam').classList.remove('blinkR');
+      $('inL0').setAttribute('stop-color',G[g].glow);$('band').setAttribute('fill',G[g].c);$('niche').setAttribute('opacity',1);
+      $('panel').style.transform='translateX(-260px)';seam(G[g].glow,0);
+      sndGrade(g);voice(G[g].n+'!',G[g].line);
+      var sp=$('sparks');
+      if(g===0){for(var k=0;k<16;k++){var c=el('circle',{cx:330+Math.random()*190,cy:220+Math.random()*170,r:1.5+Math.random()*3,fill:'#fff6c8',class:'spark'},sp);c.style.animationDelay=(Math.random()*1.4)+'s'}}
+      if(g===4){$('inside').classList.add('blinkR');setTimeout(function(){$('inside').classList.remove('blinkR')},2600)}
+    });
+    t+=1800;
+    at(t,function(){writePaper(R,g);$('paper').classList.remove('rolled');
+      document.querySelectorAll('#gtbl tbody tr')[g].classList.add('hit');lock(false)});
+  }
+
+  function writePaper(R,g){
+    var b=R.bd;
+    $('paper').innerHTML='<div class="band" style="background:'+G[g].c+'"></div>'+
+      '<div class="gsub">壁 四 柱 · '+$('td').value.replace(/-/g,'. ')+' · '+R.today+'일</div>'+
+      '<div class="grade" style="color:'+(g===2?'#3f8f7a':G[g].c)+'">'+G[g].n+'</div>'+
+      '<div class="gsub">'+b.y+'. '+b.m+'. '+b.d+'생 · '+NATURE[R.me]+'('+STEM[R.me]+') · '+ZN[R.zb]+'띠</div>'+
+      '<div class="sec"><b>오늘의 기운</b><p>'+R.tg+' · '+TEN[R.tg]+'</p></div>'+
+      '<div class="sec"><b>한 줄</b><p>'+G[g].line+'</p></div>'+
+      (g===4?'<div class="charm"><b>厄 除</b>액막이 부적 · 오늘 하루 지갑에 넣어 두세요</div>':'')+
+      '<div class="foot"><div><div class="qr"></div><small>내 사주 전체 풀이</small></div><div class="seal">壁</div></div>';
+  }
+
+  var tb=$('gtbl').tBodies[0];
+  G.forEach(function(x){var tr=document.createElement('tr');
+    tr.innerHTML='<td><span class="sw" style="background:'+x.c+'"></span>'+x.n+'</td><td></td><td class="n">'+x.rate+'</td>';
+    tr.children[1].textContent=x.light;tb.appendChild(tr)});
+
+  function info(){var R=compute();$('calcInfo').textContent='계산: '+NATURE[R.me]+'('+STEM[R.me]+') × 오늘 '+R.today+' → '+R.tg+' → '+G[R.g].n}
+  ['bd','td'].forEach(function(id){$(id).addEventListener('change',info)});
+  $('go').addEventListener('click',function(){run(null,false)});
+  document.querySelectorAll('[data-g]').forEach(function(b){b.addEventListener('click',function(){run(+b.getAttribute('data-g'),false)})});
+  $('upg').addEventListener('click',function(){run(0,true)});
+  info();
+})();
+</script>
+
+</body>
+</html>
