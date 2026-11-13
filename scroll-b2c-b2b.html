@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>두 갈래 두루마리</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2efea;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8;--b2b:#2f6b5a;--b2bbg:#dcece6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--b2b:#7fcfb4;--b2bbg:#173229}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--b2b:#7fcfb4;--b2bbg:#173229}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)} .back{font-size:13px;text-decoration:none}
+h1{font-size:24px;margin:8px 0 4px} h2{font-size:18px;margin:0 0 10px} h3{font-size:15px;margin:0 0 6px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.key{border-left:4px solid var(--acc)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.box{border:1px solid var(--line);border-radius:12px;padding:12px}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px;margin-bottom:6px}
+.c{background:var(--accbg);color:var(--acc)} .b{background:var(--b2bbg);color:var(--b2b)}
+ul{margin:0;padding-left:18px} li{margin:3px 0}
+.sub{color:var(--sub);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600}
+
+/* 두루마리 */
+.scrolls{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:24px;justify-items:center}
+.sw{display:flex;flex-direction:column;align-items:center;gap:8px}
+.rod{width:270px;height:16px;border-radius:8px;background:linear-gradient(#6b4a32,#8a6446 50%,#5a3d28)}
+.paper{width:240px;background:#f4ead6;color:#2b241d;font-family:"Gowun Batang",serif;padding:18px 18px 16px;position:relative;
+  box-shadow:inset 0 0 30px rgba(140,110,60,.18);background-image:repeating-linear-gradient(0deg,rgba(120,90,40,.03) 0 2px,transparent 2px 6px)}
+.paper.b2b{background-color:#e9efe9}
+.seal{position:absolute;top:12px;right:12px;width:46px;height:46px;border-radius:6px;background:#a8432c;color:#f8e7d6;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:700;transform:rotate(-6deg);box-shadow:0 0 0 2px #a8432c,0 0 0 4px #f4ead6,0 0 0 5px #a8432c}
+.paper.b2b .seal{background:#2f6b5a;box-shadow:0 0 0 2px #2f6b5a,0 0 0 4px #e9efe9,0 0 0 5px #2f6b5a;font-size:13px;line-height:1.1;text-align:center}
+.no{font-size:11px;color:#7a6a55;letter-spacing:.05em}
+.head{font-size:21px;font-weight:700;line-height:1.35;margin:22px 0 14px;padding-right:20px}
+.row{border-top:1px dashed #c8b796;padding:7px 0}
+.paper.b2b .row{border-top-color:#a9bfb3}
+.lab{font-size:11px;color:#8a5a3a;letter-spacing:.08em}
+.paper.b2b .lab{color:#2f6b5a}
+.txt{font-size:14px;line-height:1.5}
+.brand{background:rgba(47,107,90,.08);margin:0 -8px;padding:7px 8px;border-radius:4px}
+.foot{display:flex;justify-content:space-between;align-items:flex-end;margin-top:10px;border-top:1px solid #c8b796;padding-top:9px}
+.qr{width:44px;height:44px;background:
+  conic-gradient(#2b241d 25%,transparent 0 50%,#2b241d 0 75%,transparent 0) 0 0/11px 11px,#f4ead6;border:3px solid #2b241d}
+.paper.b2b .qr{background-color:#e9efe9}
+.cord{width:14px;height:56px;border-radius:7px;margin-top:-8px}
+.cap{font-size:13px;color:var(--sub);text-align:center;max-width:290px}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px}
+.st{border:1px solid var(--line);border-radius:12px;padding:12px;position:relative}
+.st .n{font-size:12px;font-weight:700;color:var(--acc)}
+.st b{display:block;margin:2px 0 4px}
+.st span{font-size:13px;color:var(--sub)}
+.st.now{border-color:var(--acc);box-shadow:0 0 0 1px var(--acc) inset}
+small{color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>두 갈래 두루마리 · 상설 벽(B2C)과 팝업 벽(B2B)</h1>
+<p class="lead">같은 벽, 같은 두루마리 틀로 두 가지 사업을 합니다. 인생네컷이 "네 컷 틀은 고정, 프레임 디자인만 콜라보"로 커진 것처럼, 우리는 <b>"두루마리 + 인장 + 끈" 틀은 고정, 내용과 색만 콜라보</b>로 갑니다.</p>
+
+<div class="card key">
+  <h2>한 줄 정리</h2>
+  <p style="margin:0">하드웨어는 <b>모듈 벽 하나</b>로 통일합니다. 상설 벽은 동네 사람·관광객에게 파는 B2C 매장이자 B2B 쇼룸이 되고, 팝업 벽은 브랜드에 통째로 빌려주는 B2B 상품입니다. 그리고 인생네컷처럼 가장 큰 B2B 수익은 <b>기계를 옮기지 않는 "콜라보 두루마리"</b>에서 나올 가능성이 큽니다.</p>
+</div>
+
+<div class="card">
+  <h2>두루마리 예시</h2>
+  <div class="scrolls">
+    <div class="sw">
+      <span class="tag c">B2C · 상설 벽 두루마리</span>
+      <div class="rod"></div>
+      <div class="paper">
+        <div class="seal">壁</div>
+        <div class="no">성수 第一壁 · 2026.11.13 · No.001284</div>
+        <div class="head">닫힌 문보다<br>열린 틈을 믿으세요</div>
+        <div class="row"><div class="lab">오늘 일어날 일</div><div class="txt">오래 미뤄 둔 연락이 먼저 옵니다.</div></div>
+        <div class="row"><div class="lab">24시간 안에</div><div class="txt">처음 가는 골목으로 한 번 꺾어 걸으세요.</div></div>
+        <div class="row"><div class="lab">먹을 것</div><div class="txt">이름에 '달'이 들어간 집의 따뜻한 것.</div></div>
+        <div class="row"><div class="lab">걸어 볼 길</div><div class="txt">붉은 벽돌이 끝나는 곳에서 왼쪽으로.</div></div>
+        <div class="row"><div class="lab">필요한 말</div><div class="txt">"그거 좋다."</div></div>
+        <div class="row"><div class="lab">벽이 맡겨 둔 것</div><div class="txt">놋쇠 壁 표식이 붙은 문에서 이 인장을 보여 주세요.</div></div>
+        <div class="foot"><div class="no">내 생일로 더 깊이 →</div><div class="qr"></div></div>
+      </div>
+      <div class="rod"></div>
+      <div class="cord" style="background:linear-gradient(#d9b44a,#b8892a)"></div>
+      <p class="cap">금색 끈 = 대길(약 5%). 펴기 전부터 끈 색으로 운을 짐작합니다. 인장은 벽마다 다르게(성수 第一壁, 홍대 第二壁…) 해서 모으게 만듭니다.</p>
+    </div>
+
+    <div class="sw">
+      <span class="tag b">B2B · 브랜드 팝업 두루마리 (가상 예시)</span>
+      <div class="rod"></div>
+      <div class="paper b2b">
+        <div class="seal">壁<br>×<br>MOSS</div>
+        <div class="no">壁 × 모스 · 성수 팝업 · 2026.11.13 · No.000412</div>
+        <div class="head">오늘의 당신은<br>비 온 뒤 숲의 향</div>
+        <div class="row"><div class="lab">오늘 일어날 일</div><div class="txt">반가운 냄새가 오래된 기억을 데려옵니다.</div></div>
+        <div class="row brand"><div class="lab">오늘의 처방</div><div class="txt">No.3 젖은 이끼. 2층 시향대에서 손목 안쪽에.</div></div>
+        <div class="row brand"><div class="lab">팝업 미션</div><div class="txt">시향대 앞 거울에 "숲"이라고 말하면 직원이 작은 것을 건넵니다.</div></div>
+        <div class="row"><div class="lab">필요한 말</div><div class="txt">"천천히 해도 돼."</div></div>
+        <div class="foot"><div class="no">채널 추가하고<br>디지털 두루마리 저장 →</div><div class="qr"></div></div>
+      </div>
+      <div class="rod"></div>
+      <div class="cord" style="background:linear-gradient(#4f8f78,#2f6b5a)"></div>
+      <p class="cap">끈 색은 브랜드 컬러, 금색 끈은 본품 증정 같은 경품. 운세 칸 2개는 남기고, 나머지는 브랜드 칸(추천 제품·팝업 미션·QR)으로 바꿉니다. '모스'는 설명용 가상 브랜드입니다.</p>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>고정하는 것 vs 바꾸는 것</h2>
+  <table>
+    <tr><th></th><th>항상 같음 (우리 정체성)</th><th>B2C 상설에서 바뀜</th><th>B2B 팝업에서 바뀜</th></tr>
+    <tr><td>모양</td><td>100×400mm 두루마리, 위아래 나무 막대, 붉은 인장, 끈</td><td>벽마다 인장 번호</td><td>공동 인장(壁 × 브랜드)</td></tr>
+    <tr><td>머리글</td><td>"벽의 한 마디" 한 줄 크게</td><td>동네·계절 문장</td><td>브랜드 세계관 문장</td></tr>
+    <tr><td>칸</td><td>운세 칸 최소 2개(일어날 일·필요한 말)</td><td>먹을 것·걸어 볼 길(수수께끼 힌트), 벽이 맡겨 둔 것</td><td>오늘의 처방(제품), 팝업 미션, 경품</td></tr>
+    <tr><td>끈 색</td><td>금색 = 가장 좋은 것(약 5%)</td><td>등급(대길~흉)</td><td>브랜드 컬러 + 금색 경품</td></tr>
+    <tr><td>QR</td><td>디지털 두루마리 저장</td><td>생일로 사주 풀이(선택)</td><td>채널 추가·회원가입·쿠폰</td></tr>
+    <tr><td>여는 방식</td><td>돌을 밀거나 노크 3번</td><td>유료 결제</td><td>무료 / 인증 / 구매 영수증 / 결제 중 브랜드가 선택</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>인생네컷과 비교: 확장판이 맞나?</h2>
+  <div class="grid2">
+    <div class="box"><h3>닮은 점 (그대로 가져올 것)</h3><ul class="sub">
+      <li>무인으로 돌아가고, <b>손에 쥐는 실물</b>을 들고 나감</li>
+      <li>틀은 고정, <b>콜라보는 디자인만 바꿔서</b> 기계는 그대로 둠</li>
+      <li>매장이 늘수록 콜라보 가치가 커지는 <b>네트워크 구조</b></li>
+      <li>SNS에 올릴 만한 결과물</li></ul></div>
+    <div class="box"><h3>다른 점 (보완할 것)</h3><ul class="sub">
+      <li>인생네컷은 <b>내 얼굴·친구와 함께</b>라 다시 찍으러 옴. 운세는 한 번 보면 끝나기 쉬움 → <b>모으는 재미</b>가 필요: 벽마다 다른 인장, 계절 한정 두루마리, 금색 끈</li>
+      <li>인생네컷은 여럿이 함께. 우리는 혼자 → 선택지로 <b>짝 두루마리</b>(한 장을 반으로 갈라 나눠 갖고, 맞대면 문장이 완성) 고려</li>
+      <li>우리 쪽 장점: <b>벽이 움직이는 장면</b> 자체가 영상 콘텐츠라, 결과물보다 체험이 먼저 퍼짐</li></ul></div>
+  </div>
+  <h3 style="margin-top:14px">콜라보 단계 (인생네컷식)</h3>
+  <table>
+    <tr><th>단계</th><th>내용</th><th>브랜드 부담</th><th>우리 부담</th></tr>
+    <tr><td><b>1. 콜라보 두루마리</b></td><td>상설 벽에서 2~4주 동안 브랜드 버전 두루마리만 나옴</td><td>가장 낮음</td><td>인쇄만 (기계 그대로)</td></tr>
+    <tr><td><b>2. 콜라보 스킨</b></td><td>1단계 + 상설 벽 겉판도 브랜드 버전으로 교체</td><td>중간</td><td>겉판 제작·교체</td></tr>
+    <tr><td><b>3. 팝업 출장</b></td><td>모듈 벽을 브랜드 팝업 안으로 옮겨 설치</td><td>가장 높음</td><td>운반·설치·운영</td></tr>
+    <tr><td><b>+ IP 콜라보</b></td><td>캐릭터·웹툰·아이돌 생일 한정 두루마리 (팬들이 모으러 옴)</td><td colspan="2">권리자 라이선스 계약 필수</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <h2>어디서 시작해서 어떻게 키울까</h2>
+  <div class="steps">
+    <div class="st now"><div class="n">0단계 · 1~2개월</div><b>모듈 벽 1세트</b><span>코어 1 + 날개 2(약 3m). B2C·B2B 공용. 15초 데모 영상 촬영</span></div>
+    <div class="st"><div class="n">1단계 · 3개월</div><b>"반상설" 벽 1곳</b><span>성수 팝업 대관사 건물 모서리에 무상+매출 배분으로. B2C 매출 데이터 + B2B 쇼룸</span></div>
+    <div class="st"><div class="n">2단계</div><b>콜라보 두루마리 판매</b><span>그 벽에서 브랜드 버전을 2~4주씩. 대관사 고객 브랜드에 먼저 제안</span></div>
+    <div class="st"><div class="n">3단계</div><b>팝업 출장 + 세트 추가</b><span>모듈 2세트째 제작. 1세트는 상설, 1세트는 출장</span></div>
+    <div class="st"><div class="n">4단계</div><b>벽 네트워크</b><span>성수·홍대·강남에 상설 3곳 → 인장 모으기, IP 콜라보, 관광객</span></div>
+  </div>
+  <p class="sub" style="margin:12px 0 0"><b>왜 이 순서인가:</b> 처음부터 팝업 출장만 하면 영업할 근거(실제로 사람이 줄 선 영상·숫자)가 없고, 처음부터 상설만 하면 자리 문제에 묶입니다. <b>대관사 건물 모서리에 둔 벽 하나</b>는 B2C 매출, B2B 쇼룸, 영업 영상, 판매 데이터를 한 번에 만들어 줍니다. 1단계 자리를 구하는 데는 이미 만든 <a href="friend-discussion.html">협상 자료</a>와 건물주 제안서를 그대로 씁니다.</p>
+</div>
+
+<div class="card">
+  <h2>돈이 들어오는 길</h2>
+  <div class="grid3">
+    <div class="box"><span class="tag c">B2C</span><h3>상설 벽 판매</h3><p class="sub" style="margin:0">1장 5,000원. 하루 16장이면 손익분기(사업안 기준). 계절 한정·금색 끈으로 재방문</p></div>
+    <div class="box"><span class="tag b">B2B</span><h3>콜라보 두루마리</h3><p class="sub" style="margin:0">2~4주 단위 콜라보 비용 + 인쇄 실비. 기계가 그대로라 남는 게 가장 많음</p></div>
+    <div class="box"><span class="tag b">B2B</span><h3>팝업 출장</h3><p class="sub" style="margin:0">1주 300~500만 수준(어림). 운반·설치 인력이 들어 횟수에 한계</p></div>
+  </div>
+  <p class="sub" style="margin:10px 0 0">가격은 모두 시장 조사 전 어림값입니다. 첫 2~3건으로 실제 받을 수 있는 금액을 확인해야 합니다.</p>
+</div>
+
+<div class="card">
+  <h2>정해야 할 것</h2>
+  <ul>
+    <li><b>우리 이름:</b> 인장과 두루마리에 계속 찍힐 이름이라, 콜라보를 시작하기 전에 정하고 상표 출원</li>
+    <li><b>문안 공급:</b> 운세 문장을 얼마나 많이 쓸지(같은 문장이 너무 자주 나오면 재미 반감). 콜라보 문안은 브랜드와 2~3회 수정까지 포함</li>
+    <li><b>인쇄 방식:</b> 미리 찍어 둔 두루마리를 넣을지(빠름, 문장 수 제한) / 현장 인쇄할지(문장 무한, 기계 복잡). 처음엔 미리 찍어 두는 쪽 추천</li>
+    <li><b>경품 규칙:</b> 금색 끈 경품은 확률·수량을 브랜드와 미리 정해 공지</li>
+  </ul>
+</div>
+
+<small>2026-11-13 정리. 금액은 어림값이고, 브랜드 예시 '모스'는 설명을 위해 지어낸 가상의 브랜드입니다.</small>
+</div>
+</body>
+</html>
