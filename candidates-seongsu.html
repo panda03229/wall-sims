@@ -1,0 +1,98 @@
+<!doctype html><html lang="ko"><head><title>성수 연무장길 빈 자리 후보</title>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+KR:wght@400;500;700&family=IBM+Plex+Mono:wght@500&display=swap">
+<style>
+/* 현장 답사 노트: 위에 위치 약도, 아래 후보 카드 목록 */
+:root{--bg:#f3f1ee;--panel:#fffdfa;--fg:#1f1d1b;--muted:#6b655e;--line:#ddd6cc;--accent:#b4472b;--road:#c9bfb2;
+--gap:#b4472b;--stair:#3d6b8c;--vac:#5c7a3a;--oth:#7a6a55;--chipfg:#fff;
+--sans:"IBM Plex Sans KR","Malgun Gothic",system-ui,sans-serif;--mono:"IBM Plex Mono",ui-monospace,monospace}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#181716;--panel:#22201e;--fg:#eeeae4;--muted:#a59e95;--line:#3a3632;--accent:#e2795c;--road:#4a443e;--gap:#d0664a;--stair:#5f93b8;--vac:#86a85e;--oth:#a8957c;--chipfg:#111;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#181716;--panel:#22201e;--fg:#eeeae4;--muted:#a59e95;--line:#3a3632;--accent:#e2795c;--road:#4a443e;--gap:#d0664a;--stair:#5f93b8;--vac:#86a85e;--oth:#a8957c;--chipfg:#111;color-scheme:dark}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px/1.65 var(--sans)}
+.wrap{max-width:1040px;margin:0 auto;padding-block:28px 48px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));display:grid;gap:22px}
+h1{font-size:26px;margin:0;text-wrap:balance}.lead{color:var(--muted);margin:4px 0 0;max-width:68ch}
+.legend{display:flex;flex-wrap:wrap;gap:8px}
+.t-gap{--c:var(--gap)}.t-stair{--c:var(--stair)}.t-vac{--c:var(--vac)}.t-oth{--c:var(--oth)}
+.chip{display:inline-block;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:700;color:var(--chipfg);background:var(--c)}
+.map{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow-x:auto}
+.map svg{display:block;width:100%;min-width:560px;height:auto}
+.road{fill:none;stroke:var(--road);stroke-width:18;stroke-linecap:round}
+.roadlab{fill:var(--muted);font:500 14px var(--sans)}
+.pin circle{fill:var(--c);stroke:var(--panel);stroke-width:3}.pin text{fill:var(--chipfg);font:700 13px var(--mono);text-anchor:middle}
+.pin:hover circle,a:focus-visible .pin circle{stroke:var(--fg)}
+.st{fill:var(--fg);font:500 12px var(--sans)}.stbox{fill:var(--panel);stroke:var(--fg);stroke-width:1.5}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(460px,100%),1fr));gap:16px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;overflow:hidden;display:grid;grid-template-rows:auto 1fr;scroll-margin-top:16px}
+.card:target{outline:2px solid var(--accent)}
+.ph{display:grid;place-items:center;align-content:center;gap:4px;aspect-ratio:3/1;background:var(--c);color:var(--chipfg);text-decoration:none}.ph span{font:700 34px var(--mono);line-height:1}.ph b{font-size:14px}.ph:hover{filter:brightness(1.08)}
+figure{margin:0;background:#000}figure img{display:block;width:100%;aspect-ratio:2/1;object-fit:cover}
+figcaption{font-size:11px;color:#bbb;padding:4px 10px;background:#111}
+.body{padding:14px 16px 16px;display:grid;gap:6px;min-width:0;align-content:start}
+.head{display:flex;gap:8px;align-items:center}.no{font:500 13px var(--mono);color:var(--muted)}
+h2{font-size:17px;margin:0;line-height:1.4}.tr{margin:0;color:var(--muted);font-size:13px}
+dl{margin:4px 0 0;display:grid;gap:2px}dt{font-size:12px;font-weight:700;color:var(--accent);letter-spacing:.02em}dd{margin:0 0 6px}
+.links{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin:0;font-size:13px}
+.links a{color:var(--accent);font-weight:500}.coord{font:12px var(--mono);color:var(--muted);font-variant-numeric:tabular-nums}
+.note{font-size:13px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px;margin:0}
+</style>
+</head><body><div class="wrap">
+<header><h1>성수 연무장길 빈 자리 후보 8곳</h1>
+<p class="lead">건물 사이 틈, 계단 밑, 공실 1층처럼 비어 있는 공간을 벽으로 덧대 메울 수 있는 자리입니다. 번호는 구글 시트 후보지 탭의 행 번호이고, 지도 핀을 누르면 해당 카드로 갑니다. 유동이 많은 순서로 놓았습니다.</p></header>
+<div class="legend"><span class="chip t-gap">① 틈 · 움푹한 칸</span><span class="chip t-stair">② 계단 밑</span><span class="chip t-vac">③ 공실 1층</span><span class="chip t-oth">기타</span></div>
+<div class="map"><svg viewBox="-20 -20 940 510" role="img" aria-label="연무장길과 후보 위치 약도">
+<polyline class="road" points="57,70 682,341 900,423"/>
+<text class="roadlab" x="256" y="197">연무장길</text>
+<rect class="stbox" x="620" y="33" width="68" height="24" rx="4"/><text class="st" x="654" y="51" text-anchor="middle">성수역</text>
+<text class="roadlab" x="850" y="4">북 ↑</text>
+<a href="#c2"><g class="pin t-gap"><circle cx="379" cy="212" r="15"/><text x="379" y="217">2</text></g></a><a href="#c3"><g class="pin t-gap"><circle cx="189" cy="212" r="15"/><text x="189" y="217">3</text></g></a><a href="#c4"><g class="pin t-vac"><circle cx="114" cy="106" r="15"/><text x="114" y="111">4</text></g></a><a href="#c6"><g class="pin t-gap"><circle cx="450" cy="153" r="15"/><text x="450" y="158">6</text></g></a><a href="#c7"><g class="pin t-gap"><circle cx="308" cy="106" r="15"/><text x="308" y="111">7</text></g></a><a href="#c8"><g class="pin t-gap"><circle cx="403" cy="258" r="15"/><text x="403" y="263">8</text></g></a><a href="#c5"><g class="pin t-oth"><circle cx="777" cy="376" r="15"/><text x="777" y="381">5</text></g></a><a href="#c9"><g class="pin t-stair"><circle cx="166" cy="47" r="15"/><text x="166" y="52">9</text></g></a></svg></div>
+<section class="grid"><article class="card t-gap" id="c2">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5432,127.053" target="_blank" rel="noopener"><span>2</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">2행</span><span class="chip t-gap">① 틈 · 움푹한 칸</span></div>
+<h2>붉은 타일 건물과 흰 가림막 건물 사이</h2><p class="tr">연무장길 본길 · 유동 매우 많음</p>
+<dl><dt>보이는 것</dt><dd>두 건물 사이로 좁고 어두운 틈이 보입니다. 오른쪽 흰 건물은 공사 안내문이 붙은 가림막 상태입니다.</dd><dt>현장에서 볼 것</dt><dd>틈 폭이 50cm 이상인지, 깊이가 1m 이상인지. 흰 건물이 비어 있으면 1층 창을 덮는 방식도 가능합니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5432,127.053" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/2%ED%96%89,37.5432,127.053" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5432, 127.053</span></p></div></article>
+<article class="card t-gap" id="c3">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5432,127.051" target="_blank" rel="noopener"><span>3</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">3행</span><span class="chip t-gap">① 틈 · 움푹한 칸</span></div>
+<h2>연무장길 47(캣툰) 맞은편, 분홍 차양 가게 왼쪽</h2><p class="tr">연무장길 본길 · 유동 매우 많음</p>
+<dl><dt>보이는 것</dt><dd>사진 왼쪽 아래, 낡은 벽돌 벽에 그래피티가 있는 좁은 틈입니다.</dd><dt>현장에서 볼 것</dt><dd>사람이 다니는 통로인지 막힌 틈인지. 통로라면 탈락입니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5432,127.051" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/3%ED%96%89,37.5432,127.051" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5432, 127.051</span></p></div></article>
+<article class="card t-vac" id="c4">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5441,127.0502" target="_blank" rel="noopener"><span>4</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">4행</span><span class="chip t-vac">③ 공실 1층</span></div>
+<h2>VINTAGE SHOP 옆 파란 건물 1층</h2><p class="tr">연무장길 본길 · 유동 많음</p>
+<dl><dt>보이는 것</dt><dd>파란 건물 1층이 비어 있고 유리·셔터 칸이 여러 개입니다. 위층은 리모델링 중으로 보입니다.</dd><dt>현장에서 볼 것</dt><dd>지금도 비어 있는지(촬영은 2026년 6월). 칸 하나만 벽으로 덮고 기계는 안에 둡니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5441,127.0502" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/4%ED%96%89,37.5441,127.0502" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5441, 127.0502</span></p></div></article>
+<article class="card t-gap" id="c6">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5437,127.05375" target="_blank" rel="noopener"><span>6</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">6행</span><span class="chip t-gap">① 틈 · 움푹한 칸</span></div>
+<h2>아임도넛 옆 흰 부속 건물</h2><p class="tr">연무장길에서 꺾자마자 · 유동 많음</p>
+<dl><dt>보이는 것</dt><dd>흰 집 오른쪽 부속 벽 1층에 폭 1m쯤 움푹 들어간 칸이 있고, 앞은 돌 포장 마당입니다.</dd><dt>현장에서 볼 것</dt><dd>움푹한 칸이 가게 뒷문으로 쓰이는지. 앞 마당이 넓어 자립형 덧벽도 놓을 수 있습니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5437,127.05375" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/6%ED%96%89,37.5437,127.05375" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5437, 127.05375</span></p></div></article>
+<article class="card t-gap" id="c7">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5441,127.05225" target="_blank" rel="noopener"><span>7</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">7행</span><span class="chip t-gap">① 틈 · 움푹한 칸</span></div>
+<h2>빨간 띠 두른 흰 건물 1층 모서리</h2><p class="tr">북쪽 골목 · 유동 중간</p>
+<dl><dt>보이는 것</dt><dd>사진 왼쪽, 흰 건물 1층 모서리가 안으로 깊게 들어가 그늘진 빈 칸입니다.</dd><dt>현장에서 볼 것</dt><dd>건물 입구인지 빈 칸인지. 빈 칸이면 앞면만 덮어 메우기 좋습니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5441,127.05225" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/7%ED%96%89,37.5441,127.05225" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5441, 127.05225</span></p></div></article>
+<article class="card t-gap" id="c8">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5428,127.05325" target="_blank" rel="noopener"><span>8</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">8행</span><span class="chip t-gap">① 틈 · 움푹한 칸</span></div>
+<h2>회색 벽돌 건물 1층 필로티</h2><p class="tr">남쪽 골목 · 유동 중간</p>
+<dl><dt>보이는 것</dt><dd>사진 왼쪽, 1층이 필로티 주차 칸이고 옆 벽에 계량기 판이 붙어 있습니다.</dd><dt>현장에서 볼 것</dt><dd>주차 칸 하나를 내줄 수 있는지. 앞면 일부만 벽으로 막는 형태입니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5428,127.05325" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/8%ED%96%89,37.5428,127.05325" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5428, 127.05325</span></p></div></article>
+<article class="card t-oth" id="c5">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5418,127.0572" target="_blank" rel="noopener"><span>5</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">5행</span><span class="chip t-oth">기타</span></div>
+<h2>연무장길 동쪽 끝 광장 모서리 벽돌 가림벽</h2><p class="tr">광장 · 유동 중간</p>
+<dl><dt>보이는 것</dt><dd>사진 왼쪽, 높이 약 2.5m의 붉은 벽돌 덩어리 벽입니다. 설비나 계단실을 가리는 벽으로 보입니다.</dd><dt>현장에서 볼 것</dt><dd>광장이 공개공지인지(구청 확인), 벽 뒤가 무슨 공간인지.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5418,127.0572" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/5%ED%96%89,37.5418,127.0572" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5418, 127.0572</span></p></div></article>
+<article class="card t-stair" id="c9">
+<a class="ph" href="https://map.kakao.com/link/roadview/37.5446,127.05075" target="_blank" rel="noopener"><span>9</span><b>이 자리 로드뷰 보기 →</b></a>
+<div class="body"><div class="head"><span class="no">9행</span><span class="chip t-stair">② 계단 밑</span></div>
+<h2>벽돌 빌라 외부 계단 밑</h2><p class="tr">주택가 골목 · 유동 적음</p>
+<dl><dt>보이는 것</dt><dd>유리 캐노피가 달린 외부 계단이고, 계단 밑은 주차 공간으로 쓰고 있습니다.</dd><dt>현장에서 볼 것</dt><dd>주택가라 소음 민원 위험이 큽니다. 계단 밑 형태의 예시로만 넣었습니다.</dd></dl>
+<p class="links"><a href="https://map.kakao.com/link/roadview/37.5446,127.05075" target="_blank" rel="noopener">로드뷰 열기</a><a href="https://map.kakao.com/link/map/9%ED%96%89,37.5446,127.05075" target="_blank" rel="noopener">지도에서 보기</a><span class="coord">37.5446, 127.05075</span></p></div></article>
+</section>
+<p class="note">약도는 좌표로 그린 대략 위치라 실제 지도와 조금 다를 수 있습니다. 사진은 카카오 로드뷰라 이 페이지에 직접 넣지 않고 로드뷰 링크로 걸었습니다. 틈 폭, 지금 공실인지, 공개공지인지는 사진으로 확인되지 않아 현장에서 봐야 합니다.</p>
+</div></body></html>
