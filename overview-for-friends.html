@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>움직이는 벽 한눈에</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f2efea;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8;--b2b:#2f6b5a;--b2bbg:#dcece6}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--b2b:#7fcfb4;--b2bbg:#173229}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--b2b:#7fcfb4;--b2bbg:#173229}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:980px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)} .back{font-size:13px;text-decoration:none}
+h1{font-size:26px;margin:8px 0 4px} h2{font-size:20px;margin:0 0 6px} h3{font-size:15px;margin:0 0 4px}
+.lead{color:var(--sub);margin:0 0 18px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-bottom:18px}
+.part{display:flex;align-items:center;gap:10px;margin:28px 0 10px}
+.part .pill{font-weight:800;font-size:13px;border-radius:999px;padding:3px 12px}
+.pc{background:var(--accbg);color:var(--acc)} .pb{background:var(--b2bbg);color:var(--b2b)}
+.part h2{margin:0}
+.sub{color:var(--sub);font-size:14px}
+svg{width:100%;height:auto;display:block}
+.pic{border-radius:12px;overflow:hidden;background:#dfe7ee}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr));gap:12px}
+.step{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:var(--card)}
+.step .t{padding:10px 12px}
+.step b{display:block}
+.step span{font-size:13px;color:var(--sub)}
+.n{display:inline-flex;width:22px;height:22px;border-radius:50%;background:var(--acc);color:#fff;font-size:12px;font-weight:700;align-items:center;justify-content:center;margin-right:6px}
+.b2b .n{background:var(--b2b)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(300px,100%),1fr));gap:16px;align-items:start}
+ul{margin:0;padding-left:18px} li{margin:3px 0}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600}
+/* 두루마리 */
+.sw{display:flex;flex-direction:column;align-items:center;gap:6px;width:100%}
+.rod{width:min(250px,100%);height:14px;border-radius:7px;background:linear-gradient(#6b4a32,#8a6446 50%,#5a3d28)}
+.paper{width:min(222px,90%);background:#f4ead6;color:#2b241d;font-family:"Gowun Batang",serif;padding:16px 16px 14px;position:relative;box-shadow:inset 0 0 26px rgba(140,110,60,.18)}
+.paper.g{background:#e9efe9}
+.seal{position:absolute;top:10px;right:10px;width:40px;height:40px;border-radius:6px;background:#a8432c;color:#f8e7d6;display:flex;align-items:center;justify-content:center;font-size:21px;font-weight:700;transform:rotate(-6deg)}
+.paper.g .seal{background:#2f6b5a;font-size:11px;line-height:1.1;text-align:center}
+.no{font-size:10.5px;color:#7a6a55;padding-right:46px}
+.head{font-size:19px;font-weight:700;line-height:1.35;margin:18px 0 10px}
+.row{border-top:1px dashed #c8b796;padding:6px 0}
+.paper.g .row{border-top-color:#a9bfb3}
+.lab{font-size:10.5px;color:#8a5a3a;letter-spacing:.06em}
+.paper.g .lab{color:#2f6b5a}
+.txt{font-size:13px;line-height:1.45}
+.big{font-size:26px;font-weight:700;text-align:center;line-height:1.2;padding:6px 0}
+.cord{width:12px;height:46px;border-radius:6px;margin-top:-6px}
+.cap{font-size:13px;color:var(--sub);text-align:center;max-width:300px;margin:4px 0 0}
+.road{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(170px,100%),1fr));gap:10px}
+.rs{border-radius:12px;padding:12px;border:1px solid var(--line)}
+.rs.c{background:var(--accbg);border-color:transparent} .rs.b{background:var(--b2bbg);border-color:transparent}
+.rs .w{font-size:12px;font-weight:700;color:var(--sub)}
+.rs b{display:block;margin:2px 0 4px}
+.rs span{font-size:13px}
+small{color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>움직이는 벽 · 한눈에 보기</h1>
+<p class="lead">친구들과 같이 보려고 그림으로 정리했습니다. <b>먼저 상설 벽(B2C)으로 시작</b>하고, 잘되면 <b>같은 벽을 팝업 브랜드에 빌려주는 사업(B2B)</b>으로 넓힙니다. (2026-11-13)</p>
+
+<!-- 한 장 요약 -->
+<div class="card">
+  <svg viewBox="0 0 900 230" aria-label="전체 구조 요약">
+    <rect x="10" y="20" width="270" height="190" rx="16" fill="#f6e2d8"/>
+    <text x="145" y="52" text-anchor="middle" font-size="17" font-weight="700" fill="#9a4a2e">① 상설 벽 (B2C)</text>
+    <text x="145" y="82" text-anchor="middle" font-size="14" fill="#4a3a30">성수 골목의 벽 하나</text>
+    <text x="145" y="106" text-anchor="middle" font-size="14" fill="#4a3a30">손님이 5,000원 내고</text>
+    <text x="145" y="130" text-anchor="middle" font-size="14" fill="#4a3a30">벽을 밀면 운세 두루마리</text>
+    <text x="145" y="168" text-anchor="middle" font-size="13" fill="#9a4a2e">+ 근처 가게 QR 카드로도 열림</text>
+    <path d="M292 115 h80" stroke="#6f665c" stroke-width="3" marker-end="url(#ar)"/>
+    <text x="332" y="100" text-anchor="middle" font-size="13" fill="#6f665c">잘되면</text>
+    <text x="332" y="140" text-anchor="middle" font-size="12" fill="#6f665c">영상·숫자가</text>
+    <text x="332" y="156" text-anchor="middle" font-size="12" fill="#6f665c">영업 자료</text>
+    <rect x="385" y="20" width="250" height="190" rx="16" fill="#dcece6"/>
+    <text x="510" y="52" text-anchor="middle" font-size="17" font-weight="700" fill="#2f6b5a">② 콜라보 두루마리</text>
+    <text x="510" y="82" text-anchor="middle" font-size="14" fill="#24433a">같은 상설 벽에서</text>
+    <text x="510" y="106" text-anchor="middle" font-size="14" fill="#24433a">2~4주 동안 브랜드 버전</text>
+    <text x="510" y="130" text-anchor="middle" font-size="14" fill="#24433a">두루마리만 바꿔 넣음</text>
+    <text x="510" y="168" text-anchor="middle" font-size="13" fill="#2f6b5a">기계는 그대로 (인생네컷 프레임처럼)</text>
+    <path d="M645 115 h40" stroke="#6f665c" stroke-width="3" marker-end="url(#ar)"/>
+    <rect x="695" y="20" width="195" height="190" rx="16" fill="#cfe3db"/>
+    <text x="792" y="52" text-anchor="middle" font-size="17" font-weight="700" fill="#2f6b5a">③ 팝업 출장</text>
+    <text x="792" y="82" text-anchor="middle" font-size="14" fill="#24433a">벽을 브랜드 팝업</text>
+    <text x="792" y="106" text-anchor="middle" font-size="14" fill="#24433a">안으로 옮겨 설치</text>
+    <text x="792" y="130" text-anchor="middle" font-size="14" fill="#24433a">웨이팅 QR → 입장권</text>
+    <text x="792" y="168" text-anchor="middle" font-size="13" fill="#2f6b5a">대여료를 받음</text>
+    <defs><marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0 0L10 5L0 10z" fill="#6f665c"/></marker></defs>
+  </svg>
+</div>
+
+<!-- ================= B2C ================= -->
+<div class="part"><span class="pill pc">PART 1 · B2C</span><h2>상설 벽: 이렇게 생겼어요</h2></div>
+
+<div class="card">
+  <div class="pic">
+  <svg viewBox="0 0 900 380" aria-label="상설 벽 거리 모습">
+    <rect width="900" height="380" fill="#cfdbe6"/>
+    <rect y="30" width="660" height="300" fill="#e7e3dc"/>
+    <rect y="88" width="660" height="10" fill="#bdb7ad"/>
+    <rect x="660" y="80" width="240" height="250" fill="#a5523a"/>
+    <g stroke="#8e4430" stroke-width="1">
+      <line x1="660" y1="100" x2="900" y2="100"/><line x1="660" y1="120" x2="900" y2="120"/><line x1="660" y1="140" x2="900" y2="140"/><line x1="660" y1="160" x2="900" y2="160"/><line x1="660" y1="180" x2="900" y2="180"/><line x1="660" y1="200" x2="900" y2="200"/><line x1="660" y1="220" x2="900" y2="220"/><line x1="660" y1="240" x2="900" y2="240"/><line x1="660" y1="260" x2="900" y2="260"/><line x1="660" y1="280" x2="900" y2="280"/><line x1="660" y1="300" x2="900" y2="300"/></g>
+    <rect x="720" y="150" width="80" height="180" fill="#4a4440"/>
+    <rect y="330" width="900" height="50" fill="#c9c4bb"/>
+    <!-- 덧벽 -->
+    <polygon points="90,160 590,160 606,151 106,151" fill="#dcd7cf"/>
+    <polygon points="590,160 606,151 606,324 590,330" fill="#d6d1c9"/>
+    <rect x="90" y="160" width="500" height="170" fill="#f5f2ed"/>
+    <rect x="86" y="155" width="508" height="9" fill="#ebe8e2" stroke="#d2cdc5"/>
+    <rect x="90" y="318" width="500" height="12" fill="#d4cfc7"/>
+    <ellipse cx="330" cy="319" rx="90" ry="7" fill="#ffd98a" opacity=".8"/>
+    <!-- 가짜 이음새 -->
+    <g fill="none" stroke="#c9c3b9"><rect x="140" y="222" width="44" height="36"/><rect x="215" y="222" width="44" height="36"/><rect x="390" y="222" width="44" height="36"/><rect x="465" y="222" width="44" height="36"/></g>
+    <!-- 열린 조각 -->
+    <rect x="302" y="222" width="44" height="36" fill="#b9b2a8"/>
+    <polygon points="302,222 346,222 336,230 312,230" fill="#a8a196"/>
+    <polygon points="302,222 312,230 312,251 302,258" fill="#9c958a"/>
+    <rect x="312" y="230" width="24" height="21" fill="#f3efe7"/>
+    <rect x="302" y="222" width="44" height="36" fill="#ffd98a" opacity=".35"/>
+    <rect x="314" y="243" width="20" height="6" rx="3" fill="#efe1bf" stroke="#a68b55" stroke-width=".6"/>
+    <rect x="322" y="242" width="4" height="8" fill="#d9b44a"/>
+    <!-- 결제 판 -->
+    <rect x="548" y="214" width="22" height="40" rx="3" fill="#3a3734"/>
+    <rect x="551" y="218" width="16" height="11" fill="#5d6b78"/>
+    <rect x="551" y="234" width="16" height="14" fill="#26231f" stroke="#c9a85c" stroke-width=".8"/>
+    <!-- 사람 -->
+    <ellipse cx="360" cy="352" rx="24" ry="5" fill="#00000022"/>
+    <rect x="348" y="268" width="26" height="62" rx="10" fill="#5b6b7c"/>
+    <circle cx="361" cy="255" r="13" fill="#e6c3a5"/>
+    <path d="M352 285 L330 250" stroke="#5b6b7c" stroke-width="9" stroke-linecap="round"/>
+    <rect x="352" y="328" width="8" height="22" fill="#3c3c40"/><rect x="363" y="328" width="8" height="22" fill="#3c3c40"/>
+    <!-- 라벨 -->
+    <g font-size="13" fill="#2b2620">
+      <line x1="324" y1="218" x2="250" y2="125" stroke="#9a4a2e"/><rect x="150" y="104" width="200" height="24" rx="6" fill="#fffdf9" stroke="#9a4a2e"/><text x="250" y="121" text-anchor="middle">손으로 밀면 35cm 쑥 들어감</text>
+      <line x1="560" y1="212" x2="600" y2="125" stroke="#9a4a2e"/><rect x="520" y="104" width="160" height="24" rx="6" fill="#fffdf9" stroke="#9a4a2e"/><text x="600" y="121" text-anchor="middle">결제 + QR 판</text>
+      <line x1="430" y1="318" x2="470" y2="365" stroke="#9a4a2e"/><rect x="420" y="352" width="210" height="24" rx="6" fill="#fffdf9" stroke="#9a4a2e"/><text x="525" y="369" text-anchor="middle">걸으면 따라오는 바닥 빛</text>
+      <rect x="20" y="40" width="250" height="24" rx="6" fill="#fffdf9" stroke="#9a4a2e"/><text x="145" y="57" text-anchor="middle">평평한 벽 앞에 같은 색 덧벽 한 판</text>
+    </g>
+  </svg>
+  </div>
+  <p class="sub" style="margin:10px 0 0">원래 벽 앞에 <b>폭 3~5m, 높이 2m 미만, 두께 55~60cm</b>의 덧벽을 세우고 원래 벽과 같은 색(스타코)으로 마감합니다. 이음새가 여러 개 보이지만 실제로 움직이는 건 가운데 한 조각, 기계는 그 뒤에만 들어 있습니다.</p>
+</div>
+
+<div class="card">
+  <h3 style="margin-bottom:10px">손님이 하는 일 (B2C)</h3>
+  <div class="steps">
+    <div class="step">
+      <svg viewBox="0 0 200 130"><rect width="200" height="130" fill="#efe9e0"/><rect x="70" y="18" width="60" height="94" rx="6" fill="#3a3734"/><rect x="78" y="26" width="44" height="30" rx="3" fill="#5d6b78"/><rect x="78" y="64" width="44" height="38" rx="3" fill="#26231f" stroke="#c9a85c"/><rect x="138" y="50" width="34" height="48" rx="5" fill="#fffdf9" stroke="#9a4a2e" transform="rotate(-12 155 74)"/><rect x="146" y="62" width="18" height="18" fill="#2b241d" transform="rotate(-12 155 74)"/><text x="40" y="70" font-size="22" text-anchor="middle">💳</text></svg>
+      <div class="t"><b><span class="n">1</span>결제 또는 QR 카드</b><span>카드·간편결제 5,000원, 또는 제휴 가게에서 받은 QR 카드를 아래 창에 댐</span></div>
+    </div>
+    <div class="step">
+      <svg viewBox="0 0 200 130"><rect width="200" height="130" fill="#efe9e0"/><rect x="20" y="10" width="160" height="110" fill="#f5f2ed"/><rect x="72" y="38" width="56" height="44" fill="#ffd98a" opacity=".5"/><rect x="72" y="38" width="56" height="44" fill="none" stroke="#e0b24a" stroke-width="3"/><path d="M150 60 h-16" stroke="#9a4a2e" stroke-width="4" marker-end="url(#a2)"/><text x="160" y="104" font-size="26" text-anchor="middle">✋</text><defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9a4a2e"/></marker></defs></svg>
+      <div class="t"><b><span class="n">2</span>빛나는 조각을 밈</b><span>일곱 이음새 중 하나에서 빛이 샘. 손으로 밀거나 노크 세 번</span></div>
+    </div>
+    <div class="step">
+      <svg viewBox="0 0 200 130"><rect width="200" height="130" fill="#efe9e0"/><rect x="20" y="10" width="160" height="110" fill="#f5f2ed"/><rect x="62" y="30" width="76" height="60" fill="#b9b2a8"/><rect x="78" y="42" width="44" height="36" fill="#f3efe7"/><rect x="62" y="30" width="76" height="60" fill="#ffd98a" opacity=".35"/><rect x="82" y="66" width="36" height="9" rx="4.5" fill="#efe1bf" stroke="#a68b55"/><rect x="97" y="64" width="6" height="13" fill="#d9b44a"/></svg>
+      <div class="t"><b><span class="n">3</span>벽 속 두루마리</b><span>조각이 들어간 자리에 두루마리. 금색 끈이면 대길(약 5%)</span></div>
+    </div>
+    <div class="step">
+      <svg viewBox="0 0 200 130"><rect width="200" height="130" fill="#efe9e0"/><rect x="62" y="12" width="76" height="8" rx="4" fill="#7a5638"/><rect x="68" y="20" width="64" height="92" fill="#f4ead6"/><rect x="62" y="112" width="76" height="8" rx="4" fill="#7a5638"/><rect x="118" y="24" width="12" height="12" fill="#a8432c"/><g stroke="#b9a37c"><line x1="74" y1="46" x2="124" y2="46"/><line x1="74" y1="58" x2="118" y2="58"/><line x1="74" y1="70" x2="124" y2="70"/><line x1="74" y1="82" x2="112" y2="82"/><line x1="74" y1="94" x2="120" y2="94"/></g><text x="160" y="80" font-size="22" text-anchor="middle">🗺️</text></svg>
+      <div class="t"><b><span class="n">4</span>읽고 동네로</b><span>"먹을 것·걸어 볼 길" 수수께끼가 근처 제휴 가게를 가리킴</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <div class="grid2">
+    <div>
+      <h3>제휴 가게 고리 (영수증 대신 QR 카드)</h3>
+      <svg viewBox="0 0 400 320" aria-label="제휴 가게 고리">
+        <defs><marker id="a3" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#9a4a2e"/></marker></defs>
+        <rect x="150" y="125" width="100" height="70" rx="10" fill="#f5f2ed" stroke="#9a4a2e" stroke-width="2"/><text x="200" y="157" text-anchor="middle" font-size="16" font-weight="700" fill="#9a4a2e">壁</text><text x="200" y="178" text-anchor="middle" font-size="12" fill="#6f665c">상설 벽</text>
+        <circle cx="200" cy="40" r="32" fill="#f6e2d8"/><text x="200" y="38" text-anchor="middle" font-size="13" fill="#4a3a30">달빛</text><text x="200" y="54" text-anchor="middle" font-size="11" fill="#6f665c">국밥집</text>
+        <circle cx="340" cy="250" r="32" fill="#f6e2d8"/><text x="340" y="248" text-anchor="middle" font-size="13" fill="#4a3a30">붉은문</text><text x="340" y="264" text-anchor="middle" font-size="11" fill="#6f665c">카페</text>
+        <circle cx="60" cy="250" r="32" fill="#f6e2d8"/><text x="60" y="248" text-anchor="middle" font-size="13" fill="#4a3a30">골목끝</text><text x="60" y="264" text-anchor="middle" font-size="11" fill="#6f665c">빵집</text>
+        <path d="M200 74 V120" stroke="#9a4a2e" stroke-width="2.5" marker-end="url(#a3)"/><text x="208" y="102" font-size="11" fill="#9a4a2e">QR 카드</text>
+        <path d="M250 190 Q300 200 318 222" stroke="#2f6b5a" stroke-width="2.5" fill="none" stroke-dasharray="5 4" marker-end="url(#a3)"/><text x="292" y="190" font-size="11" fill="#2f6b5a">두루마리 힌트</text>
+        <path d="M308 258 Q200 300 96 258" stroke="#9a4a2e" stroke-width="2.5" fill="none" marker-end="url(#a3)"/>
+        <path d="M80 222 Q120 200 150 190" stroke="#9a4a2e" stroke-width="2.5" fill="none" marker-end="url(#a3)"/><text x="72" y="200" font-size="11" fill="#9a4a2e">QR 카드</text>
+        <text x="200" y="300" text-anchor="middle" font-size="11" fill="#6f665c">가게 → 벽 → 다른 가게 → 벽 …</text>
+      </svg>
+      <p class="sub" style="margin:4px 0 0">가게 이름은 예시입니다. 가게는 계산할 때 일회용 QR 카드를 한 장 주기만 하고, 벽에서 실제로 쓰인 장수만 월말에 냅니다(예: 장당 3,000원).</p>
+    </div>
+    <div class="sw">
+      <h3 style="align-self:flex-start">B2C 두루마리</h3>
+      <div class="rod"></div>
+      <div class="paper">
+        <div class="seal">壁</div>
+        <div class="no">성수 第一壁 · 2026.11.13 · No.001284</div>
+        <div class="head">닫힌 문보다<br>열린 틈을 믿으세요</div>
+        <div class="row"><div class="lab">오늘 일어날 일</div><div class="txt">오래 미뤄 둔 연락이 먼저 옵니다.</div></div>
+        <div class="row"><div class="lab">먹을 것</div><div class="txt">이름에 '달'이 들어간 집의 따뜻한 것.</div></div>
+        <div class="row"><div class="lab">걸어 볼 길</div><div class="txt">붉은 벽돌이 끝나는 곳에서 왼쪽으로.</div></div>
+        <div class="row"><div class="lab">필요한 말</div><div class="txt">"그거 좋다."</div></div>
+      </div>
+      <div class="rod"></div>
+      <div class="cord" style="background:linear-gradient(#d9b44a,#b8892a)"></div>
+      <p class="cap">벽마다 인장 번호가 달라서(第一壁, 第二壁…) 모으는 재미. 맨 아래 QR로 생일 사주 풀이(선택).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ================= B2B ================= -->
+<div class="part"><span class="pill pb">PART 2 · 확장 (B2B)</span><h2>팝업 브랜드에 벽을 빌려줘요</h2></div>
+
+<div class="card">
+  <div class="pic">
+  <svg viewBox="0 0 900 360" aria-label="팝업 매장 앞 벽">
+    <rect width="900" height="360" fill="#d7e2ea"/>
+    <rect x="0" y="40" width="900" height="270" fill="#eef1ee"/>
+    <rect x="300" y="60" width="560" height="250" fill="#2f6b5a"/>
+    <rect x="320" y="80" width="520" height="40" fill="#285c4d"/><text x="580" y="108" text-anchor="middle" font-size="20" font-weight="700" fill="#e6f2ec" letter-spacing="4">MOSS POP-UP</text>
+    <rect x="360" y="140" width="200" height="170" fill="#bcd3c9"/><rect x="600" y="140" width="200" height="170" fill="#bcd3c9"/>
+    <rect x="565" y="160" width="30" height="150" fill="#244f43"/>
+    <rect y="310" width="900" height="50" fill="#c9c4bb"/>
+    <!-- 모듈 벽 -->
+    <rect x="40" y="150" width="230" height="160" fill="#e9efe9"/>
+    <rect x="36" y="145" width="238" height="9" fill="#d6e2db"/>
+    <line x1="116" y1="150" x2="116" y2="310" stroke="#c5d3cb"/><line x1="194" y1="150" x2="194" y2="310" stroke="#c5d3cb"/>
+    <rect x="133" y="200" width="44" height="36" fill="#ffd98a" opacity=".45"/><rect x="133" y="200" width="44" height="36" fill="none" stroke="#e0b24a" stroke-width="2.5"/>
+    <rect x="236" y="196" width="20" height="38" rx="3" fill="#3a3734"/><rect x="239" y="212" width="14" height="14" fill="#26231f" stroke="#7fcfb4" stroke-width=".8"/>
+    <text x="155" y="296" text-anchor="middle" font-size="11" fill="#2f6b5a">壁 × MOSS</text>
+    <!-- 대기줄 -->
+    <g fill="#5b6b7c"><circle cx="345" cy="262" r="9" fill="#e6c3a5"/><rect x="336" y="272" width="18" height="38" rx="7"/><circle cx="380" cy="262" r="9" fill="#e6c3a5"/><rect x="371" y="272" width="18" height="38" rx="7" fill="#7c5b6b"/><circle cx="415" cy="262" r="9" fill="#e6c3a5"/><rect x="406" y="272" width="18" height="38" rx="7" fill="#6b7c5b"/></g>
+    <g><circle cx="200" cy="262" r="9" fill="#e6c3a5"/><rect x="191" y="272" width="18" height="38" rx="7" fill="#8a5b4b"/><rect x="214" y="268" width="10" height="16" rx="2" fill="#26231f"/></g>
+    <g font-size="13" fill="#24433a">
+      <rect x="40" y="60" width="230" height="24" rx="6" fill="#fffdf9" stroke="#2f6b5a"/><text x="155" y="77" text-anchor="middle">옮길 수 있는 모듈 벽 (3m)</text>
+      <line x1="250" y1="230" x2="250" y2="110" stroke="#2f6b5a"/><rect x="180" y="96" width="150" height="24" rx="6" fill="#fffdf9" stroke="#2f6b5a"/><text x="255" y="113" text-anchor="middle">폰의 웨이팅 QR</text>
+      <rect x="440" y="326" width="260" height="24" rx="6" fill="#fffdf9" stroke="#2f6b5a"/><text x="570" y="343" text-anchor="middle">대기줄: 기다리는 동안 벽 체험</text>
+    </g>
+  </svg>
+  </div>
+  <p class="sub" style="margin:10px 0 0">팝업 브랜드가 이미 대관한 공간 앞이나 안에 두니, <b>우리가 자리를 구할 필요가 없습니다.</b> 겉판은 브랜드 색으로 갈아 끼우고(단기라 인쇄 패널이나 시트지도 OK), 두루마리는 브랜드 버전으로 넣습니다.</p>
+</div>
+
+<div class="card b2b">
+  <h3 style="margin-bottom:10px">팝업 손님이 하는 일 (B2B)</h3>
+  <div class="steps">
+    <div class="step"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#e6efea"/><rect x="78" y="12" width="44" height="88" rx="7" fill="#26231f"/><rect x="82" y="20" width="36" height="66" fill="#fff"/><rect x="90" y="32" width="20" height="20" fill="#26231f"/><text x="100" y="74" font-size="9" text-anchor="middle">대기 34번</text></svg>
+      <div class="t"><b><span class="n">1</span>웨이팅 등록</b><span>입구 QR로 대기 등록 → 폰에 일회용 QR</span></div></div>
+    <div class="step"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#e6efea"/><rect x="20" y="10" width="160" height="100" fill="#e9efe9"/><rect x="72" y="36" width="56" height="44" fill="#ffd98a" opacity=".5"/><rect x="72" y="36" width="56" height="44" fill="none" stroke="#e0b24a" stroke-width="3"/><rect x="148" y="40" width="20" height="36" rx="3" fill="#3a3734"/></svg>
+      <div class="t"><b><span class="n">2</span>기다리며 벽에 QR</b><span>벽 옆 창에 폰을 대면 조각에 빛 → 밀기</span></div></div>
+    <div class="step"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#e6efea"/><rect x="66" y="10" width="68" height="7" rx="3.5" fill="#7a5638"/><rect x="72" y="17" width="56" height="86" fill="#e9efe9" stroke="#a9bfb3"/><rect x="66" y="103" width="68" height="7" rx="3.5" fill="#7a5638"/><text x="100" y="50" font-size="10" text-anchor="middle" fill="#2f6b5a">입장권</text><text x="100" y="72" font-size="20" font-weight="700" text-anchor="middle" fill="#24433a">34</text><text x="100" y="90" font-size="10" text-anchor="middle" fill="#2f6b5a">15:20</text></svg>
+      <div class="t"><b><span class="n">3</span>입장권 두루마리</b><span>미리 찍은 두루마리의 일련번호가 서버에서 입장 번호와 연결</span></div></div>
+    <div class="step"><svg viewBox="0 0 200 120"><rect width="200" height="120" fill="#e6efea"/><rect x="30" y="60" width="140" height="40" rx="4" fill="#c9b79c"/><rect x="60" y="30" width="40" height="30" rx="3" fill="#26231f"/><rect x="66" y="35" width="28" height="18" fill="#7fcfb4"/><rect x="118" y="34" width="26" height="24" fill="#e9efe9" stroke="#2f6b5a"/><text x="160" y="40" font-size="12" fill="#2f6b5a">-10%</text></svg>
+      <div class="t"><b><span class="n">4</span>보여 주면 할인</b><span>계산대에서 두루마리 QR을 찍어 할인, 한 번만 사용</span></div></div>
+  </div>
+  <p class="sub" style="margin:12px 0 0"><b>주의:</b> 한 번 여닫는 데 30초쯤 → 시간당 약 120명이 한계라 <b>입장 관문으로 쓰면 줄이 더 길어집니다.</b> 대기 중 체험이나 추첨 당첨자용으로 씁니다. 오픈 첫날 같은 이벤트 때는 조건 없이 바로 열리게도 할 수 있습니다.</p>
+</div>
+
+<div class="card">
+  <div class="grid2">
+    <div class="sw">
+      <h3 style="align-self:flex-start">B2B 두루마리 (가상 브랜드 예시)</h3>
+      <div class="rod"></div>
+      <div class="paper g">
+        <div class="seal">壁<br>×<br>MOSS</div>
+        <div class="no">壁 × 모스 · 성수 팝업 · No.000412</div>
+        <div class="row" style="border-top:none;margin-top:14px"><div class="lab">입장권</div><div class="big">34번 · 15:20</div></div>
+        <div class="row"><div class="lab">오늘의 한 마디</div><div class="txt">오늘의 당신은 비 온 뒤 숲의 향.</div></div>
+        <div class="row"><div class="lab">오늘의 처방</div><div class="txt">No.3 젖은 이끼. 2층 시향대에서.</div></div>
+        <div class="row"><div class="lab">계산대에서 보여 주면</div><div class="txt">10% 할인 (1회)</div></div>
+      </div>
+      <div class="rod"></div>
+      <div class="cord" style="background:linear-gradient(#4f8f78,#2f6b5a)"></div>
+      <p class="cap">틀(두루마리·인장·끈)은 그대로, 내용과 색만 브랜드 버전. 금색 끈이면 경품.</p>
+    </div>
+    <div>
+      <h3>모듈 벽: 이렇게 옮겨요</h3>
+      <svg viewBox="0 0 400 260" aria-label="모듈 구성">
+        <g font-size="12" fill="#26221e">
+          <rect x="10" y="30" width="80" height="120" fill="#e9efe9" stroke="#a9bfb3"/><text x="50" y="96" text-anchor="middle">날개 1m</text>
+          <rect x="94" y="30" width="80" height="120" fill="#e9efe9" stroke="#a9bfb3"/><text x="134" y="96" text-anchor="middle">날개 1m</text>
+          <rect x="178" y="30" width="66" height="120" fill="#f5e6c8" stroke="#c9a85c" stroke-width="2"/><rect x="194" y="70" width="34" height="28" fill="#ffd98a" opacity=".6"/><text x="211" y="124" text-anchor="middle" font-weight="700">코어</text><text x="211" y="140" text-anchor="middle" font-size="10">0.8m</text>
+          <rect x="248" y="30" width="80" height="120" fill="#e9efe9" stroke="#a9bfb3"/><text x="288" y="96" text-anchor="middle">날개 1m</text>
+          <text x="170" y="20" text-anchor="middle" fill="#6f665c">클램프로 이어 붙임 · 바퀴 + 수평 조절발</text>
+        </g>
+        <rect x="40" y="182" width="190" height="56" rx="6" fill="#dfe3e6" stroke="#9aa5ad"/><rect x="230" y="196" width="60" height="42" rx="6" fill="#c9d1d7" stroke="#9aa5ad"/><circle cx="85" cy="242" r="13" fill="#3a3734"/><circle cx="250" cy="242" r="13" fill="#3a3734"/>
+        <text x="135" y="216" text-anchor="middle" font-size="12">1톤 트럭 1대</text>
+        <text x="320" y="214" font-size="12" fill="#26221e">2명이</text><text x="320" y="230" font-size="12" fill="#26221e">2~3시간 설치</text>
+      </svg>
+      <ul class="sub">
+        <li><b>코어</b>: 들어가는 조각·두루마리 공급기·결제+QR 판·제어가 전부 여기</li>
+        <li><b>날개</b>: 속 빈 가벼운 판. 길이는 날개 개수로 조절</li>
+        <li>겉판(스킨)만 갈아 끼워 상설용·브랜드용으로 바꿈</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div class="card">
+  <h3>무엇으로 여느냐: 열쇠만 바꾸면 됩니다</h3>
+  <div class="tw"><table>
+    <tr><th>열쇠</th><th>B2C 상설</th><th>B2B 팝업</th></tr>
+    <tr><td>카드·간편결제</td><td>✔ 기본</td><td>브랜드가 원하면</td></tr>
+    <tr><td>제휴 가게 QR 카드 (영수증 대신)</td><td>✔ 처음부터</td><td>팝업 계산대 QR로 응용</td></tr>
+    <tr><td>웨이팅·추첨 QR</td><td>—</td><td>✔ 입장권 두루마리</td></tr>
+    <tr><td>조건 없음 (이벤트)</td><td>계절 행사 때</td><td>✔ 오픈 첫날 등</td></tr>
+  </table></div>
+  <p class="sub" style="margin:10px 0 0">결제 단말은 우리가 만든 QR을 못 읽어서, <b>결제 단말 + 작은 QR 스캐너(수만 원대)를 한 판에</b> 넣습니다. QR은 모두 일회용이라 스크린샷으로 돌려 써도 두 번째부터는 안 열립니다.</p>
+</div>
+
+<!-- 로드맵 -->
+<div class="part"><span class="pill pc">순서</span><h2>이렇게 시작해서 키워요</h2></div>
+<div class="card">
+  <div class="road">
+    <div class="rs c"><div class="w">1~2개월</div><b>모듈 벽 1세트</b><span>코어 1 + 날개 2(3m). 15초 데모 영상</span></div>
+    <div class="rs c"><div class="w">3개월</div><b>성수 반상설 1곳</b><span>대관사 건물 모서리, 무상+매출 10%. 결제 + 제휴 가게 카드 2~3곳</span></div>
+    <div class="rs b"><div class="w">잘되면</div><b>콜라보 두루마리</b><span>같은 벽에서 브랜드 버전 2~4주. 기계 그대로</span></div>
+    <div class="rs b"><div class="w">그다음</div><b>팝업 출장 + 2세트째</b><span>웨이팅 QR·입장권·할인 기능 추가</span></div>
+    <div class="rs b"><div class="w">장기</div><b>벽 네트워크</b><span>성수·홍대·강남 상설, 인장 모으기, 캐릭터·아이돌 콜라보</span></div>
+  </div>
+  <div class="tw" style="margin-top:14px"><table>
+    <tr><th></th><th>B2C 상설</th><th>B2B 콜라보 두루마리</th><th>B2B 팝업 출장</th></tr>
+    <tr><td>돈 내는 사람</td><td>손님 (1장 5,000원)</td><td>브랜드</td><td>브랜드 (1주 300~500만, 어림)</td></tr>
+    <tr><td>자리</td><td>우리가 협상</td><td>상설 벽 그대로</td><td>브랜드 팝업 공간</td></tr>
+    <tr><td>기계 이동</td><td>없음</td><td>없음</td><td>트럭으로 이동</td></tr>
+    <tr><td>필요한 것</td><td>자리, 제휴 가게</td><td>상설 벽 실적</td><td>모듈 세트, 운반 인력</td></tr>
+  </table></div>
+</div>
+
+<div class="card">
+  <h3>같이 정할 것</h3>
+  <ul>
+    <li>우리 이름 (인장·두루마리에 계속 찍힘 → 상표 출원)</li>
+    <li>첫 반상설 자리: 어느 대관사·건물부터 연락할지</li>
+    <li>제휴 가게 2~3곳: 어디에 QR 카드를 줄지, 장당 얼마 받을지</li>
+    <li>운세 문장 몇 개를 쓸지, 금색 끈 비율</li>
+  </ul>
+  <p class="sub" style="margin:10px 0 0">자세한 자료: <a href="long-wall-live.html">긴 벽 시뮬·마감 비용</a> · <a href="wall-keys.html">여는 열쇠</a> · <a href="scroll-b2c-b2b.html">두 갈래 두루마리</a> · <a href="friend-discussion.html">자리 협상</a> · <a href="business-plan.html">사업안</a></p>
+</div>
+
+<small>그림은 설명용 예시입니다. 'MOSS(모스)'와 가게 이름은 지어낸 것이며, 금액은 2026년 11월 기준 어림값입니다.</small>
+</div>
+</body>
+</html>
