@@ -1,0 +1,258 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>흰 벽 덧벽 한 판</title>
+<style>
+:root{--bg:#f2efea;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8;
+--wall:#eeebe5;--wall2:#e2ded6;--band:#bdb7ad;--fw:#f7f5f1;--fwside:#dcd8d0;--shadow:#cfc9bf;--niche:#8d857a;--ground:#c9c4bb;--brick:#a5523a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)} .back{font-size:13px;text-decoration:none}
+h1{font-size:23px;margin:8px 0 4px} h2{font-size:17px;margin:0 0 10px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:16px}
+svg{width:100%;height:auto;display:block;border-radius:10px}
+.ctrl{display:flex;flex-wrap:wrap;gap:10px 18px;align-items:center;margin-top:12px}
+.ctrl label{font-size:14px;color:var(--sub);display:flex;align-items:center;gap:8px}
+.ctrl input[type=range]{width:150px}
+.ctrl b{color:var(--ink);min-width:52px;display:inline-block}
+button{font:inherit;border:1px solid var(--acc);background:var(--acc);color:#fff;border-radius:10px;padding:8px 16px;cursor:pointer}
+button.ghost{background:transparent;color:var(--acc)}
+.tabs{display:flex;gap:6px;margin-bottom:10px}
+.tabs button{padding:5px 12px;font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td,th{padding:7px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+td.n{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+tr.tot td{font-weight:700;border-bottom:none}
+.note{color:var(--sub);font-size:13px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.pill{display:inline-block;background:var(--accbg);color:var(--acc);border-radius:6px;padding:1px 8px;font-size:12px;font-weight:600}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>흰 벽 앞에 덧벽 한 판 · 가운데만 쑥 들어감</h1>
+<p class="lead">벽돌 건물 옆 매끈한 흰 벽 아래쪽을 같은 흰색 덧벽 한 판으로 가로로 덮고, 가운데 한 조각만 손으로 밀면 뒤로 들어가 두루마리가 나오는 구조입니다.</p>
+
+<div class="card">
+  <div class="tabs">
+    <button class="ghost" id="tBefore">BEFORE</button>
+    <button id="tAfter">AFTER</button>
+  </div>
+  <svg id="scene" viewBox="0 0 900 470" aria-label="정면 모습"></svg>
+  <div class="ctrl">
+    <button id="push">손으로 밀기</button>
+    <label>덧벽 전체 폭 <input type="range" id="w" min="2" max="6" step="0.5" value="4"><b id="wv"></b></label>
+    <label>들어가는 깊이 <input type="range" id="d" min="20" max="50" step="5" value="35"><b id="dv"></b></label>
+  </div>
+  <p class="note" style="margin:8px 0 0">덧벽은 원래 벽과 같은 흰색 스타코로 마감해서, 처음 보는 사람에게는 "벽이 조금 두꺼운 건물"로 보이게 합니다. 이음새는 가운데 조각 둘레의 가는 줄 하나뿐입니다.</p>
+</div>
+
+<div class="grid2">
+  <div class="card">
+    <h2>옆에서 자른 모습 (단면)</h2>
+    <svg id="section" viewBox="0 0 420 330" aria-label="단면도"></svg>
+    <p class="note" id="secNote"></p>
+  </div>
+  <div class="card">
+    <h2>위에서 본 모습 (평면)</h2>
+    <svg id="plan" viewBox="0 0 420 330" aria-label="평면도"></svg>
+    <p class="note">구동 장치는 들어가는 조각의 <b>옆</b>에 두어서 덧벽 두께를 줄입니다. 뒤에 두면 그만큼 더 두꺼워집니다.</p>
+  </div>
+</div>
+
+<div class="card">
+  <h2>비용 어림 <span class="pill" id="costPill"></span></h2>
+  <table id="cost"></table>
+  <p class="note">2026년 11월 기준 국내 자재·인건비를 어림한 값이며 견적이 아닙니다. 시공을 친구가 맡으면 인건비 줄이 빠지거나 크게 줄어듭니다. 결제 단말은 렌탈로 하면 초기 비용이 거의 없습니다.</p>
+</div>
+
+<div class="card">
+  <h2>폭과 깊이는 이렇게</h2>
+  <table>
+    <tr><th>항목</th><th>권장</th><th>이유</th></tr>
+    <tr><td>들어가는 조각</td><td class="n">폭 50~60 × 높이 40~50cm</td><td>손바닥 하나로 밀기 좋은 크기. 너무 크면 "문"처럼 보이고 무거워짐</td></tr>
+    <tr><td>조각 높이(가운데)</td><td class="n">바닥에서 100~110cm</td><td>어른 가슴~명치 높이, 아이도 손이 닿음</td></tr>
+    <tr><td>들어가는 깊이</td><td class="n">30~40cm</td><td>30cm 아래는 "버튼"처럼 느껴지고, 40cm면 팔이 쑥 들어가는 "벽 속 공간"이 됨</td></tr>
+    <tr><td>덧벽 두께(원래 벽에서)</td><td class="n">깊이 + 약 20cm</td><td>조각 두께 5cm + 뒤 여유 5cm + 두루마리 받침 10cm</td></tr>
+    <tr><td>덧벽 전체 폭</td><td class="n">3~4m</td><td>조각 폭의 5배 이상이어야 "벽"으로 읽힘. 2m 아래면 상자처럼 보임</td></tr>
+    <tr><td>덧벽 높이</td><td class="n">2m 미만 (1.95m)</td><td>혼자 서는 벽이 2m를 넘으면 공작물 축조신고 대상이 될 수 있음. 위에 갓돌 띠를 둘러 마감</td></tr>
+  </table>
+</div>
+
+<p class="note">이 칸 앞은 보도가 아니라 건물 쪽 포장 마당으로 보입니다. 덧벽이 50~60cm 튀어나와도 인도는 침범하지 않지만, 그 땅이 누구 것인지(건물 대지인지)와 건물주 동의는 확인해야 합니다.</p>
+</div>
+
+<script>
+const $=id=>document.getElementById(id);
+let mode='after', push=0, target=0, W=4, D=35;
+const NS='http://www.w3.org/2000/svg';
+function el(tag,attrs,parent){const e=document.createElementNS(NS,tag);for(const k in attrs)e.setAttribute(k,attrs[k]);parent&&parent.appendChild(e);return e}
+function css(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()}
+
+/* ---------- 정면 ---------- */
+function drawScene(){
+  const s=$('scene'); s.innerHTML='';
+  const px=100; // 1m = 100px
+  const groundY=400, ledgeY=groundY-2.4*px;
+  // 하늘/배경
+  el('rect',{x:0,y:0,width:900,height:470,fill:'#cfdbe6'},s);
+  // 흰 벽 (위·아래)
+  el('rect',{x:0,y:20,width:640,height:groundY-20,fill:css('--wall')},s);
+  el('rect',{x:0,y:ledgeY-14,width:640,height:14,fill:css('--band')},s); // 콘크리트 띠
+  el('rect',{x:0,y:ledgeY,width:640,height:4,fill:css('--shadow')},s);
+  // 벽돌 건물 (오른쪽)
+  el('rect',{x:640,y:ledgeY-20,width:260,height:groundY-ledgeY+20,fill:css('--brick')},s);
+  for(let y=ledgeY-20;y<groundY;y+=10)el('line',{x1:640,y1:y,x2:900,y2:y,stroke:'#8e4430','stroke-width':1},s);
+  el('rect',{x:690,y:ledgeY+30,width:90,height:groundY-ledgeY-30,fill:'#4a4440'},s);
+  el('rect',{x:630,y:ledgeY-34,width:270,height:16,fill:'#9a948c'},s);
+  // 바닥
+  el('rect',{x:0,y:groundY,width:900,height:70,fill:css('--ground')},s);
+  el('text',{x:12,y:groundY+50,'font-size':13,fill:'#5c564e'},s).textContent='건물 쪽 포장 마당';
+  if(mode==='before'){
+    el('text',{x:320,y:groundY-140,'text-anchor':'middle','font-size':16,fill:'#8a8378'},s).textContent='매끈한 흰 벽';
+    return;
+  }
+  // 덧벽
+  const fw=W*px, fh=1.95*px, fx=320-fw/2, fy=groundY-fh;
+  const side=22; // 두께 표현(오른쪽 옆면)
+  el('polygon',{points:`${fx},${fy} ${fx+fw},${fy} ${fx+fw+side},${fy-10} ${fx+side},${fy-10}`,fill:'#dedad3'},s); // 윗면
+  el('polygon',{points:`${fx+fw},${fy} ${fx+fw+side},${fy-10} ${fx+fw+side},${groundY-6} ${fx+fw},${groundY}`,fill:css('--fwside')},s);
+  el('rect',{x:fx,y:fy,width:fw,height:fh,fill:css('--fw')},s);
+  el('rect',{x:fx-4,y:fy-4,width:fw+8,height:10,fill:'#e9e6e0',stroke:'#d2cdc5'},s); // 갓돌
+  el('rect',{x:fx,y:groundY-12,width:fw,height:12,fill:'#d9d5ce'},s); // 굽
+  el('rect',{x:fx+fw+2,y:groundY-4,width:side,height:4,fill:css('--shadow')},s);
+  // 가운데 조각
+  const bw=0.55*px, bh=0.45*px, bx=320-bw/2, by=groundY-1.05*px-bh/2;
+  const t=push; // 0~1
+  const depth=D/100*px*t; // 화면상 깊이
+  const vpx=bx+bw*0.85, vpy=by-25, f=110;
+  const k=f/(f+depth*2.2);
+  const P=(x,y)=>[vpx+(x-vpx)*k, vpy+(y-vpy)*k];
+  const a=P(bx,by), b=P(bx+bw,by), c=P(bx+bw,by+bh), d=P(bx,by+bh);
+  // 구멍 안쪽 면
+  el('polygon',{points:`${bx},${by} ${bx+bw},${by} ${b} ${a}`,fill:'#b7b1a8'},s); // 천장
+  el('polygon',{points:`${bx},${by} ${a} ${d} ${bx},${by+bh}`,fill:'#a59e94'},s); // 왼벽
+  el('polygon',{points:`${bx+bw},${by} ${b} ${c} ${bx+bw},${by+bh}`,fill:'#c6c0b7'},s);
+  el('polygon',{points:`${bx},${by+bh} ${bx+bw},${by+bh} ${c} ${d}`,fill:'#cfc9c0'},s); // 바닥
+  // 빛
+  if(t>0.05){const g=el('polygon',{points:`${bx},${by} ${bx+bw},${by} ${bx+bw},${by+bh} ${bx},${by+bh}`,fill:'#ffd98a',opacity:(0.25*t).toFixed(2)},s)}
+  // 두루마리
+  if(t>0.95){const sx=(a[0]+b[0])/2, sy=d[1]-6;
+    el('rect',{x:sx-18,y:sy-7,width:36,height:9,rx:4,fill:'#efe1bf',stroke:'#a68b55'},s);
+    el('rect',{x:sx-3,y:sy-8,width:6,height:11,fill:'#a8432c'},s);}
+  // 조각 앞면
+  el('polygon',{points:`${a} ${b} ${c} ${d}`,fill:css('--fw'),stroke:'#cfcac2'},s);
+  // 이음새
+  el('rect',{x:bx,y:by,width:bw,height:bh,fill:'none',stroke:'#b9b3aa','stroke-width':t>0?0:1.2},s);
+  // 치수
+  const dimY=groundY+28;
+  el('line',{x1:fx,y1:dimY,x2:fx+fw,y2:dimY,stroke:'#5c564e'},s);
+  el('line',{x1:fx,y1:dimY-6,x2:fx,y2:dimY+6,stroke:'#5c564e'},s);
+  el('line',{x1:fx+fw,y1:dimY-6,x2:fx+fw,y2:dimY+6,stroke:'#5c564e'},s);
+  el('text',{x:320,y:dimY-6,'text-anchor':'middle','font-size':13,fill:'#3d3833'},s).textContent=`덧벽 폭 ${W}m · 높이 1.95m`;
+  el('text',{x:bx+bw+12,y:by+bh/2+4,'font-size':12,fill:'#5c564e'},s).textContent='55×45cm 조각';
+}
+
+/* ---------- 단면 ---------- */
+function drawSection(){
+  const s=$('section'); s.innerHTML='';
+  const px=130; // 1m=130px
+  const gx=60, gy=300;
+  const depthM=(D+20)/100;
+  el('rect',{x:0,y:gy,width:420,height:30,fill:css('--ground')},s);
+  el('rect',{x:20,y:20,width:gx-20,height:gy-20,fill:css('--wall2')},s);
+  el('text',{x:24,y:36,'font-size':11,fill:'#5c564e'},s).textContent='원래 벽';
+  const fwX=gx+depthM*px, top=gy-1.95*px;
+  // 프레임 박스
+  el('rect',{x:gx,y:top,width:depthM*px,height:1.95*px,fill:'#f4f1ec',stroke:'#b9b3aa'},s);
+  el('rect',{x:fwX-6,y:top,width:6,height:1.95*px,fill:'#e3dfd8'},s);
+  // 조각
+  const bh=0.45*px, by=gy-1.05*px-bh/2, travel=D/100*px*push;
+  el('rect',{x:fwX-6,y:by,width:6,height:bh,fill:css('--bg')},s);
+  el('rect',{x:fwX-6-travel,y:by,width:7,height:bh,fill:'#cfc9c0',stroke:'#8d857a'},s);
+  // 레일
+  el('line',{x1:fwX-D/100*px-12,y1:by+bh+3,x2:fwX,y2:by+bh+3,stroke:'#6f665c','stroke-width':3},s);
+  // 두루마리 받침
+  el('rect',{x:gx+4,y:by+bh+8,width:fwX-gx-10,height:40,fill:'#e8e0cf',stroke:'#b8a67e'},s);
+  el('text',{x:gx+10,y:by+bh+32,'font-size':11,fill:'#5c564e'},s).textContent='두루마리 공급기';
+  el('rect',{x:gx+4,y:gy-40,width:fwX-gx-10,height:34,fill:'#ddd',stroke:'#999'},s);
+  el('text',{x:gx+10,y:gy-19,'font-size':11,fill:'#5c564e'},s).textContent='제어·전원';
+  // 치수
+  el('line',{x1:gx,y1:top-14,x2:fwX,y2:top-14,stroke:'#3d3833'},s);
+  el('text',{x:(gx+fwX)/2,y:top-20,'text-anchor':'middle','font-size':12,fill:'#3d3833'},s).textContent=`덧벽 두께 약 ${D+20}cm`;
+  el('line',{x1:fwX-D/100*px-6,y1:by-10,x2:fwX,y2:by-10,stroke:'#a8432c'},s);
+  el('text',{x:fwX+8,y:by-6,'font-size':12,fill:'#a8432c'},s).textContent=`들어감 ${D}cm`;
+  el('text',{x:fwX+8,y:by+bh/2+4,'font-size':11,fill:'#5c564e'},s).textContent='← 손으로 밈';
+  el('text',{x:fwX+8,y:gy-8,'font-size':11,fill:'#5c564e'},s).textContent='마당(사람 서는 곳)';
+  $('secNote').textContent=`조각이 ${D}cm 들어간 자리 바닥에 두루마리가 올라옵니다. 덧벽은 원래 벽에서 약 ${D+20}cm 튀어나옵니다.`;
+}
+
+/* ---------- 평면 ---------- */
+function drawPlan(){
+  const s=$('plan'); s.innerHTML='';
+  const scale=Math.min(360/W,80);
+  const x0=210-W*scale/2, wallY=60;
+  const depth=(D+20)/100*scale*1.6;
+  el('rect',{x:20,y:30,width:380,height:30,fill:css('--wall2')},s);
+  el('text',{x:24,y:50,'font-size':11,fill:'#5c564e'},s).textContent='원래 벽';
+  el('rect',{x:x0,y:wallY,width:W*scale,height:depth,fill:'#f4f1ec',stroke:'#b9b3aa'},s);
+  const bw=0.55*scale, bx=210-bw/2, tr=D/100*scale*1.6;
+  el('rect',{x:bx,y:wallY+depth-tr,width:bw,height:tr,fill:'#c9c3ba'},s);
+  el('rect',{x:bx,y:wallY+depth-tr*push-5,width:bw,height:5,fill:'#8d857a'},s);
+  el('rect',{x:bx+bw+4,y:wallY+depth-tr-4,width:Math.max(14,0.15*scale),height:tr,fill:'#c8d3df',stroke:'#7d8a99'},s);
+  el('text',{x:bx+bw+Math.max(14,0.15*scale)+8,y:wallY+depth-tr/2,'font-size':11,fill:'#5c564e'},s).textContent='구동부(옆)';
+  el('line',{x1:x0,y1:wallY+depth+22,x2:x0+W*scale,y2:wallY+depth+22,stroke:'#3d3833'},s);
+  el('text',{x:210,y:wallY+depth+40,'text-anchor':'middle','font-size':12,fill:'#3d3833'},s).textContent=`폭 ${W}m`;
+  el('text',{x:210,y:310,'text-anchor':'middle','font-size':12,fill:'#5c564e'},s).textContent='↑ 사람이 서서 미는 방향';
+}
+
+/* ---------- 비용 ---------- */
+function man(v){return Math.round(v)}
+function drawCost(){
+  const H=1.95, dep=(D+20)/100;
+  const area=W*H + 2*H*dep + W*dep; // 앞면+옆면 2+윗면
+  const rows=[
+    ['덧벽 뼈대 (아연각관·각재, 바닥 고정 없는 자립형)', 20*W, 30*W],
+    [`겉면 마감 (시멘트보드 + 흰 스타코, 약 ${area.toFixed(1)}㎡)`, 8*area, 12*area],
+    ['갓돌 띠·굽(걸레받이)', 6*W, 10*W],
+    ['들어가는 조각 + 직선 레일 2개 + 구동(액추에이터·리밋 센서)', 40+(D>35?10:0), 70+(D>35?15:0)],
+    ['두루마리 공급기 (자체 제작)', 40, 80],
+    ['제어 보드·감지 센서·안쪽 LED·배선', 30, 50],
+    ['결제 단말 (구매 시, 렌탈이면 월 1~2만)', 20, 40],
+    ['시공 인건비 (2~3명 × 2~3일)', 100+30*W, 150+50*W],
+  ];
+  let lo=0,hi=0,loNo=0,hiNo=0;
+  let html='<tr><th>항목</th><th class="n">만 원</th></tr>';
+  rows.forEach((r,i)=>{lo+=r[1];hi+=r[2]; if(i<rows.length-1){loNo+=r[1];hiNo+=r[2]}
+    html+=`<tr><td>${r[0]}</td><td class="n">${man(r[1])} ~ ${man(r[2])}</td></tr>`});
+  html+=`<tr class="tot"><td>합계</td><td class="n">${man(lo)} ~ ${man(hi)}</td></tr>`;
+  html+=`<tr><td class="note">시공을 친구가 하면 (인건비 제외)</td><td class="n note">${man(loNo)} ~ ${man(hiNo)}</td></tr>`;
+  $('cost').innerHTML=html;
+  $('costPill').textContent=`폭 ${W}m · 깊이 ${D}cm 기준`;
+}
+
+function render(){
+  $('wv').textContent=W+'m'; $('dv').textContent=D+'cm';
+  drawScene(); drawSection(); drawPlan(); drawCost();
+}
+function animate(){
+  const step=()=>{const diff=target-push; if(Math.abs(diff)<0.01){push=target;render();return}
+    push+=diff*0.12; render(); requestAnimationFrame(step)}; step();
+}
+$('push').onclick=()=>{if(mode!=='after'){setMode('after')} target=target?0:1; $('push').textContent=target?'다시 닫기':'손으로 밀기'; animate()};
+$('w').oninput=e=>{W=+e.target.value;render()};
+$('d').oninput=e=>{D=+e.target.value;render()};
+function setMode(m){mode=m;$('tBefore').className=m==='before'?'':'ghost';$('tAfter').className=m==='after'?'':'ghost';render()}
+$('tBefore').onclick=()=>setMode('before'); $('tAfter').onclick=()=>setMode('after');
+render();
+</script>
+</body>
+</html>
