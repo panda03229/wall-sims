@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>벽 자리 제안서</title>
+<style>
+:root{--bg:#ebe7e0;--paper:#fffdf9;--ink:#24201c;--sub:#6a6158;--line:#e0d8cc;--acc:#9a4a2e;--accbg:#f5e4da;--fill:#fff3c4}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--paper:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--fill:#4a3f16}}
+:root[data-theme="dark"]{--bg:#171513;--paper:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--fill:#4a3f16}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:14.5px/1.6 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.tool{max-width:820px;margin:16px auto 0;padding:0 16px;display:flex;gap:10px;align-items:center;flex-wrap:wrap;color:var(--sub);font-size:13px}
+.tool button{font:inherit;border:1px solid var(--acc);background:var(--acc);color:#fff;border-radius:8px;padding:6px 14px;cursor:pointer}
+.page{max-width:820px;margin:12px auto 40px;background:var(--paper);border-radius:6px;padding:36px 40px;box-shadow:0 2px 10px rgba(0,0,0,.08)}
+@media (max-width:600px){.page{padding:22px 16px}}
+.eyebrow{color:var(--acc);font-weight:700;font-size:13px;letter-spacing:.04em}
+h1{font-size:25px;line-height:1.35;margin:4px 0 6px}
+.lead{color:var(--sub);margin:0 0 18px}
+h2{font-size:15px;margin:0 0 8px;color:var(--acc)}
+.sec{margin-top:18px}
+.pics{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:600px){.pics{grid-template-columns:1fr}}
+figure{margin:0} figcaption{font-size:12px;color:var(--sub);margin-top:4px;text-align:center}
+svg{width:100%;height:auto;display:block;border-radius:6px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+@media (max-width:600px){.steps{grid-template-columns:1fr}}
+.step{border:1px solid var(--line);border-radius:8px;padding:10px}
+.step b{display:block}
+.step span{color:var(--sub);font-size:13px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media (max-width:600px){.two{grid-template-columns:1fr}}
+ul{margin:0;padding-left:18px} li{margin:3px 0}
+table{width:100%;border-collapse:collapse}
+td{padding:7px 6px;border-bottom:1px solid var(--line);vertical-align:top}
+td:first-child{width:30%;color:var(--sub)}
+.offer{background:var(--accbg);border-radius:8px;padding:12px 14px}
+.offer p{margin:0}
+.f{background:var(--fill);border-radius:3px;padding:0 4px;outline:none}
+.f:focus{box-shadow:0 0 0 2px var(--acc)}
+.foot{margin-top:20px;padding-top:12px;border-top:1px solid var(--line);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;font-size:13px}
+.small{font-size:12px;color:var(--sub)}
+@media print{
+  @page{size:A4;margin:12mm}
+  body{background:#fff;font-size:12.5px}
+  .tool{display:none}
+  .page{box-shadow:none;margin:0;padding:0;max-width:none}
+  .f{background:none;padding:0}
+  .sec{margin-top:12px}
+}
+</style>
+</head>
+<body>
+<div class="tool">
+  <button onclick="window.print()">PDF로 저장 / 인쇄</button>
+  <span>노란 칸은 클릭해서 바로 고칠 수 있습니다. 고친 뒤 PDF로 저장해 이메일로 보내세요. (새로고침하면 원래대로 돌아갑니다)</span>
+</div>
+
+<div class="page">
+  <div class="eyebrow">설치 제안 · <span class="f" contenteditable>2026년 11월</span></div>
+  <h1><span class="f" contenteditable>○○ 건물</span>의 빈 벽을<br>사람들이 찾아오는 '움직이는 벽'으로</h1>
+  <p class="lead">비용은 저희가 전부 부담하고, 매출은 나눠 드립니다. 건물에 손대지 않고, 언제든 하루 만에 원래대로 되돌릴 수 있습니다.</p>
+
+  <div class="pics">
+    <figure>
+      <svg viewBox="0 0 400 230" aria-label="지금 모습"><rect width="400" height="230" fill="#cfdbe6"/><rect y="10" width="300" height="190" fill="#eeebe5"/><rect y="70" width="300" height="8" fill="#bdb7ad"/><rect x="300" y="60" width="100" height="140" fill="#a5523a"/><rect x="295" y="52" width="105" height="9" fill="#9a948c"/><rect x="325" y="95" width="45" height="105" fill="#4a4440"/><rect y="200" width="400" height="30" fill="#c9c4bb"/><text x="150" y="150" text-anchor="middle" font-size="13" fill="#8a8378">비어 있는 흰 벽</text></svg>
+      <figcaption>지금</figcaption>
+    </figure>
+    <figure>
+      <svg viewBox="0 0 400 230" aria-label="설치 후 모습"><rect width="400" height="230" fill="#cfdbe6"/><rect y="10" width="300" height="190" fill="#eeebe5"/><rect y="70" width="300" height="8" fill="#bdb7ad"/><rect x="300" y="60" width="100" height="140" fill="#a5523a"/><rect x="295" y="52" width="105" height="9" fill="#9a948c"/><rect x="325" y="95" width="45" height="105" fill="#4a4440"/><rect y="200" width="400" height="30" fill="#c9c4bb"/>
+        <polygon points="60,114 240,114 250,109 70,109" fill="#dedad3"/><polygon points="240,114 250,109 250,197 240,200" fill="#dcd8d0"/><rect x="60" y="114" width="180" height="86" fill="#f7f5f1"/><rect x="58" y="112" width="184" height="5" fill="#e9e6e0" stroke="#d2cdc5" stroke-width=".5"/><rect x="60" y="194" width="180" height="6" fill="#d9d5ce"/>
+        <rect x="138" y="143" width="25" height="20" fill="#ffd98a" opacity=".55"/><polygon points="138,143 163,143 159,147 142,147" fill="#b7b1a8"/><polygon points="138,143 142,147 142,160 138,163" fill="#a59e94"/><polygon points="163,143 159,147 159,160 163,163" fill="#c6c0b7"/><rect x="142" y="147" width="17" height="13" fill="#f2efe9"/><rect x="144" y="155" width="13" height="4" rx="2" fill="#efe1bf" stroke="#a68b55" stroke-width=".5"/>
+        <rect x="222" y="150" width="9" height="14" rx="1.5" fill="#3a3734"/>
+        <path d="M150 128 l-6 -10 M158 127 l4 -11 M166 131 l9 -7" stroke="#a8432c" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>
+      <figcaption>설치 후 (예시 이미지) · 벽과 같은 색으로 마감, 가운데 한 조각이 손으로 밀면 쑥 들어감</figcaption>
+    </figure>
+  </div>
+
+  <div class="sec">
+    <h2>어떻게 쓰나요</h2>
+    <div class="steps">
+      <div class="step"><b>① 결제</b><span>벽 옆 작은 단말에 카드·간편결제</span></div>
+      <div class="step"><b>② 벽을 밈</b><span>벽 한 조각을 손바닥으로 밀면 안쪽으로 쑥 들어감</span></div>
+      <div class="step"><b>③ 두루마리</b><span>벽 속에서 오늘의 운세 두루마리 한 장을 꺼내 감</span></div>
+    </div>
+    <p class="small" style="margin:8px 0 0">일본에서는 비슷한 무인 '벽 운세'가 도쿄 시부야에 생긴 뒤 이케부쿠로·나고야로 이어지며 사진 명소가 되었습니다. 시부야 자리 역시 땅 주인이 비어 있는 공간을 임시로 활용하도록 내준 곳입니다.</p>
+  </div>
+
+  <div class="sec two">
+    <div>
+      <h2>건물에 드리는 것</h2>
+      <ul>
+        <li><b>사진 찍으러 오는 명소</b>: 위치 태그와 함께 건물이 알려집니다</li>
+        <li><b>비용 0원</b>: 제작·설치·청소·고장 대응 모두 저희 부담</li>
+        <li><b>매출 배분</b>: 매달 매출 내역과 함께 정산</li>
+        <li><b>마당 관리</b>: 조명과 CCTV 설치, 매일 점검으로 쓰레기·낙서 예방</li>
+      </ul>
+    </div>
+    <div>
+      <h2>걱정하지 않으셔도 되는 것</h2>
+      <ul>
+        <li><b>건물 훼손 없음</b>: 땅이나 벽에 고정하지 않는 자립형</li>
+        <li><b>원상복구</b>: 하루 안에 철거, 원래 상태로 복구</li>
+        <li><b>사고 책임</b>: 영업배상책임보험은 저희가 가입</li>
+        <li><b>조용함</b>: 소리 내지 않음, 운영 시간 협의 가능</li>
+        <li><b>언제든 해지</b>: <span class="f" contenteditable>1개월</span> 전 통보로 종료</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>제안 조건</h2>
+    <div class="offer">
+      <p><b>처음 <span class="f" contenteditable>3개월</span>은 시범 운영</b>으로, 자리 사용료 없이 <b>매출의 <span class="f" contenteditable>10%</span></b>를 매달 드립니다. 시범 기간이 끝나면 실제 매출 자료를 보여 드리고 조건을 다시 정합니다.</p>
+    </div>
+  </div>
+
+  <div class="sec">
+    <h2>필요한 것</h2>
+    <table>
+      <tr><td>자리</td><td><span class="f" contenteditable>흰 벽 앞, 폭 약 4m × 깊이 약 0.6m (높이 2m 미만)</span></td></tr>
+      <tr><td>전기</td><td>콘센트 1구 (사용한 전기료는 실비로 정산)</td></tr>
+      <tr><td>설치 기간</td><td>현장 작업 <span class="f" contenteditable>2~3일</span>, 날짜는 건물 일정에 맞춤</td></tr>
+      <tr><td>계약 형태</td><td>건물 임대차가 아닌 <b>설치 장소 사용 계약</b> (자판기 위탁 설치와 같은 방식)</td></tr>
+    </table>
+  </div>
+
+  <div class="foot">
+    <div><b><span class="f" contenteditable>팀 이름</span></b> · <span class="f" contenteditable>담당자 이름</span></div>
+    <div><span class="f" contenteditable>연락처 · 이메일</span></div>
+  </div>
+  <p class="small" style="margin:8px 0 0">이 제안서의 내용과 이미지는 협의 목적으로만 드리는 것이며, 다른 용도로 사용하거나 제3자에게 전달하지 말아 주시기 바랍니다.</p>
+</div>
+</body>
+</html>
