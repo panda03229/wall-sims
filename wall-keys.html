@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>벽을 여는 열쇠</title>
+<style>
+:root{--bg:#f2efea;--card:#fffdf9;--ink:#26221e;--sub:#6f665c;--line:#ddd5c9;--acc:#9a4a2e;--accbg:#f6e2d8;--b2b:#2f6b5a;--b2bbg:#dcece6;--warn:#a8382b;--warnbg:#f6dcd8}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--b2b:#7fcfb4;--b2bbg:#173229;--warn:#f09a8c;--warnbg:#3a1f1b}}
+:root[data-theme="dark"]{--bg:#171513;--card:#211e1b;--ink:#efe8de;--sub:#a99f93;--line:#3a352f;--acc:#e59a76;--accbg:#3a231a;--b2b:#7fcfb4;--b2bbg:#173229;--warn:#f09a8c;--warnbg:#3a1f1b}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.65 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+.wrap{max-width:960px;margin:0 auto;padding:20px 16px 60px}
+a{color:var(--acc)} .back{font-size:13px;text-decoration:none}
+h1{font-size:24px;margin:8px 0 4px} h2{font-size:18px;margin:0 0 10px} h3{font-size:15px;margin:0 0 6px}
+.lead{color:var(--sub);margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:16px}
+.key{border-left:4px solid var(--acc)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(270px,100%),1fr));gap:12px}
+.box{border:1px solid var(--line);border-radius:12px;padding:12px}
+.tag{display:inline-block;font-size:12px;font-weight:700;border-radius:6px;padding:1px 8px}
+.c{background:var(--accbg);color:var(--acc)} .b{background:var(--b2bbg);color:var(--b2b)}
+ul,ol{margin:0;padding-left:20px} li{margin:3px 0}
+.sub{color:var(--sub);font-size:14px}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse;font-size:14px;min-width:520px}
+td,th{padding:8px 6px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+th{color:var(--sub);font-weight:600}
+.rec{background:var(--accbg)}
+svg{width:100%;height:auto;display:block}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(150px,100%),1fr));gap:8px;list-style:none;padding:0;margin:0}
+.flow li{border:1px solid var(--line);border-radius:10px;padding:10px;margin:0}
+.flow b{display:block} .flow span{font-size:13px;color:var(--sub)}
+.warnbox{background:var(--warnbg);border-radius:12px;padding:14px}
+.warnbox h3{color:var(--warn)}
+small{color:var(--sub);font-size:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+<a class="back" href="./">← 결과물 목록</a>
+<h1>벽을 여는 열쇠 · 결제, 영수증, QR</h1>
+<p class="lead">기계는 하나, "무엇으로 여느냐"만 설정으로 바꿉니다. B2C 상설로 시작해 제휴 가게 영수증까지 돌려 보고, 잘되면 같은 기능으로 팝업(B2B)에 들어갑니다. (2026-11-13 정리)</p>
+
+<div class="card key">
+  <h2>순서</h2>
+  <p style="margin:0"><b>B2C 먼저 → 잘되면 팝업 기업으로.</b> 줄 서서 돈 내는 영상·숫자가 있어야 브랜드가 사고, 고장·두루마리 걸림·문장 반응은 매일 돌려 봐야 잡힙니다. 자리는 대관사 건물 모서리 반상설로 시작해서, 그 벽이 그대로 B2B 쇼룸이 되게 합니다.</p>
+</div>
+
+<div class="card">
+  <h2>열쇠 다섯 가지</h2>
+  <div class="tw"><table>
+    <tr><th>열쇠</th><th>어디서</th><th>나오는 것</th><th>시작 시점</th></tr>
+    <tr><td><b>결제</b> (카드·간편결제)</td><td>상설 벽</td><td>운세 두루마리</td><td><span class="tag c">B2C 처음부터</span></td></tr>
+    <tr><td><b>제휴 가게 QR 카드</b> (영수증 대신)</td><td>상설 벽 + 근처 제휴 가게</td><td>운세 두루마리 (가게가 값을 냄)</td><td><span class="tag c">B2C 처음부터</span></td></tr>
+    <tr><td><b>웨이팅·추첨 QR</b></td><td>팝업 대기줄</td><td>입장권 두루마리 (입장 번호·시간)</td><td><span class="tag b">B2B</span></td></tr>
+    <tr><td><b>팝업 계산대 QR</b></td><td>팝업 매장</td><td>선물·다음 방문 할인 두루마리</td><td><span class="tag b">B2B</span></td></tr>
+    <tr><td><b>조건 없음</b> (이벤트)</td><td>오픈 첫날, 특정 시간대</td><td>한정 두루마리</td><td><span class="tag b">B2B</span></td></tr>
+  </table></div>
+  <p class="sub" style="margin:10px 0 0">받은 두루마리를 매장에 보여 주면 할인되는 건 어떤 열쇠로 열었든 똑같이 적용됩니다 (아래 일련번호 방식).</p>
+</div>
+
+<div class="card">
+  <h2>하드웨어: 결제 단말 + QR 스캐너, 둘 다 필요</h2>
+  <p style="margin:0 0 12px">시중 결제 단말도 카카오페이 같은 결제용 QR은 읽지만, 그건 결제사 망 안에서만 처리돼서 <b>우리가 만든 QR(제휴 카드·웨이팅)은 읽을 수 없습니다.</b> 그래서 작은 QR 스캐너를 따로 달고, 둘을 <b>한 판에 나란히</b> 넣어 하나의 장치처럼 보이게 합니다.</p>
+  <div class="grid2">
+    <div class="box">
+      <svg viewBox="0 0 300 200" aria-label="결제 판 구성">
+        <rect x="0" y="0" width="300" height="200" rx="10" fill="#e9e5de"/>
+        <rect x="70" y="20" width="160" height="160" rx="10" fill="#3a3734"/>
+        <rect x="88" y="34" width="124" height="54" rx="5" fill="#5d6b78"/>
+        <text x="150" y="66" text-anchor="middle" font-size="12" fill="#e6edf3">카드 · 간편결제</text>
+        <rect x="88" y="98" width="124" height="66" rx="5" fill="#26231f" stroke="#c9a85c" stroke-width="1.5"/>
+        <rect x="128" y="112" width="44" height="30" rx="3" fill="#7a2d22" opacity=".9"/>
+        <text x="150" y="157" text-anchor="middle" font-size="11" fill="#e8d9b5">QR을 여기에</text>
+        <text x="150" y="196" text-anchor="middle" font-size="11" fill="#6f665c">벽 옆 결제 판 (폭 약 16cm)</text>
+      </svg>
+      <p class="sub" style="margin:6px 0 0">위는 결제 단말, 아래는 QR 스캐너 창. 스캐너 창 뒤에 붉은 빛을 넣어 "여기에 대세요"를 알려 줌.</p>
+    </div>
+    <div class="box">
+      <h3>비용 감</h3>
+      <ul class="sub">
+        <li>결제 단말: 구매 20~40만 또는 렌탈 월 1~2만 (이미 사업안에 있음)</li>
+        <li><b>QR 스캐너 모듈: 수만 원대</b> (USB/시리얼로 제어 보드에 연결, 휴대폰 화면 QR도 읽는 2D 스캐너)</li>
+        <li>판 제작(두 기기를 한 판에): 10~20만</li>
+        <li>서버(일회용 QR 발급·사용 처리): 월 수만 원 이하 클라우드</li>
+      </ul>
+      <p class="sub" style="margin:8px 0 0">어림값이며 모델에 따라 다릅니다.</p>
+    </div>
+  </div>
+  <h3 style="margin-top:14px">다른 방법과 비교</h3>
+  <div class="tw"><table>
+    <tr><th>방식</th><th>장점</th><th>단점</th></tr>
+    <tr class="rec"><td><b>단말 + 스캐너 한 판</b> (추천)</td><td>손님은 대기만 하면 끝, 빠름, 외국인도 쉬움</td><td>기기 2개 (그래도 스캐너는 싸다)</td></tr>
+    <tr><td>폰으로 벽의 QR 찍기 (기기 없음)</td><td>하드웨어 거의 0원</td><td>폰에서 웹 열고 결제하는 단계가 늘어남, 벽의 신비감 줄어듦, 데이터 끊기면 안 열림</td></tr>
+    <tr><td>영수증 글자 인식(OCR)</td><td>가게가 아무것도 안 해도 됨</td><td>영수증마다 양식이 달라 오류 많음, 위조 쉬움 → 비추천</td></tr>
+  </table></div>
+  <p class="sub" style="margin:10px 0 0">폰 방식은 버리지 말고 <b>예비 수단</b>으로 둡니다. 스캐너가 고장 나도 벽에 붙은 QR로 열 수 있게.</p>
+</div>
+
+<div class="card">
+  <h2>B2C 영수증 = 제휴 가게 QR 카드</h2>
+  <p style="margin:0 0 12px">진짜 영수증을 읽는 대신, 제휴 가게에 <b>미리 찍어 둔 일회용 QR 카드 묶음</b>을 줍니다. 가게는 계산할 때 손님에게 한 장 건네기만 하면 됩니다. 가게 쪽엔 아무 장비도 필요 없습니다.</p>
+  <ol class="flow">
+    <li><b>① 가게에서 먹음</b><span>계산할 때 "벽 열쇠" 카드 한 장 받음</span></li>
+    <li><b>② 벽에 카드 대기</b><span>스캐너가 읽고 그 자리에서 사용 처리</span></li>
+    <li><b>③ 두루마리</b><span>"먹을 것" 칸 수수께끼가 <b>다른</b> 제휴 가게를 가리킴</span></li>
+    <li><b>④ 다음 가게로</b><span>거기서 또 카드 → 동네를 한 바퀴 도는 고리</span></li>
+  </ol>
+  <div class="grid2" style="margin-top:12px">
+    <div class="box"><h3>정산</h3><ul class="sub">
+      <li>카드마다 가게 번호가 들어 있음 → 벽에서 쓰인 장수만 월말에 청구</li>
+      <li>예: 쓰인 카드 1장당 3,000원 (손님 가격 5,000원보다 낮게)</li>
+      <li>안 쓰인 카드는 돈 안 받음 → 가게 부담 없음</li></ul></div>
+    <div class="box"><h3>가게가 얻는 것</h3><ul class="sub">
+      <li>"저 가게에서 먹으면 벽을 공짜로 연다" → 손님이 일부러 찾아옴</li>
+      <li>다른 제휴 가게 두루마리 힌트로 손님이 넘어옴</li>
+      <li>기존 사업안의 제휴(수수께끼 힌트·壁 표식)와 그대로 이어짐</li></ul></div>
+  </div>
+  <p class="sub" style="margin:10px 0 0">카드 유효기간은 발급 후 3일 정도로 두고, 한 사람이 하루에 쓸 수 있는 장수도 제한합니다. 가게가 카드를 마구 뿌려도 쓰인 만큼은 그 가게가 내니, 가게 스스로 조절하게 됩니다.</p>
+</div>
+
+<div class="card">
+  <h2>팝업(B2B)에서: 입장권 두루마리</h2>
+  <div class="warnbox" style="margin-bottom:12px">
+    <h3>벽을 입장 관문으로 쓰면 안 됩니다</h3>
+    <p style="margin:0;font-size:14px">한 번 열고 닫는 데 30초쯤이면 <b>시간당 약 120명</b>. 인기 팝업에서 모든 입장객이 벽을 거치면 벽 때문에 줄이 더 길어집니다. 벽은 <b>기다리는 동안 하는 체험</b>으로 둡니다: 웨이팅 등록 → 대기 중에 벽에서 입장권 두루마리 받기 / 또는 추첨 당첨자만.</p>
+  </div>
+  <div class="grid2">
+    <div class="box"><h3>입장 번호는 인쇄하지 않고 연결</h3><ul class="sub">
+      <li>현장에서 사람마다 다른 글자를 찍으려면 인쇄기가 들어가 기계가 복잡해짐</li>
+      <li>대신 미리 찍어 둔 두루마리마다 <b>고유 일련번호 QR</b></li>
+      <li>꺼내는 순간 서버가 "이 번호 = 입장 34번, 15:20"으로 연결</li>
+      <li>손님은 두루마리 QR을 찍어 자기 입장 시간 확인</li>
+      <li>B2C와 같은 두루마리 생산 방식을 그대로 씀</li></ul></div>
+    <div class="box"><h3>보여 주면 할인</h3><ul class="sub">
+      <li>두루마리를 보여 주면 직원이 일련번호 QR을 찍음 → 사용 처리</li>
+      <li>사진으로 한 장을 여러 번 쓰는 것 방지</li>
+      <li>브랜드에는 "두루마리 → 실제 구매" 전환 숫자를 리포트로 제공</li></ul></div>
+  </div>
+</div>
+
+<div class="card">
+  <h2>QR 안전장치 (모든 열쇠 공통)</h2>
+  <ul>
+    <li><b>일회용:</b> 읽는 순간 서버에서 사용 처리. 스크린샷을 돌려도 두 번째부터는 안 열림</li>
+    <li><b>유효 시간:</b> 웨이팅 QR은 몇십 분, 제휴 카드는 며칠</li>
+    <li><b>하루 한도:</b> 같은 사람(같은 웨이팅 번호·같은 카드 묶음)이 연속으로 못 열게</li>
+    <li><b>인터넷 끊김:</b> 결제는 단말이 따로 처리, QR은 최근 발급분을 벽 쪽에 미리 받아 두어 잠깐 끊겨도 열리게</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h2>만드는 순서</h2>
+  <ol>
+    <li><b>B2C 시작:</b> 결제 단말 + QR 스캐너 한 판, 서버에 "제휴 카드" 기능만. 제휴 가게 2~3곳으로 카드 고리 시험</li>
+    <li><b>B2C 다듬기:</b> 카드 정산 화면, 하루 한도, 사용 통계</li>
+    <li><b>B2B 추가:</b> 같은 서버에 웨이팅·추첨 QR, 이벤트 모드(조건 없음), 일련번호 ↔ 입장 번호 연결, 할인 사용 처리 화면</li>
+  </ol>
+  <p class="sub" style="margin:10px 0 0">2번까지 해 두면 팝업으로 넘어갈 때 새로 만드는 건 "열쇠 종류 추가"뿐입니다. 관련: <a href="scroll-b2c-b2b.html">두 갈래 두루마리</a> · <a href="business-plan.html">사업안</a></p>
+</div>
+
+<small>금액은 2026년 11월 기준 어림값입니다. 결제 단말이 외부 QR을 읽을 수 있는지는 단말사·밴사마다 다를 수 있으니 계약 전에 확인하세요.</small>
+</div>
+</body>
+</html>
